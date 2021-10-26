@@ -12,6 +12,9 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/alert.js') }}" defer></script>
+    <script src="{{ asset('js/custominput.js') }}" defer></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,10 +24,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
 </head>
 <body>
-
     <!-- アラート表示 -->
     @if(session( 'message' ) && isset ( $book_name ) )
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>

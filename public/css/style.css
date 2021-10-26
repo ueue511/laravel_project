@@ -8,3 +8,10 @@
   left: calc((20%) / 2);
   opacity: 0.9;
 }
+
+.custom-file {
+  overflow: hidden;
+}
+.custom-file-label {
+  white-space: nowrap;
+}
