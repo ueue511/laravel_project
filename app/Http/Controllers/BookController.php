@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookPost;
 
 use Illuminate\Support\Facades\File;
 
@@ -88,43 +89,7 @@ class BookController extends Controller
      * 本の新規追加
      */
     
-     public function BookCreate( Request $request ) {
-        // バリデーション
-        $validator = Validator::make ( 
-        $request->all(), [ 
-            'item_name'=>'bail|required|between:3, 255', 
-            'item_number'=>'bail|required|integer|digits_between:1,3', 
-            'item_amount'=>'bail|required|integer|digits_between:1,6', 
-            'published'=>'bail|required|date|before:today',
-            'item_img'=> 'bail|required|image|mimes:jpeg,png,jpg,gif'
-        ],
-        // バリデーション オリジナルコメント
-        [
-            'item_name.required' => 'タイトルを入力してください',
-            'item_name.between' => 'タイトルは３文字〜255以内で入力してください',
-            'item_number.required' => '冊数を入力してください',
-            'item_number.integer' => '半角数字で入力してください',
-            'item_number.digits_between' => '999以内で入力してください',
-            'item_amount.required' => '金額を入力してください',
-            'item_amount.integer' => '半角数字で入力してください',
-            'item_amount.digits_between' => '￥999999以内で入力してください',
-            'published.required' => '本公開日を指定してください',
-            'published.before' => '本日から以前の年月日を指定してください',
-            'item_img.required' => '画像を選択してください',
-            'item_img.image' => '画像ファイルを選択してください',
-            'item_img.mimes' => '画像ファイルを選択してください'
-            
-        ],
-    );
-    
-    // バリデーション：エラー
-    if( $validator->fails() ) {
-        $request->session()->flash( 'message_id', 'danger' );
-        return redirect( '/' )
-          ->withInput()
-          ->withErrors( $validator );
-    };
-    
+     public function BookCreate( BookPost $request ) {
     // 画像保存
     $file = $request->file( 'item_img' ); //file取得
     if( !empty( $file ) ) {               //fileが空かチェック
@@ -173,7 +138,7 @@ class BookController extends Controller
      * 本の詳細の変更を保存
      */
 
-     public function BookAdd( Request $request, Book $book ) {
+     public function BookAdd( BookPost $request, Book $book ) {
          // ファイルパスの判定
          ddd($request->item_img);
         $filepath = public_path('/update/'. $book['item_img']);
@@ -183,42 +148,6 @@ class BookController extends Controller
             $validator_img= 'bail|required|image|mimes:jpeg,png,jpg,gif';
         }
         
-        // バリデーション
-        $validator = Validator::make (
-            $request->all(), [
-                // 'id' => 'required',
-                'item_name' => 'bail|required|between:3, 255',
-                'item_number' => 'bail|required|integer|digits_between:1,3',
-                'item_amount' => 'bail|required|integer|digits_between:1,6',
-                'published' => 'bail|required|date|before:today',
-                'item_img'=> $validator_img
-            ],
-            // バリデーション オリジナルコメント
-            [
-                'item_name.required' => 'タイトルを入力してください',
-                'item_name.between' => 'タイトルは３文字〜255以内で入力してください',
-                'item_number.required' => '冊数を入力してください',
-                'item_number.integer' => '半角数字で入力してください',
-                'item_number.digits_between' => '999以内で入力してください',
-                'item_amount.required' => '金額を入力してください',
-                'item_amount.integer' => '半角数字で入力してください',
-                'item_amount.digits_between' => '￥999999以内で入力してください',
-                'published.required' => '本公開日を指定してください',
-                'published.before' => '本日から以前の年月日を指定してください',
-                'item_img.required' => '画像を選択してください',
-                'item_img.image' => 'ファイル形式はjpeg,png,jpg,gifのみです'
-            ],
-        );
-
-        // バリデーション：エラー
-        if ($validator->fails()) {
-            $request->session()->flash('message_id', 'danger');
-            $request->session()->flash('back_id', $book->id);
-            return redirect( '/' )
-                ->withInput()
-                ->withErrors($validator);
-        };
-
         // 画保保存
         $file = $request->file('item_img'); //file取得
         if (!empty($file)) {               //fileが空かチェック
