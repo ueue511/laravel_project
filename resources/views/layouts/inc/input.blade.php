@@ -30,12 +30,10 @@ $array = array (
     <div class="card-title">
       {{ $value[0] }}
     </div>
+    <!-- validateが発生した場合 そのformで表示 -->
     <div>
-
-      <!-- validateが発生した場合 そのformで表示 -->
-
       @if ( $errors->first( $key ) )
-        @php $validate_line = 'border-color:red' @endphp
+        @php $validate_line = 'border-color:red'; @endphp
         @foreach ( $errors->get( $key ) as $error ) 
           <div style="color: red;">{{ $error }}</div>
         @endforeach
@@ -51,6 +49,7 @@ $array = array (
       @if ( $key != 'item_img')
       <div class="col-sm-6">
           <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $value_one }}" style={{ $validate_line }}>
+      </div>
         @else
 
         <!-- file追加 -->
@@ -94,13 +93,17 @@ $array = array (
       @endif
     </div>
     <div class="form-group">
+
       <!-- form本体 画面移管後も入力した内容は保持 -->
+
       @if ( $key != 'item_img')
       <div class="col-sm-6">
         <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
       </div>
       @else
+
       <!-- file追加 -->
+
         <div class="input-group col-sm-8">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="inputFile" name='item_img'>

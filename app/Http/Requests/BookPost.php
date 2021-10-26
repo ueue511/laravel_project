@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BookPost extends FormRequest
 { 
@@ -49,5 +51,28 @@ class BookPost extends FormRequest
             'item_img.mimes' => '画像ファイルを選択してください'
             
         ];
+    }
+
+    /**
+     * バリデータを取得する
+     * @return  \Illuminate\Contracts\Validation\Validator  $validator
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
+     * @Override
+     * 勝手にリダイレクトさせない
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        $this->merge(['validated' => 'true']);
+        // リダイレクト先
+        throw new HttpResponseException (
+            redirect('/')->withInput($this->input)->withErrors($validator)->with(['message_id' => 'danger'])
+        );
     }
 }

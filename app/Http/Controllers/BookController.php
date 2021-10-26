@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookPost;
 
-use Illuminate\Support\Facades\File;
-
-use Validator;
 use App\Book;
 use Auth;
 
@@ -90,35 +87,37 @@ class BookController extends Controller
      */
     
      public function BookCreate( BookPost $request ) {
-    // 画像保存
-    $file = $request->file( 'item_img' ); //file取得
-    if( !empty( $file ) ) {               //fileが空かチェック
-        $filename = $file->getClientOriginalName();  //ファイル名を取得
-        $target_path = public_path( 'update/' );
-        $file->move( $target_path, $filename );  //ファイルを移動
-        
-    } else {
-        $filename ="";
-    }
+         
+        // 画像保存
+        $file = $request->file( 'item_img' ); //file取得
+        if( !empty( $file ) ) {               //fileが空かチェック
+            $filename = $file->getClientOriginalName();  //ファイル名を取得
+            $target_path = public_path( 'update/' );
+            $file->move( $target_path, $filename );  //ファイルを移動
+            
+        } else {
+            $filename ="";
+        }
 
-    // Eloquentモデル (登録処理)
-    $books = new Book;
-    $books->user_id = Auth::user()->id;
-    $books->item_name = $request->item_name;
-    $books->item_number = $request->item_number;
-    $books->item_amount = $request->item_amount;
-    $books->item_img = $filename;
-    $books->published = $request->published;
-    $books->save();
-    $request->session()->flash( 'message_id', 'create' );
-    return redirect( '/' )->withInput(); 
-    }
+        // Eloquentモデル (登録処理)
+        $books = new Book;
+        $books->user_id = Auth::user()->id;
+        $books->item_name = $request->item_name;
+        $books->item_number = $request->item_number;
+        $books->item_amount = $request->item_amount;
+        $books->item_img = $filename;
+        $books->published = $request->published;
+        $books->save();
+        $request->session()->flash( 'message_id', 'create' );
+        return redirect( '/' )->withInput(); 
+        }
     //  
     /**
      * 本の詳細を表示
      */
     
     public function BookMake( Request $request, Book $book ) {
+        
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
         $book_one = Book::find( $book->id );
         $book_id = $book->id;
@@ -139,6 +138,7 @@ class BookController extends Controller
      */
 
      public function BookAdd( BookPost $request, Book $book ) {
+
          // ファイルパスの判定
          ddd($request->item_img);
         $filepath = public_path('/update/'. $book['item_img']);
