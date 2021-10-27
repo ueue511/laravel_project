@@ -49,9 +49,4 @@ Auth::routes();
 
 Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
-// Route::group(['middleware'=>'auth'], function() {
-//   //welcomeページを表示
-//   Route::get("/", function(){
-//     return view("welcome");
-//   });
-// });
+Route::get( '/sample', 'BookController@BookShowTest');

@@ -191,4 +191,66 @@ class BookController extends Controller
         $request->session()->flash( 'message_id', 'delete' );
         return redirect('/');
     }
+
+
+
+
+
+
+
+
+    public function BookShowTest( Request $request ) {
+        $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
+        $message_id = session( 'message_id' );
+        
+        if( $message_id === 'create') {
+            $request->session()->flash( 'message', '新規登録');
+            $alert_type = 'alert-success';
+            $book_one = Null;
+            
+        } elseif ( $message_id === 'danger' ) {
+            $request->session()->flash( 'message', '記述に誤りがあります' );
+            $alert_type = 'alert-danger';
+            
+            // if ( url()->previous() != url('').'/' ) {
+            if ( session( 'back_id' ) ) {
+                $book_one = [ Book::find( session( 'back_id' ) ) ];
+                $book_id = session( 'back_id' );
+
+                return view('Stack_home')->with([
+                    'books' => $books,
+                    'book_one' => $book_one,
+                    'alert' => $alert_type,
+                    'book_id' => $book_id
+                ]);
+                
+            } else {
+                $book_one = Null;
+            }
+        
+        } elseif ( $message_id === 'delete' ) {
+            $request->session()->flash( 'message', '削除しました' );
+            $alert_type = 'alert-secondary';
+            $book_name = session('back_name');
+
+            $book_one = Null;
+
+            return view( 'books' )->with ([
+                'books' => $books, 
+                'book_one' => $book_one,
+                'alert' => $alert_type,
+                'book_name' => $book_name
+        ]);
+            
+        } else {
+            session()->forget('message', 'message_id', 'back_id');
+            $alert_type = Null;
+            $book_one = Null;
+        }
+        return view('Stack_home' )->with ([
+            'books' => $books, 
+            'book_one' => $book_one,
+            'alert' => $alert_type
+        ]);
+     }
 }
