@@ -8,9 +8,12 @@
     <!-- バリデーションエラーの表示に使用 -->
 
     <!-- book_one(詳細内容)の有無により表示内容を変更 -->
-
       @php if ( isset ( $book_one ) ) {
-        $url = ( 'book/'.$book_one[0]->id );
+        if ( gettype($book_one) === 'object') {
+          $url = ( 'book/'.$book_one->id );
+        } elseif ( gettype($book_one) === 'array') {
+          $url = ( 'book/'.$book_one[0]->id );
+        }
         $date_button = 'add';
         $method = 'PUT';
       } else {
@@ -21,7 +24,7 @@
       @endphp
 
     <!-- 本登録フォーム -->
-    <form action="{{url($url)}}" method="POST" class="form-horizontal">
+    <form enctype="multipart/form-data" action="{{url($url)}}" method="POST" class="form-horizontal">
       @csrf
       @method ( $method )
       
@@ -60,6 +63,7 @@
               <!-- 本タイトル -->
               <td class="table-text">
                 <div>{{ $book->item_name }}</div>
+                <div> <img src="{{ asset ( 'update/'. $book->item_img) }}" width="100" alt="no_img"></div>
               </td>
 
               <!-- 本：詳細ボタン -->
@@ -73,7 +77,7 @@
                 };
               @endphp
               <td>
-                <form action="{{url('book/'.$book->id )}}" method="GET">
+                <form action="{{url( 'book/'.$book->id )}}" method="GET">
                   @csrf                <!-- CSRFからの保護 -->
                   @method( 'GET' )  <!-- 擬似フォームメソッド -->
                   <button type="submit" class="btn btn-danger alert-pop" {{ $click_off }}>
@@ -96,6 +100,11 @@
             @endforeach
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        {{ $books->links() }}
       </div>
     </div>
   @endif

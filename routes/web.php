@@ -23,47 +23,6 @@ Route::get( '/', 'BookController@BookShow' )->name( 'top.contact' );
  * 本の新規追加
  */
 Route::post( '/books', 'BookController@BookCreate' );
-// Route::post('/books', function( Request $request ) {
-//     // バリデーション
-//     $validator = Validator::make ( 
-//         $request->all(), [ 
-//             'item_name'=>'bail|required|between:3, 255', 
-//             'item_number'=>'bail|required|integer|digits_between:1,3', 
-//             'item_amount'=>'bail|required|integer|digits_between:1,6', 
-//             'published'=>'bail|required|date|before:today', 
-//         ],
-//         // バリデーション オリジナルコメント
-//         [
-//             'item_name.required' => 'タイトルを入力してください',
-//             'item_name.between' => 'タイトルは３文字〜255以内で入力してください',
-//             'item_number.required' => '冊数を入力してください',
-//             'item_number.integer' => '半角数字で入力してください',
-//             'item_number.digits_between' => '999以内で入力してください',
-//             'item_amount.required' => '金額を入力してください',
-//             'item_amount.integer' => '半角数字で入力してください',
-//             'item_amount.digits_between' => '￥999999以内で入力してください',
-//             'published.required' => '本公開日を指定してください',
-//             'published.before' => '本日から以前の年月日を指定してください',
-//         ],
-//     );
-    
-//     // バリデーション：エラー
-//     if( $validator->fails() ) {
-//         return redirect( '/' )
-//           ->withInput()
-//           ->withErrors( $validator );
-//     };
-
-//     // Eloquentモデル (登録処理)
-//     $books = new Book;
-//     $books->item_name = $request->item_name;
-//     $books->item_number = $request->item_number;
-//     $books->item_amount = $request->item_amount;
-//     $books->published = $request->published;
-//     $books->save();
-//     $request->session()->flash('message', '新規登録');
-//     return redirect( '/' )->withInput();
-// } );
 
 /**
  * 本の詳細を取得する
@@ -83,7 +42,16 @@ Route::put( '/book/{book}', 'BookController@BookAdd');
 
 Route::delete( '/book/{book}/delete', 'BookController@BookDelete' );
 
-
+/**
+ * Auth
+ */
 Auth::routes();
 
-Route::get( '/home', 'HomeController@index' )->name( 'home' );
+Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
+
+// Route::group(['middleware'=>'auth'], function() {
+//   //welcomeページを表示
+//   Route::get("/", function(){
+//     return view("welcome");
+//   });
+// });
