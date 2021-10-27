@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\BookPost;
+use App\Http\Requests\BookFormRequest;
 
 use App\Book;
 use Auth;
@@ -86,7 +86,7 @@ class BookController extends Controller
      * 本の新規追加
      */
     
-     public function BookCreate( BookPost $request ) {
+     public function BookCreate( BookFormRequest $request ) {
          
         // 画像保存
         $file = $request->file( 'item_img' ); //file取得
@@ -137,10 +137,9 @@ class BookController extends Controller
      * 本の詳細の変更を保存
      */
 
-     public function BookAdd( BookPost $request, Book $book ) {
+     public function BookAdd( BookFormRequest $request, Book $book ) {
 
          // ファイルパスの判定
-         ddd($request->item_img);
         $filepath = public_path('/update/'. $book['item_img']);
         if ( \File::exists( $filepath ) ) {
             $validator_img = 'bail|required';

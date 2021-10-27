@@ -40,6 +40,7 @@
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
     
     @endif
+    <!--end アラート表示 -->
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

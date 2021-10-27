@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class BookPost extends FormRequest
+class BookFormRequest extends FormRequest
 { 
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class BookPost extends FormRequest
      */
     public function rules()
     {
+        ddd($this);
         return [
             'item_name' => 'bail|required|between:3, 255',
             'item_number' => 'bail|required|integer|digits_between:1,3',

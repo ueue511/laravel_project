@@ -55,8 +55,8 @@ $array = array (
         <!-- file追加 -->
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputFile" name='item_img'>
-            <label class="custom-file-label" for="inputFile"  data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
+            <input type="file" class="custom-file-input" id="inputFile" name='item_img' value="{{ $booklist['item_img'] }}" >
+            <label class="custom-file-label" for="inputFile"  data-browse="参照"  style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
         <span id='group-show'>
