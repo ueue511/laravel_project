@@ -2,18 +2,22 @@
   <div class="home-container">
     <div class="home-title">Stacked with BooKs
       <div class="home-selling-group">
-        <p class="home-selling-complaint">- 記憶の中の本、山積みになっていませんか？ -</p>
-        <p class="home-selling-complaint">記憶に残る本を登録して言葉で紡ぎ、</p>
-        <p class="home-selling-complaint">人々と共有していくサイト</p>
+        <p class="home-selling-complaint">
+          - 記憶の中の本、山積みになっていませんか？ -
+        </p>
+        <p class="home-selling-complaint">
+          記憶に残る本を言葉で繋いでいき、
+        </p>
+        <p class="home-selling-complaint">
+          人々と共有していくサイト
+        </p>
       </div>
     </div>
-    <img class="home-img" :src="'/images/stacked_with_books_1920.jpg'" alt="home">
-    <BooksList />
+      <img class="home-img" :src="'/images/stacked_with_books_1920.jpg'" alt="home">
   </div>
 </template>
 
 <script>
-  import BooksList from './ExampleFront.vue'
     export default {
       name: "ExampleHome",
       data() {
@@ -21,21 +25,17 @@
 
         }
       },
-      computed() {
-        //
-      },
       mounted() {
         //
         },
-      components() {
-        BooksList
-      }
     }
 </script>
 
-<style >
+<style scoped>
+
 .home-container {
- position: relative;
+  position: relative;
+  margin-bottom: 3em;
 }
 
 .home-title {
@@ -57,7 +57,7 @@
   text-align: center;
 }
 
-.home-img{
+.home-img {
   width: 100vw;
   aspect-ratio: 16 / 6;
 }

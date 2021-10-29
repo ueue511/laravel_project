@@ -49,4 +49,7 @@ Auth::routes();
 
 Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
+
+// test vue
 Route::get( '/sample', 'BookController@BookShowTest');
+Route::get( 'ajax/booklist', 'Ajax\BooklistController@index');

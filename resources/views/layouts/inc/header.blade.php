@@ -13,7 +13,8 @@
     
     @endif
     <!--end アラート表示 -->
-    <div class="header" id="app">
+    <div class="content">
+    <header class="header">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/sample') }}">
@@ -64,7 +65,9 @@
                 </div>
             </div>
         </nav>
-        <div id='fontid'>
+    </header>
+        <div id='app'>
             <example-home></example-home>
+            <example-front></example-front>
         </div>
     </div>
