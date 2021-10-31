@@ -69,5 +69,8 @@
         <div id='app'>
             <example-home></example-home>
             <example-front></example-front>
+            <example-search></example-search>
+            <example-resulttitle></example-resulttitle>
+            <example-result></example-result>
         </div>
     </div>

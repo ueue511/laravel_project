@@ -13,7 +13,7 @@
         </p>
       </div>
     </div>
-      <img class="home-img" :src="'/images/stacked_with_books_1920.jpg'" alt="home">
+      <img class="home-img" :src="'/images/stacked_with_books_1920.png'" alt="home">
   </div>
 </template>
 
@@ -36,29 +36,33 @@
 .home-container {
   position: relative;
   margin-bottom: 3em;
+  width: 100%;
+  height: auto;
 }
 
 .home-title {
   width: 50%;
-  top: 28%;
+  top: 15%;
   left: 5%;
-  font-size: 5em;
+  font-size: 3.5em;
   position: absolute;
   text-align: center;
 }
 
 .home-selling-group {
-  margin-top: 0.4em;
+  margin-top: 0.6em;
 }
 
 .home-selling-complaint {
   font-size: 0.3em;
   padding-bottom: 1em;
   text-align: center;
+  color: rgb(78, 78, 78);
 }
 
 .home-img {
-  width: 100vw;
+  width: 100%;
+  height: auto;
   aspect-ratio: 16 / 6;
 }
 

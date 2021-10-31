@@ -15,3 +15,12 @@
 .custom-file-label {
   white-space: nowrap;
 }
+
+.title {
+  margin-left: 20px;
+  font-size: 18px;
+}
+
+.content {
+  background-color: #fffffb;
+}
