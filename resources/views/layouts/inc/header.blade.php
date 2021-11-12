@@ -72,5 +72,6 @@
             <example-search></example-search>
             <example-resulttitle></example-resulttitle>
             <example-result></example-result>
+            <example-footer></example-footer>
         </div>
     </div>

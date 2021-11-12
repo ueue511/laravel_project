@@ -36,4 +36,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * book_user_good使用
+     */
+    public function GoodsBooks()
+    {
+        return $this->belongsToMany( 'App\Book', 'book_user_good' )->withTimestamps();
+    }
+
+    /**
+     * book_user_pet使用
+     */
+    public function PetsBooks()
+    {
+        return $this->belongsToMany( 'App\Book', 'book_user_pet' )->withTimestamps();
+    }
+
+    /**
+     * book_user_comment使用
+     */
+    public function CommentsBooks()
+    {
+        return $this->belongsToMany( 'App\Book', 'book_user_comment' )->withPivot( 'comment' );
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
-use App\Book;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,5 +50,9 @@ Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
 
 // test vue
-Route::get( '/sample', 'BookController@BookShowTest');
-Route::get( 'ajax/booklist', 'Ajax\BooklistController@index');
+Route::get( '/sample/', 'BookController@BookShowTest');
+Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
+Route::get( 'ajax/tags', 'Ajax\TagsController@index' );
+Route::post( 'ajax/search', 'Ajax\SearchController@app');
+
+Route::get('/sample/{any}', 'BookController@BookShowTest')->where('any', '.*');

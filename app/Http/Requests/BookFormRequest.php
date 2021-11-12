@@ -25,7 +25,6 @@ class BookFormRequest extends FormRequest
      */
     public function rules()
     {
-        ddd($this);
         return [
             'item_name' => 'bail|required|between:3, 255',
             'item_number' => 'bail|required|integer|digits_between:1,3',

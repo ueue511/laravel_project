@@ -4,7 +4,7 @@
     <p class="fronttitle">あなたにおすすめの本</p>
     <ul class="list-inline flex-nowrap">
       <li>
-        <div v-for="list in booklist" 
+        <div v-for="list of Count" 
         :key="list.id" class="showbook_img"
       >
       <a href="http://(個別のコメント)">
@@ -30,11 +30,16 @@ import axios from "axios";
         };
       },
       mounted() {
-        var self = this
+        var self = this;
         var url = '/ajax/booklist';
-        axios.get(url).then(function(response) {
+        axios.get( url ).then( function( response ) {
           self.booklist = response.data;
         });
+      },
+      computed: {
+        Count() {
+          return this.booklist.slice(0, 5)
+        }
       }
     }
 </script>
@@ -42,7 +47,7 @@ import axios from "axios";
 <style scoped>
 .showbook_img_boby {
   object-fit: cover;
-  width: 200px;
+  width: 400px;
   height: 150px;
 }
 

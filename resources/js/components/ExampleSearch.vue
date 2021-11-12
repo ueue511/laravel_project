@@ -1,24 +1,36 @@
 <template>
   <div class="container search-container">
     <div class="seachbook_content">
-      <p class="searchbook_title">登録されている本へのコメント検索</p>
+      <p class="searchbook_title">登録されている本の検索</p>
       <div class="row row_search">
         <div class="col-5 showbook_form">
           <p class="showbook_select">ジャンル</p>
-            <select class="custom-select form_margin">
-              <option selected></option>
-              <option value="1">one</option>
-              <option value="2">twe</option>
-              <option value="3">three</option>
+            <select v-model="tag_book" class="custom-select form_margin">
+              <option selected>ジャンルを選択して下さい</option>
+              <option 
+                v-for=" tag in tags " 
+                v-bind:key="tag.id" 
+                v-bind:value="tag.id"
+              >
+              {{ tag.tab }}
+              </option>
             </select>
           </div>
         <div class="form-group showbook_form col-5">
           <label for="formsearch" class="showbook_select">タイトル</label>
-          <input type="text" class="form-control form_margin_rigth" id="ormsearch" value="">
+          <input type="text" class="form-control form_margin_rigth" id="ormsearch" v-model="title_book">
         </div>
       </div>
       <div class="section1 text-center">
-      <button type="button" class="btn btn-primary w-50 button_margin">検索 ></button>
+      <!-- <router-link to='/result'> -->
+      <button 
+        @click="SeachBook" 
+        type="button" 
+        class="btn btn-primary w-50 button_margin"
+      >
+      検索 >
+      </button>
+      <!-- </router-link> -->
       </div>
     </div>
   </div>
@@ -26,15 +38,34 @@
 
 <script>
 import axios from "axios";
+
 export default {
   mane: "ExampleSearch",
   data() {
     return {
-
+      tags: [],
+      tag_book: '',
+      title_book: '',
+      serach_book: []
     }
   },
+
   mounted() {
-    //
+    var self = this;
+    var url = '/ajax/tags';
+    axios.get( url ).then( function( response ) {
+      self.tags = response.data;
+    }); 
+  },
+
+  methods: {
+    SeachBook() {
+      const data = {
+        tagbook: this.tag_book,
+        titlebook: this.title_book,
+      }
+      this.$store.dispatch( 'searchbook/VuexAction_SearchBook', data );
+    }
   }
 }
 </script>

@@ -4,13 +4,19 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import BootstrapVue from "bootstrap-vue"　// ★追加
-import 'bootstrap/dist/css/bootstrap.css'　// ★追加
-import 'bootstrap-vue/dist/bootstrap-vue.css'　// ★追加
+import BootstrapVue from "bootstrap-vue";　// ★追加
+import 'bootstrap/dist/css/bootstrap.css';　// ★追加
+import 'bootstrap-vue/dist/bootstrap-vue.css';　// ★追加
+import store from '../store/index';
+import router from '../router.js'
+
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(VueRouter)
 
 /**
  * The following block of code may be used to automatically register your
@@ -28,6 +34,8 @@ Vue.component('example-front', require('./components/ExampleFront.vue').default)
 Vue.component('example-search', require('./components/ExampleSearch.vue').default);
 Vue.component('example-resulttitle', require('./components/ExampleResulttitle.vue').default);
 Vue.component('example-result', require('./components/ExampleResult.vue').default);
+Vue.component('example-footer', require('./components/ExampleFooter.vue').default);
+Vue.component('prev-next', require('./components/pagination/prev-next.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,4 +45,6 @@ Vue.component('example-result', require('./components/ExampleResult.vue').defaul
 
 const app = new Vue({
     el: '#app',
+    store,
+    router
 });
