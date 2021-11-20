@@ -8,7 +8,7 @@
             <select v-model="tag_book" class="custom-select form_margin">
               <option selected>ジャンルを選択して下さい</option>
               <option 
-                v-for=" tag in tags " 
+                v-for=" tag in Gettag " 
                 v-bind:key="tag.id" 
                 v-bind:value="tag.id"
               >
@@ -50,18 +50,26 @@ export default {
     }
   },
 
+  created() {
+      this.$store.dispatch( 'booktags/VuexAction_Tags' );
+  },
+
+  computed: {
+    Gettag() {
+      return this.$store.getters[ 'booktags/GetTag' ] ;
+    }
+  },
+
   mounted() {
-    var self = this;
-    var url = '/ajax/tags';
-    axios.get( url ).then( function( response ) {
-      self.tags = response.data;
-    }); 
+
   },
 
   methods: {
     SeachBook() {
+      var tagbook = this.tag_book
+      if(tagbook === 'ジャンルを選択して下さい') tagbook = null;
       const data = {
-        tagbook: this.tag_book,
+        tagbook: tagbook,
         titlebook: this.title_book,
       }
       this.$store.dispatch( 'searchbook/VuexAction_SearchBook', data );

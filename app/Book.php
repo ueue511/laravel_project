@@ -41,8 +41,16 @@ class Book extends Model
     /**
      * book_user_comment使用
      */
-    public function CommentsUsers()
+    // public function CommentsUsers()
+    // {
+    //     return $this->belongsToMany( 'App\User', 'book_user_comment')->withTimestamps();
+    // }
+
+    /**
+     * comment使用
+     */
+    public function Comments()
     {
-        return $this->belongsToMany( 'App\User', 'book_user_comment')->withTimestamps();
+        return $this->morphToMany('App\Comment', 'commentables');
     }
 }

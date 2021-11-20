@@ -14,7 +14,7 @@ class CreateCommentablesTable extends Migration
     public function up()
     {
         Schema::create('commentables', function (Blueprint $table) {
-            $table->bigIncrements('comment_id');
+            $table->integer('comment_id');
             $table->integer('comentable_id');
             $table->String('commentable_type');
             $table->timestamps();

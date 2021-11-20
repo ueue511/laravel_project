@@ -56,8 +56,16 @@ class User extends Authenticatable
     /**
      * book_user_comment使用
      */
-    public function CommentsBooks()
+    // public function CommentsBooks()
+    // {
+    //     return $this->belongsToMany( 'App\Book', 'book_user_comment' )->withPivot( 'comment' );
+    // }
+
+    /**
+     * comment使用
+     */
+    public function comments()
     {
-        return $this->belongsToMany( 'App\Book', 'book_user_comment' )->withPivot( 'comment' );
+        return $this->morphToMany('App\Comment', 'commentables');
     }
 }

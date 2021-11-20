@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             BooksTableSeeder::class,
             BookUserGoodSeeder::class,
             BookUserPetSeeder::class,
-            CommentTableSeeder::class,
+            CommentsTableSeeder::class,
+            // CommentTableSeeder::class,
         ]);
     }
 }

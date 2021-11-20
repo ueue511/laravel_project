@@ -48,11 +48,19 @@ Auth::routes();
 
 Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
-
+/**
+ * vueでのページ表示
+ */
 // test vue
 Route::get( '/sample/', 'BookController@BookShowTest');
+
+// おすすめの本を表示
 Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
+
+// tagを取得
 Route::get( 'ajax/tags', 'Ajax\TagsController@index' );
+
+// 検索結果を取得
 Route::post( 'ajax/search', 'Ajax\SearchController@app');
 
 Route::get('/sample/{any}', 'BookController@BookShowTest')->where('any', '.*');

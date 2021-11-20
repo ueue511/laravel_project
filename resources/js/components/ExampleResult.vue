@@ -10,15 +10,18 @@
           v-for='book in booklist' 
           :key='book.id'
         >
-          <div class="card h-100">
+          <div class="card h-100" heigth="500">
             <img class="card-img-top" :src="'/update/' + book.item_img" alt="Card image cap">
             <div class="card-body">
               <h4 class="card-title">{{ book.item_name }}</h4>
-              <p class="card-text">
-                Some quick example text to build on the card title
-                and make up the bulk of the card's content.
+
+              <p class="card-text" 
+                v-for='commentlist in CommentListSlice(book.comments)' 
+                :key='commentlist.id'
+              >
+                {{ CommentSlice( commentlist.comment ) }}
               </p>
-              <a href="#!" class="btn btn-primary">Go somewhere</a>
+              <a href="#!" class="btn btn-primary">詳細ページへ</a>
             </div>
           </div>
         </div>
@@ -36,7 +39,6 @@
 
 <script>
 import PrevNext from "../components/pagination/prev-next";
-import { mapState } from 'vuex'
 export default {
   components: { PrevNext },
   name:"ExampleResult",
@@ -46,7 +48,7 @@ export default {
       page: 1,   // 現在のページ
       perpage: 4, // 1ページ毎の表示組数
       totalpage: 0, //総ページ数
-      count: 0//itemsの総数
+      count: 0, //itemsの総数
     }
   },
   beforeUpdate() {
@@ -73,7 +75,6 @@ export default {
         );
       }
       const list_three = SliceByNumber( list_all, 3 );
-      console.log(typeof list_three);
       return FilterByNUmber( list_three )
     },
 
@@ -91,7 +92,8 @@ export default {
     },
 
     methods: {
-      onPageChange(page) {
+      //なんちゃってページ表示
+      onPageChange( page ) {
         this.page = page;
         window.history.replaceState(
           { page },
@@ -99,6 +101,30 @@ export default {
           `${window.location.pathname}?page=${page}`
         );
       },
+
+      //コメントリストの始めだけ表示
+      CommentListSlice( list ) {
+        for( let i in list)　{
+          return list.slice( 0, 1 )
+        }
+        const addcomment = {
+          id: 999,
+          comment: 'あなたの言葉で、この本の初コメントを入れてみましょう。'
+        };
+        list.push( addcomment );
+        return list
+        },
+
+      //コメント25文字表示
+      CommentSlice( value ) {
+        if( value.length > 30 ) {
+          return value.slice( 0, 30 ) + '...........'
+        } else if(value.length <= 30) {
+          return value;
+        } else {
+          return '';
+        }
+      }
     },
 }
 </script>
