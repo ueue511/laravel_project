@@ -17,7 +17,7 @@
     <header class="header">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/sample') }}">
+                <a class="navbar-brand" href="{{ url('/stackerwith/') }}">
                     SWB
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -67,11 +67,22 @@
         </nav>
     </header>
         <div id='app'>
-            <example-home></example-home>
-            <example-front></example-front>
-            <example-search></example-search>
-            <example-resulttitle></example-resulttitle>
-            <example-result></example-result>
-            <example-footer></example-footer>
+            @if( \Route::current()->getName() === 'stacked.home' ) 
+                <example-home></example-home>
+                <example-front></example-front>
+                <example-search></example-search>
+                <example-resulttitle></example-resulttitle>
+                <example-result 
+                  v-bind:good_id = "{{ json_encode($goodid) }}"
+                  v-bind:bookmark_id = "{{ json_encode($bookmarkid) }}"
+                >
+                </example-result>
+                <example-footer></example-footer>
+            @endif
+            @if( \Route::current()->getName() === 'stacked.detail' )
+                <example-detail-home></example-detail-home>
+                <example-detail-result v-bind:bookone = "{{ $books }}"></example-detail-result>
+                <example-footer></example-footer>
+            @endif
         </div>
     </div>

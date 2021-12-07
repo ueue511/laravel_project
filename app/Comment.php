@@ -7,8 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'comment'
+        'comment',
+        'editor_id',
+        'editor_type'
     ];
+
+    protected $casts = [
+        'comment' => 'json',
+        'editor_id' => 'json',
+        'editor_type' => 'json'
+        
+    ];
+
+    
     /**
      * Book使用
      */

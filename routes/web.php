@@ -48,11 +48,13 @@ Auth::routes();
 
 Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
+
+
 /**
  * vueでのページ表示
  */
 // test vue
-Route::get( '/sample/', 'BookController@BookShowTest');
+Route::get( '/stackerwith/', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
 
 // おすすめの本を表示
 Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
@@ -61,6 +63,20 @@ Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
 Route::get( 'ajax/tags', 'Ajax\TagsController@index' );
 
 // 検索結果を取得
-Route::post( 'ajax/search', 'Ajax\SearchController@app');
+Route::post( 'ajax/search', 'Ajax\SearchController@app' );
 
-Route::get('/sample/{any}', 'BookController@BookShowTest')->where('any', '.*');
+//ブックマーク機能
+Route::post( 'ajax/goodup', 'Ajax\GoodsController@GoodUp' );
+Route::post( 'ajax/gooddown', 'Ajax\GoodsController@GoodDown' );
+
+//いいね機能
+Route::post( 'ajax/petup', 'Ajax\PetController@PetUp' );
+Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
+
+// コメントを保存
+Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
+
+// Route::get( '/stackerwith/{any}', 'BookController@BookShowTest' )->where('any', '.*');
+
+//詳細ページを表示
+Route::get( '/stackerwith/detail/{book_id}', 'StackedWiteBooks@BookDetail' )->name( 'stacked.detail' );

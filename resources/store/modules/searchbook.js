@@ -32,7 +32,7 @@ const mutations = {
 
 const actions = {
   VuexAction_SearchBook( context, data ) {
-    var url = 'ajax/search';
+    var url = '/ajax/search';
     axios.post(url, data).then(function ( response ) {
       const search_book = [response.data, data];
       context.commit( 'VuexMutations_SearchBook', search_book )

@@ -1,27 +1,49 @@
 <template>
   <div class="container">
     <div class="card-deck"
-      v-for='(booklist, index) in book_list' 
-      :key='index'
+      v-for='booklist in book_list' 
+      :key='booklist.id'
       style="margin-bottom: 30px;"
     >
       <div class="row w-100">
         <div class="col-sm-4"
-          v-for='book in booklist' 
-          :key='book.id'
+          v-for='(book) in booklist' 
+          :key="book.id"
         >
           <div class="card h-100" heigth="500">
-            <img class="card-img-top" :src="'/update/' + book.item_img" alt="Card image cap">
-            <div class="card-body">
-              <h4 class="card-title">{{ book.item_name }}</h4>
+            <img 
+              class="card-img-top" 
+              :src="'/update/' + book.item_img" 
+              alt="Card image cap"
+            />
+              <div class="card-img-overlay">
+                  <img 
+                    @click="BookMarkGood( book.id, 1 )" 
+                    class="icon_img" 
+                    :src="[ bookmarkid.includes( book.id )? '/images/bookmark_on.png': '/images/bookmark_off.png']" 
+                    alt=""
+                  />
+                <span class="icon_area">
+                  <img 
+                    @click=" BookMarkGood( book.id, -1, book.petsusers.length) " class="icon_img" 
+                    :src="[ goodid.includes( book.id )? '/images/good_on.png': '/images/good_off.png']" 
+                    alt=""
+                  />
+                  <span class="good_count" v-if="!(book.id in goodlist)">{{ book.petsusers.length }}</span>
 
+                  <span class="good_count" v-else> {{ goodlist[book.id][0] }}</span>
+                  <!-- <span class="good_count" v-else-if="goodcount === -1"> {{ GoodCountDown(book.petsusers.length, book.id) }}</span> -->
+                </span>
+              </div>
+            <div class="card-body text-box bottonup">
+              <h4 class="card-title">{{ book.item_name }}</h4>
               <p class="card-text" 
-                v-for='commentlist in CommentListSlice(book.comments)' 
+                v-for='commentlist in CommentListSlice( book.comments )' 
                 :key='commentlist.id'
               >
                 {{ CommentSlice( commentlist.comment ) }}
               </p>
-              <a href="#!" class="btn btn-primary">詳細ページへ</a>
+              <a v-bind:href="'/stackerwith/detail/'+book.id" class="btn btn-primary text-btn ">詳細ページへ</a>
             </div>
           </div>
         </div>
@@ -42,6 +64,20 @@ import PrevNext from "../components/pagination/prev-next";
 export default {
   components: { PrevNext },
   name:"ExampleResult",
+  props: {
+    good_id: {
+      type: Array,
+      required: true,
+      default: 0
+    },
+    bookmark_id: {
+      type: Array,
+      required: true,
+      default: 0
+    },
+
+  },
+
   data() {
     return {
       items: [], // 表示するデータ
@@ -49,10 +85,16 @@ export default {
       perpage: 4, // 1ページ毎の表示組数
       totalpage: 0, //総ページ数
       count: 0, //itemsの総数
+
+      bookmarkid: this.bookmark_id, //db: good
+      goodid: this.good_id, //db: pet
+
+      goodlist: {}, //goodされているローカルで判定
+      goodcount_list: 0, //goodのカウント数
     }
   },
   beforeUpdate() {
-    return this.totalpage = this.$store.state.searchbook.search_totalpage;
+    this.totalpage = this.$store.state.searchbook.search_totalpage;
   },
   computed: {
     book_list() {
@@ -84,15 +126,15 @@ export default {
 
     book_count() {
       return this.count = this.$store.state.searchbook.search_count;
-    }
-},
+    },
+  },
 
     mounted() {
 
     },
 
     methods: {
-      //なんちゃってページ表示
+      // なんちゃってページ表示(url表記)
       onPageChange( page ) {
         this.page = page;
         window.history.replaceState(
@@ -102,33 +144,136 @@ export default {
         );
       },
 
-      //コメントリストの始めだけ表示
+      // コメントリストの始めだけ表示
       CommentListSlice( list ) {
         for( let i in list)　{
           return list.slice( 0, 1 )
         }
         const addcomment = {
           id: 999,
-          comment: 'あなたの言葉で、この本の初コメントを入れてみましょう。'
+          comment: 'あなたの言葉で、初コメントを入れてみましょう。'
         };
         list.push( addcomment );
         return list
         },
 
+      // いいね　お気に入り
+      BookMarkGood( index, type ,count){
+        // お気に入りかいいねを判定
+        let userlist = '';
+        let storeurl = '';
+        let bookid_data = {}
+        
+        let updown = '' //プラスかマイナスか
+
+        if (type === 1) {
+          userlist = this.bookmarkid;
+          storeurl = 'goods/VuexAction_Goods';
+        } else {
+          userlist = this.goodid;
+          storeurl = 'pets/VuexAction_Pets'
+        };
+
+        bookid_data = {
+          'book_id': index
+        }
+
+        // 表示判定 a: 解除状態->登録 b: 登録状態->解除
+        if ( !userlist.includes( index ) ) {
+          userlist.push( index );
+
+          this.goodcount = 1
+          updown = 1
+
+          if( type === -1 ) {
+            if(index in this.goodlist) {
+              this.goodlist[index][1] === 'a'? this.$set(this.goodlist, index, [count +1, 'a'] ): this.$set( this.goodlist, index, [count, 'b'])
+            } else {
+              this.$set( this.goodlist, index, [count +1, 'a'] ); //裏
+            }
+          }
+
+          this.$store.dispatch( storeurl, [bookid_data, updown] );
+
+        } else {
+          const numlist = userlist.indexOf( index );
+          userlist.splice( numlist, 1 );
+          
+          this.goodcount = -1
+          updown = -1;
+
+          if( type === -1 ) {
+            if(index in this.goodlist) {
+              this.goodlist[index][1] === 'b'? this.$set(this.goodlist, index, [count-1, 'b'] ): this.$set( this.goodlist, index, [count, 'a'])
+            } else {
+              this.$set( this.goodlist, index, [count -1, 'b'] ); //表
+            }
+          }
+
+          this.$store.dispatch ( storeurl, [bookid_data, updown])
+          
+        }
+      },
+
       //コメント25文字表示
       CommentSlice( value ) {
-        if( value.length > 30 ) {
-          return value.slice( 0, 30 ) + '...........'
-        } else if(value.length <= 30) {
+        if(typeof(value) === 'object') {
+          if( value[0].length > 23 ) {
+            return value[0].slice( 0, 23 ) + '...........'
+          } else if( value[0].length <= 23 ) {
+            return value[0];
+          } else {
+            return '';
+          }
+        }
+        if( value.length > 23 ) {
+          return value.slice( 0, 23 ) + '...........'
+        } else if( value.length <= 23 ) {
           return value;
         } else {
           return '';
         }
-      }
+      },
+
+      // GoodCount(list,id) {
+      //   return list
+      // }
+
+      // GoodCountUp( bookgood_count ,id ) {
+      //   this.goodcount_list = bookgood_count
+      //   if( !this.goodlist.includes( id ) ) {
+      //     this.goodlist.push( id );
+      //   }
+      //   return this.goodcount_list + 1
+      // },
+
+      // GoodCountDown( bookgood_count ,id ) {
+      //   const numlist = this.goodlist.indexOf( id );
+      //   this.goodlist.splice( numlist, 1 );
+      //   this.goodcount_list = bookgood_count
+      //   return  this.goodcount_list - 1
+      // }
     },
-}
+  }
 </script>
 
 <style scoped>
+.icon_img {
+  width: 40px;
+  cursor: pointer;
+}
 
+.bottonup {
+  z-index: 999;
+}
+
+.icon_area {
+  position: relative;
+}
+
+.good_count {
+  position: absolute;
+  left: 17px;
+  top: 3px;
+}
 </style>

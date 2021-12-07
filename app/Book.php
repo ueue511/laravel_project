@@ -51,6 +51,6 @@ class Book extends Model
      */
     public function Comments()
     {
-        return $this->morphToMany('App\Comment', 'commentables');
+        return $this->morphToMany( 'App\Comment', 'commentables' );
     }
 }

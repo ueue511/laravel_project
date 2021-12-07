@@ -13,10 +13,14 @@ import router from '../router.js'
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+
 require('./bootstrap');
 
 window.Vue = require('vue');
 Vue.use(VueRouter)
+
+const PerfectScrollbar = window['Vue2PerfectScrollbar'];
+Vue.use(PerfectScrollbar);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,6 +40,9 @@ Vue.component('example-resulttitle', require('./components/ExampleResulttitle.vu
 Vue.component('example-result', require('./components/ExampleResult.vue').default);
 Vue.component('example-footer', require('./components/ExampleFooter.vue').default);
 Vue.component('prev-next', require('./components/pagination/prev-next.vue').default);
+Vue.component('example-detail-home', require('./components/detail/ExampleDetailHome.vue').default);
+Vue.component('example-detail-result', require('./components/detail/ExampleDetailResult.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

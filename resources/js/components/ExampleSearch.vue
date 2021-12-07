@@ -18,7 +18,7 @@
           </div>
         <div class="form-group showbook_form col-5">
           <label for="formsearch" class="showbook_select">タイトル</label>
-          <input type="text" class="form-control form_margin_rigth" id="ormsearch" v-model="title_book">
+          <input type="text" class="form-control form_margin_rigth" id="formsearch" v-model="title_book">
         </div>
       </div>
       <div class="section1 text-center">
@@ -41,6 +41,7 @@ import axios from "axios";
 
 export default {
   mane: "ExampleSearch",
+
   data() {
     return {
       tags: [],
