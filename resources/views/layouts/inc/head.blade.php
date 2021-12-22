@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue2-perfect-scrollbar@1.4.0/dist/vue2-perfect-scrollbar.css">
     <script src="https://cdn.jsdelivr.net/npm/vue2-perfect-scrollbar@1.4.0/dist/vue2-perfect-scrollbar.umd.min.js"></script>
 
+    <!-- lodash -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/throttle.js"></script> --}}
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

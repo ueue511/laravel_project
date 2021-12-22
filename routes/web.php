@@ -53,11 +53,21 @@ Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 /**
  * vueでのページ表示
  */
-// test vue
+// ログインのtopページ
 Route::get( '/stackerwith/', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
+
+// 詳細ページを表示
+Route::get('/stackerwith/detail/{book_id}', 'StackedWiteBooks@BookDetail')->name('stacked.detail');
+
+// ログイン前のtopページ
+Route::get('/stackerwith/home', 'StackedWithBooksBefore@BookShowBefore')->name('stacked.before.home');
+
 
 // おすすめの本を表示
 Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
+
+// 最近、コメントがあった本の取得、
+Route::get( 'ajax/newcomment', 'Ajax\BooklistController@NewComments' );
 
 // tagを取得
 Route::get( 'ajax/tags', 'Ajax\TagsController@index' );
@@ -77,6 +87,3 @@ Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
 Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
 
 // Route::get( '/stackerwith/{any}', 'BookController@BookShowTest' )->where('any', '.*');
-
-//詳細ページを表示
-Route::get( '/stackerwith/detail/{book_id}', 'StackedWiteBooks@BookDetail' )->name( 'stacked.detail' );

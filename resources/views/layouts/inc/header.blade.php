@@ -1,15 +1,15 @@
     <!-- アラート表示 -->
     @if(session( 'message' ) && isset ( $book_name ) )
-      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
+      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
     
     @elseif( session( 'message' ) && ( old( 'item_name' ) ) )
-      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ old( 'item_name' )}}の{{ session( 'message') }}</div>
+      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ old( 'item_name' )}}の{{ session( 'message') }}</div>
     
     @elseif( session( 'message' ) === '記述に誤りがあります' )
-      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ session( 'message' ) }}</div>
+      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ session( 'message' ) }}</div>
 
     @elseif( session( 'message' ) === '削除しました' )
-      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
+      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
     
     @endif
     <!--end アラート表示 -->
@@ -68,7 +68,7 @@
     </header>
         <div id='app'>
             @if( \Route::current()->getName() === 'stacked.home' ) 
-                <example-home></example-home>
+                <example-login-home></example-login-home>
                 <example-front></example-front>
                 <example-search></example-search>
                 <example-resulttitle></example-resulttitle>
@@ -82,6 +82,12 @@
             @if( \Route::current()->getName() === 'stacked.detail' )
                 <example-detail-home></example-detail-home>
                 <example-detail-result v-bind:bookone = "{{ $books }}"></example-detail-result>
+                <example-footer></example-footer>
+            @endif
+            @if( \Route::current()->getName() === 'stacked.before.home' )
+                <example-home></example-home>
+                <example-home-before></example-home-before>
+                <example-front-before></example-front-before>
                 <example-footer></example-footer>
             @endif
         </div>

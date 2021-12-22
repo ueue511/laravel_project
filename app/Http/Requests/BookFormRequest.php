@@ -27,28 +27,42 @@ class BookFormRequest extends FormRequest
     {
         return [
             'item_name' => 'bail|required|between:3, 255',
-            'item_number' => 'bail|required|integer|digits_between:1,3',
+            'book_tag' => 'bail|required|array',
+            'book_tag.*' => 'bail|required|integer',
             'item_amount' => 'bail|required|integer|digits_between:1,6',
             'published' => 'bail|required|date|before:today',
-            'item_img' => 'bail|required|image|mimes:jpeg,png,jpg,gif'
         ];
     }
+    
+    // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　
+    public function withValidator(Validator $validator)
+    {
+        
+        $validator->sometimes('item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function($input){
+            return is_string($input->item_img) === false;
+        });
+        
+        $validator->sometimes('item_img', 'bail|required',
+        function($input){
+            return is_string($input->item_img) === true;
+        });
+    }
+    
     public function messages()
     {
         return [
             'item_name.required' => 'タイトルを入力してください',
             'item_name.between' => 'タイトルは３文字〜255以内で入力してください',
-            'item_number.required' => '冊数を入力してください',
-            'item_number.integer' => '半角数字で入力してください',
-            'item_number.digits_between' => '999以内で入力してください',
+            'book_tag.required' => '最低１つはジャンルを選択してください',
+            'book_tag.integer' => 'ジャンルから選択してください',
             'item_amount.required' => '金額を入力してください',
             'item_amount.integer' => '半角数字で入力してください',
             'item_amount.digits_between' => '￥999999以内で入力してください',
             'published.required' => '本公開日を指定してください',
             'published.before' => '本日から以前の年月日を指定してください',
-            'item_img.required' => '画像を選択してください',
+            'item_img.required' => '画像ファイルを選択してください',
             'item_img.image' => '画像ファイルを選択してください',
-            'item_img.mimes' => '画像ファイルを選択してください'
+            'item_img.mimes' => 'ファイル形式「jpeg,png,jpg,gif」から選択してください'
             
         ];
     }

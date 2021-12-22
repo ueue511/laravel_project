@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <div class="card-deck"
+    <div class="card-deck result_deck"
       v-for='booklist in book_list' 
       :key='booklist.id'
       style="margin-bottom: 30px;"
     >
       <div class="row w-100">
-        <div class="col-sm-4"
+        <div class="col-md-4 col-sm-12 center-block bottom_size"
           v-for='(book) in booklist' 
           :key="book.id"
         >
@@ -29,21 +29,20 @@
                     :src="[ goodid.includes( book.id )? '/images/good_on.png': '/images/good_off.png']" 
                     alt=""
                   />
-                  <span class="good_count" v-if="!(book.id in goodlist)">{{ book.petsusers.length }}</span>
+                  <span class="good_count" v-if="!( book.id in goodlist )">{{ book.petsusers.length }}</span>
 
                   <span class="good_count" v-else> {{ goodlist[book.id][0] }}</span>
-                  <!-- <span class="good_count" v-else-if="goodcount === -1"> {{ GoodCountDown(book.petsusers.length, book.id) }}</span> -->
                 </span>
               </div>
             <div class="card-body text-box bottonup">
-              <h4 class="card-title">{{ book.item_name }}</h4>
+              <h4 class="card-title result_title">{{ book.item_name }}</h4>
               <p class="card-text" 
                 v-for='commentlist in CommentListSlice( book.comments )' 
                 :key='commentlist.id'
               >
                 {{ CommentSlice( commentlist.comment ) }}
               </p>
-              <a v-bind:href="'/stackerwith/detail/'+book.id" class="btn btn-primary text-btn ">詳細ページへ</a>
+              <a v-bind:href="'/stackerwith/detail/'+book.id" class="btn btn-primary text-btn result_botton">詳細</a>
             </div>
           </div>
         </div>
@@ -211,7 +210,7 @@ export default {
           }
 
           this.$store.dispatch ( storeurl, [bookid_data, updown])
-          
+
         }
       },
 
@@ -234,30 +233,12 @@ export default {
           return '';
         }
       },
-
-      // GoodCount(list,id) {
-      //   return list
-      // }
-
-      // GoodCountUp( bookgood_count ,id ) {
-      //   this.goodcount_list = bookgood_count
-      //   if( !this.goodlist.includes( id ) ) {
-      //     this.goodlist.push( id );
-      //   }
-      //   return this.goodcount_list + 1
-      // },
-
-      // GoodCountDown( bookgood_count ,id ) {
-      //   const numlist = this.goodlist.indexOf( id );
-      //   this.goodlist.splice( numlist, 1 );
-      //   this.goodcount_list = bookgood_count
-      //   return  this.goodcount_list - 1
-      // }
     },
   }
 </script>
 
 <style scoped>
+
 .icon_img {
   width: 40px;
   cursor: pointer;
@@ -275,5 +256,54 @@ export default {
   position: absolute;
   left: 17px;
   top: 3px;
+  pointer-events:none;
+}
+
+.card-deck {
+  justify-content: space-around;
+}
+
+@media screen and ( max-width: 959px ) {
+  .icon_img {
+    width: 28px;
+  }
+
+  .good_count {
+    left: 13px;
+  }
+
+}
+
+@media screen and ( max-width: 768px ) {
+  .result_deck {
+    margin-left: 1px;
+  }
+
+  .bottom_size {
+    margin-bottom: 15px;
+  }
+
+  .result_title {
+    text-align: center;
+  }
+
+  .result_botton {
+    margin-left: 70%;
+  }
+
+  .icon_img {
+    width: 50px;
+  }
+
+  .good_count {
+    left: 26px;
+    top: 4px;
+  }
+}
+
+@media screen and ( max-width: 575px ) {
+  .result_deck {
+    margin-left: 30px;
+  }
 }
 </style>

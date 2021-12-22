@@ -38,6 +38,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that are gureded
+     * @var array
+     */
+    protected $guarded = [
+        'role'
+    ];
+
+    /**
      * book_user_good使用
      */
     public function GoodsBooks()

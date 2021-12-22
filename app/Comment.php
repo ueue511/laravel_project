@@ -16,7 +16,6 @@ class Comment extends Model
         'comment' => 'json',
         'editor_id' => 'json',
         'editor_type' => 'json'
-        
     ];
 
     

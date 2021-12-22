@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BookFormRequest;
 
 use App\Book;
+use App\Tag;
 use Auth;
 
 class BookController extends Controller
@@ -13,6 +14,7 @@ class BookController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('admin');
     }
 
     /**変数指定
@@ -30,6 +32,8 @@ class BookController extends Controller
      public function BookShow( Request $request ) {
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
         $message_id = session( 'message_id' );
+
+        $tags = Tag::all();
         
         if( $message_id === 'create') {
             $request->session()->flash( 'message', '新規登録');
@@ -40,16 +44,18 @@ class BookController extends Controller
             $request->session()->flash( 'message', '記述に誤りがあります' );
             $alert_type = 'alert-danger';
             
-            // if ( url()->previous() != url('').'/' ) {
             if ( session( 'back_id' ) ) {
                 $book_one = [ Book::find( session( 'back_id' ) ) ];
                 $book_id = session( 'back_id' );
 
+                // ddd('1'. $book_one);
+                
                 return view('books')->with([
                     'books' => $books,
                     'book_one' => $book_one,
                     'alert' => $alert_type,
-                    'book_id' => $book_id
+                    'book_id' => $book_id,
+                    'tags' => $tags,
                 ]);
                 
             } else {
@@ -67,7 +73,8 @@ class BookController extends Controller
                 'books' => $books, 
                 'book_one' => $book_one,
                 'alert' => $alert_type,
-                'book_name' => $book_name
+                'book_name' => $book_name,
+                'tags' => $tags,
         ]);
             
         } else {
@@ -78,7 +85,8 @@ class BookController extends Controller
         return view( 'books' )->with ([
             'books' => $books, 
             'book_one' => $book_one,
-            'alert' => $alert_type
+            'alert' => $alert_type,
+            'tags' => $tags,
         ]);
      }
 
@@ -86,8 +94,8 @@ class BookController extends Controller
      * 本の新規追加
      */
     
-     public function BookCreate( BookFormRequest $request ) {
-         
+     public function BookCreate( BookFormRequest $request ) 
+     {
         // 画像保存
         $file = $request->file( 'item_img' ); //file取得
         if( !empty( $file ) ) {               //fileが空かチェック
@@ -98,19 +106,25 @@ class BookController extends Controller
         } else {
             $filename ="";
         }
-
+        
         // Eloquentモデル (登録処理)
         $books = new Book;
         $books->user_id = Auth::user()->id;
         $books->item_name = $request->item_name;
-        $books->item_number = $request->item_number;
         $books->item_amount = $request->item_amount;
         $books->item_img = $filename;
         $books->published = $request->published;
         $books->save();
+
+        $tags = $request->book_tag;
+
+        foreach($tags as $value) {
+            $books->Tags()->attach($value);
+        }
+        
         $request->session()->flash( 'message_id', 'create' );
         return redirect( '/' )->withInput(); 
-        }
+    }
     //  
     /**
      * 本の詳細を表示
@@ -119,17 +133,30 @@ class BookController extends Controller
     public function BookMake( Request $request, Book $book ) {
         
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
-        $book_one = Book::find( $book->id );
+        $tags = Tag::all();
+        
+        $book_one = Book::with('tags')->where( 'id', $book->id )->get();
         $book_id = $book->id;
         $book_name = $book->item_name;
+        $tag = $book_one[0]->tags->toArray();
+        
+        $book_tag =[];
+        foreach($tag as $value){
+            array_push($book_tag, $value['id']);
+        }
         $alert = 'alert-info';
         $request->session()->flash( 'message', '詳細を表示' );
+
+        // ddd('2' . $book_one[0]) //詳細ボタン;
+        
         return view( 'books' )->with([ 
             'books' => $books,
-            'book_one' => $book_one,
+            'book_one' => $book_one[0],
             'book_id' => $book_id,
             'book_name' => $book_name,
-            'alert' => $alert
+            'alert' => $alert,
+            'book_tag' => $book_tag,
+            'tags' => $tags,
         ]);
     }
 
@@ -137,16 +164,8 @@ class BookController extends Controller
      * 本の詳細の変更を保存
      */
 
-     public function BookAdd( BookFormRequest $request, Book $book ) {
-
-         // ファイルパスの判定
-        $filepath = public_path('/update/'. $book['item_img']);
-        if ( \File::exists( $filepath ) ) {
-            $validator_img = 'bail|required';
-        } else {
-            $validator_img= 'bail|required|image|mimes:jpeg,png,jpg,gif';
-        }
-        
+     public function BookAdd( BookFormRequest $request, Book $book ) 
+     {
         // 画保保存
         $file = $request->file('item_img'); //file取得
         if (!empty($file)) {               //fileが空かチェック
@@ -155,30 +174,61 @@ class BookController extends Controller
             $file->move($target_path, $filename);  //ファイルを移動
 
         } else {
-            $filename = "";
+            $filename = $request->item_img;
         }
         
         $book->update([
             'item_name' => $request->item_name,
-            'item_number' => $request->item_number,
             'item_amount' => $request->item_amount,
             'item_img'  => $filename,
             'published' => $request->published . " 00:00:00"
         ]);
+
+        // $book_one_tags: 現在のbookのタグ一覧
+        // tags: requestで受け取った選択されたtag一覧
+        // tag_array: tagsをarrayに変換
+        
+        $book_one_tags = Book::with('tags')->where('id', $book->id)->get();
+        $tag_array = [];
+        $tags = $request->book_tag;
+        
+        foreach($book_one_tags[0]->tags as $value) {
+            array_push($tag_array, $value->id);
+        };
+
+        // 両方の配列を比較し差分のみを取り出す 必ず配列大-小での差分計算(array_diff)で判断
+        count($tag_array) > count($tags)? $book_tag_array = array_diff($tag_array, $tags): $book_tag_array = array_diff($tags, $tag_array);
+        
+        // toggleでのonoff
+        $book->Tags()->toggle($book_tag_array);
+        
         $request->session()->forget('back_id');
         $books = Book::where('user_id', Auth::user()->id)->orderBy('created_at', 'asc')->paginate(3);
+        $tags = Tag::all();
         $book_one = Book::find( $book->id );
         $book_id = $book->id;
         $book_name = $book->item_name;
+
+        $tag = $book_one->tags->toArray();
+
+        $book_tag = [];
+        foreach ($tag as $value) {
+            array_push($book_tag, $value['id']);
+        }
+        
         $alert = 'alert-warning';
         $request->session()->flash( 'message', '詳細を変更' );
+
+        // ddd('3' . $book_one); //詳細を変更
         
         return view( 'books' )->with ([
             'books' => $books,
             'book_one' => $book_one,
             'book_id' => $book_id,
             'book_name' => $book_name,
-            'alert' => $alert
+            'alert' => $alert,
+            'book_tag' => $book_tag,
+            'tags' => $tags,
         ]);
      }
 

@@ -2,20 +2,18 @@
 <div class="front-container">
   <div class="container_line">
     <p class="fronttitle">あなたにおすすめの本</p>
-    <ul class="list-inline flex-nowrap">
-      <li>
-        <div v-for="list of Count" 
-        :key="list.id" class="showbook_img"
+    <div class="list-inline flex-nowrap img_scroll">
+      <div v-for="list of booklist" 
+      :key="list.id" class="showbook_img"
       >
       <a href="http://(個別のコメント)">
-      <img 
-        :src="'/update/' + list.item_img"
-        alt="home" class="showbook_img_boby img-thumbnail"
-      >
+        <img 
+          :src="'/update/' + list.item_img"
+          alt="home" class="showbook_img_boby img-thumbnail"
+        >
       </a>
       </div>
-      </li>
-    </ul>
+    </div>
   </div>
 </div>
 </template>
@@ -46,19 +44,24 @@ import axios from "axios";
 
 <style scoped>
 .showbook_img_boby {
-  object-fit: cover;
   width: 400px;
   height: 150px;
+  object-fit: contain;
 }
 
-#showbooklist {
-  margin: 0 10px 0px 10px;
-}
-
-.list-inline li{
+.list-inline {
   display: flex;
   overflow-x: scroll;
-  justify-content: space-between;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.img_scroll {
+  overflow-x: scroll;
+}
+
+.container_linell {
+  overflow-x: scroll;
 }
 
 .showbook_img {
@@ -80,5 +83,16 @@ import axios from "axios";
   margin-bottom: 50px;
   background-color: #ffffff;
 }
+
+@media screen and ( max-width: 959px ) {
+  .img-thumbnail {
+    max-width: none;
+  }
+
+  .showbook_img_boby {
+    width: auto;
+  }
+}
+
 
 </style>

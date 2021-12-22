@@ -4,18 +4,17 @@
 @php
 $array = array (
   'item_name' => ['本のタイトル', 'text'],
-  'item_number' => ['冊数', 'text'],
+  'book_tag' => ['ジャンル', 'checkbox'],
   'item_amount' =>['金額', 'text'],
   'published' => ['本公開日', 'date'],
   'item_img' => ['画像']
-
 ); 
 @endphp
 
 <!-- 新規登録か上書き保存かの判定 -->
 @if ( isset ( $book_one ) )
 
-  @php if ( gettype($book_one) === "object") {
+  @php if ( gettype( $book_one ) === "object") {
     $booklist = clone $book_one;
   } 
   else {
@@ -46,17 +45,26 @@ $array = array (
               $value_one = $booklist[$key];
             } 
       @endphp
-      @if ( $key != 'item_img')
-      <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $value_one }}" style={{ $validate_line }}>
-      </div>
-        @else
 
+      @if ( $key != 'item_img' and $key != 'book_tag')
+        <div class="col-sm-6">
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $value_one }}" style={{ $validate_line }}>
+        </div>
+
+      @elseif( $key === 'book_tag')
+        @foreach ( $tags as $key => $value )
+          <label class="control-label" style="margin-left: 15px;">
+            <input type="checkbox" name="book_tag[]" value="{{ $value['id'] }}"
+            {{ in_array($value['id'], (array)$book_tag )? 'checked' : ''}}>
+            {{ $value['tab'] }}
+          </label>
+        @endforeach
+      @else
         <!-- file追加 -->
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputFile" name='item_img' value="{{ $booklist['item_img'] }}" >
-            <label class="custom-file-label" for="inputFile"  data-browse="参照"  style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
+            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ $booklist['item_img'] }}">
+            <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
         <span id='group-show'>
@@ -82,9 +90,7 @@ $array = array (
       {{ $value[0] }}
     </div>
     <div>
-
       <!-- validateが発生した場合 そのformで表示 -->
-
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red' @endphp
         @foreach($errors->get( $key ) as $error)
@@ -95,19 +101,24 @@ $array = array (
     <div class="form-group">
 
       <!-- form本体 画面移管後も入力した内容は保持 -->
-
-      @if ( $key != 'item_img')
-      <div class="col-sm-6">
-        <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
-      </div>
+      @if ( $key != 'item_img' and $key != 'book_tag')
+        <div class="col-sm-6">
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
+        </div>
+        
+      @elseif( $key === 'book_tag')
+        @foreach ( $tags as $key => $value )
+          <label class="control-label" style="margin-left: 15px;">
+            <input type="checkbox" name="book_tag[]" value="{{ $value['id'] }}" {{ in_array($value['id'], (array)old('book_tag') )? 'checked' : ''}}> {{ $value['tab'] }}
+          </label>
+        @endforeach
       @else
-
       <!-- file追加 -->
 
         <div class="input-group col-sm-8">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="inputFile" name='item_img'>
-            <label class="custom-file-label" for="inputFile" data-browse="参照" 　style={{ $validate_line }}>画像を選択してください</label>
+            <label class="custom-file-label" for="inputFile" data-browse="参照" style={{ $validate_line }}>画像を選択してください</label>
           </div>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset" style={{ $validate_line }}>取消</button>

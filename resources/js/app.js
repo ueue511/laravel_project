@@ -8,16 +8,16 @@ import BootstrapVue from "bootstrap-vue";　// ★追加
 import 'bootstrap/dist/css/bootstrap.css';　// ★追加
 import 'bootstrap-vue/dist/bootstrap-vue.css';　// ★追加
 import store from '../store/index';
-import router from '../router.js'
+// import router from '../router.js'
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+// import VueRouter from 'vue-router';
 
 
 require('./bootstrap');
 
 window.Vue = require('vue');
-Vue.use(VueRouter)
+// Vue.use(VueRouter)
 
 const PerfectScrollbar = window['Vue2PerfectScrollbar'];
 Vue.use(PerfectScrollbar);
@@ -43,6 +43,10 @@ Vue.component('prev-next', require('./components/pagination/prev-next.vue').defa
 Vue.component('example-detail-home', require('./components/detail/ExampleDetailHome.vue').default);
 Vue.component('example-detail-result', require('./components/detail/ExampleDetailResult.vue').default);
 
+Vue.component('example-home-before', require('./components/homebefore/ExampleHomeBefore.vue').default);
+Vue.component('example-front-before', require('./components/homebefore/ExampleFrontBefore.vue').default);
+Vue.component('example-login-home', require('./components/ExampleLoginHome.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -53,5 +57,5 @@ Vue.component('example-detail-result', require('./components/detail/ExampleDetai
 const app = new Vue({
     el: '#app',
     store,
-    router
+    // router
 });

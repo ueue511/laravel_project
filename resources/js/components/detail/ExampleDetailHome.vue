@@ -42,6 +42,7 @@
   position: absolute;
   text-align: center;
   color:rgb(253, 252, 244);
+  text-shadow: -1px 2px 0 rgba(0,0,0,0.3);
 }
 
 .home-selling-complaint {
@@ -54,6 +55,40 @@
 .home-img {
   width: 100%;
   height: 50%;
+}
+
+@media screen and ( max-width: 959px ) {
+  .home-title {
+    width: 100%;
+    top: 25%;
+    left: 0%;
+    font-size: 3em;
+  }
+
+  .home-container {
+    margin-bottom: 2em;
+  }
+}
+
+@media screen and ( max-width: 669px ) {
+  .home-title {
+    font-size: 2.8em;
+    top: 18%;
+  }
+}
+
+@media screen and ( max-width: 575px ) {
+  .home-title {
+    font-size: 2.5em;
+    top:10px;
+  }
+}
+
+@media screen and ( max-width: 481px ) {
+  .home-title {
+    font-size: 2em;
+    top: 8px;
+  }
 }
 
 </style>
