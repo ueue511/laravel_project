@@ -37,8 +37,8 @@ class BookFormRequest extends FormRequest
     // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　
     public function withValidator(Validator $validator)
     {
-        
         $validator->sometimes('item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function($input){
+            ddd($input);
             return is_string($input->item_img) === false;
         });
         

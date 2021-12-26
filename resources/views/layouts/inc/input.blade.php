@@ -1,6 +1,5 @@
-<!-- form部分 -->
-<!-- 繰り返しで使う連想配列内容 -->
-
+{{-- form部分 --}}
+{{-- 繰り返しで使う連想配列内容 --}}
 @php
 $array = array (
   'item_name' => ['本のタイトル', 'text'],
@@ -11,7 +10,7 @@ $array = array (
 ); 
 @endphp
 
-<!-- 新規登録か上書き保存かの判定 -->
+{{-- 新規登録か上書き保存かの判定 --}}
 @if ( isset ( $book_one ) )
 
   @php if ( gettype( $book_one ) === "object") {
@@ -22,18 +21,18 @@ $array = array (
   }
   @endphp
 
-  <!-- formの繰り返し 上書き保存-->
+  {{-- formの繰り返し 上書き保存--}}
 
   @foreach ( $array as $key => $value )
     @php $validate_line = '' @endphp
     <div class="card-title">
       {{ $value[0] }}
     </div>
-    <!-- validateが発生した場合 そのformで表示 -->
+    {{-- validateが発生した場合 そのformで表示 --}}
     <div>
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red'; @endphp
-        @foreach ( $errors->get( $key ) as $error ) 
+        @foreach ( $errors->$key->get() as $error ) 
           <div style="color: red;">{{ $error }}</div>
         @endforeach
       @endif
@@ -60,10 +59,10 @@ $array = array (
           </label>
         @endforeach
       @else
-        <!-- file追加 -->
+        {{-- file追加 --}}
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ $booklist['item_img'] }}">
+            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img'>
             <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
@@ -78,11 +77,11 @@ $array = array (
   @endforeach
   
 
-  <!-- 新規登録 -->
+  {{-- 新規登録 --}}
 
 @else
 
-  <!-- formの繰り返し -->
+  {{-- formの繰り返し --}}
 
   @foreach ($array as $key => $value)
     @php $validate_line = '' @endphp
@@ -90,7 +89,7 @@ $array = array (
       {{ $value[0] }}
     </div>
     <div>
-      <!-- validateが発生した場合 そのformで表示 -->
+      {{-- validateが発生した場合 そのformで表示 --}}
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red' @endphp
         @foreach($errors->get( $key ) as $error)
@@ -100,7 +99,7 @@ $array = array (
     </div>
     <div class="form-group">
 
-      <!-- form本体 画面移管後も入力した内容は保持 -->
+      {{-- form本体 画面移管後も入力した内容は保持 --}}
       @if ( $key != 'item_img' and $key != 'book_tag')
         <div class="col-sm-6">
           <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
@@ -113,7 +112,7 @@ $array = array (
           </label>
         @endforeach
       @else
-      <!-- file追加 -->
+      {{-- file追加 --}}
 
         <div class="input-group col-sm-8">
           <div class="custom-file">

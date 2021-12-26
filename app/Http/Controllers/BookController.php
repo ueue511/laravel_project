@@ -237,6 +237,7 @@ class BookController extends Controller
      */
     public function BookDelete( Request $request, Book $book ) {
         $request->session()->flash( 'back_name', $book->item_name );
+        $book->Tags()->detach;
         $book->delete();
         $request->session()->flash( 'message_id', 'delete' );
         return redirect('/');

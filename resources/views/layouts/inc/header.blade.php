@@ -1,4 +1,4 @@
-    <!-- アラート表示 -->
+    {{-- アラート表示 --}}
     @if(session( 'message' ) && isset ( $book_name ) )
       <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
     
@@ -12,7 +12,7 @@
       <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
     
     @endif
-    <!--end アラート表示 -->
+    {{--end アラート表示 --}}
     <div class="content">
     <header class="header">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
