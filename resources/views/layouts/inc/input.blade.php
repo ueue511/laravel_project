@@ -7,7 +7,8 @@ $array = array (
   'item_amount' =>['金額', 'text'],
   'published' => ['本公開日', 'date'],
   'item_img' => ['画像']
-); 
+);
+
 @endphp
 
 {{-- 新規登録か上書き保存かの判定 --}}
@@ -62,7 +63,7 @@ $array = array (
         {{-- file追加 --}}
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img'>
+            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ session('filename') ?? '' }}" data-session={{ session('filename') }}>
             <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
@@ -116,8 +117,8 @@ $array = array (
 
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputFile" name='item_img'>
-            <label class="custom-file-label" for="inputFile" data-browse="参照" style={{ $validate_line }}>画像を選択してください</label>
+            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}">
+            <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>画像を選択してください</label>
           </div>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset" style={{ $validate_line }}>取消</button>

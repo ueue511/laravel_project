@@ -1,19 +1,40 @@
-// HPが読み込まれた時、sessionStorageにdataがある場合表示
+// HPが読み込まれた時、sessionStorageにdataがある場合表示 session判定で利用
 document.addEventListener("DOMContentLoaded", function () {
-  const item = JSON.parse(sessionStorage.getItem("set_img"));
-  let $html = ""
+  let item = '';
+  let session_js = $('#inputFile_add').data();
+  let $html = "";
+  
+  session_js['session'] !== '' ? item = JSON.parse(sessionStorage.getItem("set_img")) : sessionStorage.removeItem("set_img");
+  
   if (item) {
-
     $html = ['<div class="d-inline-block mr-1 mt-4 ml-3"><img class="img-thumbnail" src="', item.img, '" title="', item.name, '" style="height:100px;" /><div class="small text-muted text-center">', item['name'], '</div></div>'].join('');
 
     $('.custom-file-input').next('.custom-file-label').html('1個のファイルを選択しました').parents('.input-group').after('<div id="preview"></div>');
 
     $('#preview').append($html);
 
-    let formdata = new FormData( $('.form-horizontal').get(0) );
-    const imgFile = convertToFile(item); //base64ー>バイナリ
+    // let formdata = new FormData($('.form-horizontal').get(0));
+    // var reader = new FileReader();
+    // const imgFile = convertToFile(item); //base64ー>バイナリ
 
-    formdata.set('item_img', imgFile);
+
+    // formdata.set('item_img', imgFile);
+
+    
+    // $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('app') } });
+
+    // $.ajax({
+    //   url: '/input.blade.php',
+    //   type: 'POST',
+    //   data: formdata,
+    //   processData: false,
+    //   contentType: false,
+    // }).done(function (data, status, xhr) {
+    //   $('#add').html(data);
+
+    // }).fail(function (xhr, status, error) {
+    //   crossOriginIsolated.log(status + ':' + error)
+    // });
     // console.log(...formdata.entries())
 
   } else {
@@ -85,11 +106,11 @@ $('#inputFile_add').on({
 })
 
 // base64をFileに変換
-function convertToFile(imgData) {
-  const blob = atob(imgData.img.replace(/^.*,/, ''));
-  let buffer = new Uint8Array(blob.length);
-  for (let i = 0; i < blob.length; i++) {
-    buffer[i] = blob.charCodeAt(i);
-  }
-  return new File([buffer.buffer], imgData.name, {type: imgData.type});
-}
+// function convertToFile(imgData) {
+//   const blob = atob(imgData.img.replace(/^.*,/, ''));
+//   let buffer = new Uint8Array(blob.length);
+//   for (let i = 0; i < blob.length; i++) {
+//     buffer[i] = blob.charCodeAt(i);
+//   }
+//   return new File([buffer.buffer], imgData.name, {type: imgData.type});
+// }

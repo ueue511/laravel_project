@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BookFormRequest;
+use Storage;
 
 use App\Book;
 use App\Tag;
 use Auth;
+use File;
 
 class BookController extends Controller
 {
@@ -32,13 +34,24 @@ class BookController extends Controller
      public function BookShow( Request $request ) {
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
         $message_id = session( 'message_id' );
-
         $tags = Tag::all();
         
         if( $message_id === 'create') {
-            $request->session()->flash( 'message', '新規登録');
             $alert_type = 'alert-success';
             $book_one = Null;
+            $old_itemname = old('item_name');
+            
+            $request->session()->forget('_old_input');
+            // ddd($request->session()->all());
+            $request->session()->flash('message', '新規登録');
+            $request->session()->flash('old_itemname', $old_itemname);
+
+            return view( 'books' )->with([
+                'books' => $books,
+                'book_one' => $book_one,
+                'alert' => $alert_type,
+                'tags' => $tags,
+            ]);
             
         } elseif ( $message_id === 'danger' ) {
             $request->session()->flash( 'message', '記述に誤りがあります' );
@@ -78,7 +91,7 @@ class BookController extends Controller
         ]);
             
         } else {
-            session()->forget('message', 'message_id', 'back_id');
+            session()->forget( 'message', 'message_id', 'back_id', 'filename'); //sessionリセット
             $alert_type = Null;
             $book_one = Null;
         }
@@ -98,13 +111,22 @@ class BookController extends Controller
      {
         // 画像保存
         $file = $request->file( 'item_img' ); //file取得
+        $target_path_temporary = public_path('temporary/');
+        $target_path = public_path('update/');
+        
         if( !empty( $file ) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
-            $target_path = public_path( 'update/' );
+            file_exists($target_path_temporary  . $filename) ? File::delet($target_path, $filename) : '';
             $file->move( $target_path, $filename );  //ファイルを移動
             
         } else {
-            $filename ="";
+            $filename = $request->item_img;
+            $temporary_files = File::files($target_path_temporary);
+            foreach($temporary_files as $file) {
+                $file->getfileName() === $filename? File::move( $target_path_temporary . $filename, $target_path . $filename):'';
+                File::delete( $target_path_temporary, $filename);
+            }
+            
         }
         
         // Eloquentモデル (登録処理)
@@ -121,9 +143,10 @@ class BookController extends Controller
         foreach($tags as $value) {
             $books->Tags()->attach($value);
         }
-        
+
         $request->session()->flash( 'message_id', 'create' );
-        return redirect( '/' )->withInput(); 
+        
+        return redirect( '/' )->withInput();
     }
     //  
     /**
@@ -171,6 +194,8 @@ class BookController extends Controller
         if (!empty($file)) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
             $target_path = public_path('update/');
+            $target_path_temporary = public_path('temporary/');
+            file_exists($target_path_temporary  . $filename)? Storage::delet($target_path, $filename) : '';
             $file->move($target_path, $filename);  //ファイルを移動
 
         } else {
@@ -235,11 +260,29 @@ class BookController extends Controller
     /**
      * 本を削除する
      */
-    public function BookDelete( Request $request, Book $book ) {
+    public function BookDelete( Request $request, Book $book ) 
+    {
         $request->session()->flash( 'back_name', $book->item_name );
-        $book->Tags()->detach;
+        $book->Tags()->detach();
         $book->delete();
         $request->session()->flash( 'message_id', 'delete' );
         return redirect('/');
     }
+
+    /**
+     * 本の画像処理
+     */
+   public function BookImgMake( $file, $request, $add )
+    {
+        if (!empty($file)) {               //fileが空かチェック
+            $filename = $file->getClientOriginalName();  //ファイル名を取得
+            $target_path = public_path('update/');
+            $target_path_temporary = public_path('temporary/');
+            file_exists($target_path_temporary  . $filename) ? Storage::delet($target_path, $filename) : '';
+            $file->move($target_path, $filename);  //ファイルを移動
+
+        } else {
+            $add ? $filename = $request->item_img: $filename = '';
+        }
+   }
 }

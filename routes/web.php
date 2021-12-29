@@ -21,7 +21,7 @@ Route::get( '/', 'BookController@BookShow' )->name( 'top.contact' );
 /**
  * 本の新規追加
  */
-Route::post( '/books', 'BookController@BookCreate' );
+Route::post( '/books', 'BookController@BookCreate' )->name( 'new_contact' );
 
 /**
  * 本の詳細を取得する

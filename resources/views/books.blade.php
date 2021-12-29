@@ -2,7 +2,7 @@
 @extends( 'layouts.app' )
 @section( 'content' )
   {{-- Bootstrapの定型コード --}}
-  <div class="card-body">
+  <div class="card-body" id="book-form">
     {{-- バリデーションエラーの表示に使用 --}}
     {{-- @include('common.errors') --}}
     {{-- バリデーションエラーの表示に使用 --}}
@@ -24,7 +24,7 @@
       @endphp
 
     {{-- 本登録フォーム --}}
-    <form enctype="multipart/form-data" action="{{url($url)}}" method="POST" class="form-horizontal">
+    <form enctype="multipart/form-data" action="{{url($url)}}" method="POST" class="form-horizontal" >
       @csrf
       @method ( $method )
       
@@ -33,7 +33,8 @@
 
       {{-- 本 登録ボタン --}}
       <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-6">
+        {{-- <div class="col-sm-offset-3 col-sm-6 imgbutton"> --}}
+        <div class="col-sm-offset-3 col-sm-6 ">
           <button type="submit" class="btn btn-primary">
             {{ $date_button }}
           </button>

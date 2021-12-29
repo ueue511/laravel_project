@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Hamcrest\Core\IsTypeOf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -38,7 +39,6 @@ class BookFormRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->sometimes('item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function($input){
-            ddd($input);
             return is_string($input->item_img) === false;
         });
         
@@ -84,9 +84,26 @@ class BookFormRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $this->merge(['validated' => 'true']);
+
+        !is_string($this->item_img)? $file = $this->item_img: $file='';  //imgファイルがある場合、file取得
+        
+        if (!empty($file)) {               //fileが空かチェック
+            $filename = $file->getClientOriginalName();  //ファイル名を取得
+            $target_path = public_path( 'temporary/' );
+            !file_exists($target_path . $filename)?$file->move($target_path, $filename): '';  //一時フォルダーにファイルを移動
+        } else {
+            $filename = $this->item_img;
+        }
+        
         // リダイレクト先
         throw new HttpResponseException (
-            redirect('/')->withInput($this->input)->withErrors($validator)->with(['message_id' => 'danger'])
+            redirect('/')
+            ->withInput( $this->input ) 
+            ->withErrors( $validator )
+            ->with([ 
+                'message_id' => 'danger', 
+                'filename' => $filename
+            ])
         );
     }
 }

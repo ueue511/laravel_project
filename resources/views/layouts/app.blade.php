@@ -30,8 +30,8 @@
     @if(session( 'message' ) && isset ( $book_name ) )
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
     
-    @elseif( session( 'message' ) && ( old( 'item_name' ) ) )
-      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ old( 'item_name' )}}の{{ session( 'message') }}</div>
+    @elseif( session( 'message' ) === '新規登録' )
+      <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{  session( 'old_itemname' ) }}の{{ session( 'message') }}</div>
     
     @elseif( session( 'message' ) === '記述に誤りがあります' )
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ session( 'message' ) }}</div>
