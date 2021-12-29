@@ -1,7 +1,6 @@
 <?php
 
-use App\Book;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,48 +21,7 @@ Route::get( '/', 'BookController@BookShow' )->name( 'top.contact' );
 /**
  * 本の新規追加
  */
-Route::post( '/books', 'BookController@BookCreate' );
-// Route::post('/books', function( Request $request ) {
-//     // バリデーション
-//     $validator = Validator::make ( 
-//         $request->all(), [ 
-//             'item_name'=>'bail|required|between:3, 255', 
-//             'item_number'=>'bail|required|integer|digits_between:1,3', 
-//             'item_amount'=>'bail|required|integer|digits_between:1,6', 
-//             'published'=>'bail|required|date|before:today', 
-//         ],
-//         // バリデーション オリジナルコメント
-//         [
-//             'item_name.required' => 'タイトルを入力してください',
-//             'item_name.between' => 'タイトルは３文字〜255以内で入力してください',
-//             'item_number.required' => '冊数を入力してください',
-//             'item_number.integer' => '半角数字で入力してください',
-//             'item_number.digits_between' => '999以内で入力してください',
-//             'item_amount.required' => '金額を入力してください',
-//             'item_amount.integer' => '半角数字で入力してください',
-//             'item_amount.digits_between' => '￥999999以内で入力してください',
-//             'published.required' => '本公開日を指定してください',
-//             'published.before' => '本日から以前の年月日を指定してください',
-//         ],
-//     );
-    
-//     // バリデーション：エラー
-//     if( $validator->fails() ) {
-//         return redirect( '/' )
-//           ->withInput()
-//           ->withErrors( $validator );
-//     };
-
-//     // Eloquentモデル (登録処理)
-//     $books = new Book;
-//     $books->item_name = $request->item_name;
-//     $books->item_number = $request->item_number;
-//     $books->item_amount = $request->item_amount;
-//     $books->published = $request->published;
-//     $books->save();
-//     $request->session()->flash('message', '新規登録');
-//     return redirect( '/' )->withInput();
-// } );
+Route::post( '/books', 'BookController@BookCreate' )->name( 'new_contact' );
 
 /**
  * 本の詳細を取得する
@@ -83,7 +41,49 @@ Route::put( '/book/{book}', 'BookController@BookAdd');
 
 Route::delete( '/book/{book}/delete', 'BookController@BookDelete' );
 
-
+/**
+ * Auth
+ */
 Auth::routes();
 
-Route::get( '/home', 'HomeController@index' )->name( 'home' );
+Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
+
+
+
+/**
+ * vueでのページ表示
+ */
+// ログインのtopページ
+Route::get( '/stackerwith/', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
+
+// 詳細ページを表示
+Route::get('/stackerwith/detail/{book_id}', 'StackedWiteBooks@BookDetail')->name('stacked.detail');
+
+// ログイン前のtopページ
+Route::get('/stackerwith/home', 'StackedWithBooksBefore@BookShowBefore')->name('stacked.before.home');
+
+
+// おすすめの本を表示
+Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
+
+// 最近、コメントがあった本の取得、
+Route::get( 'ajax/newcomment', 'Ajax\BooklistController@NewComments' );
+
+// tagを取得
+Route::get( 'ajax/tags', 'Ajax\TagsController@index' );
+
+// 検索結果を取得
+Route::post( 'ajax/search', 'Ajax\SearchController@app' );
+
+//ブックマーク機能
+Route::post( 'ajax/goodup', 'Ajax\GoodsController@GoodUp' );
+Route::post( 'ajax/gooddown', 'Ajax\GoodsController@GoodDown' );
+
+//いいね機能
+Route::post( 'ajax/petup', 'Ajax\PetController@PetUp' );
+Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
+
+// コメントを保存
+Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
+
+// Route::get( '/stackerwith/{any}', 'BookController@BookShowTest' )->where('any', '.*');

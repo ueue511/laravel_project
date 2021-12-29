@@ -36,4 +36,44 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The attributes that are gureded
+     * @var array
+     */
+    protected $guarded = [
+        'role'
+    ];
+
+    /**
+     * book_user_good使用
+     */
+    public function GoodsBooks()
+    {
+        return $this->belongsToMany( 'App\Book', 'book_user_good' )->withTimestamps();
+    }
+
+    /**
+     * book_user_pet使用
+     */
+    public function PetsBooks()
+    {
+        return $this->belongsToMany( 'App\Book', 'book_user_pet' )->withTimestamps();
+    }
+
+    /**
+     * book_user_comment使用
+     */
+    // public function CommentsBooks()
+    // {
+    //     return $this->belongsToMany( 'App\Book', 'book_user_comment' )->withPivot( 'comment' );
+    // }
+
+    /**
+     * comment使用
+     */
+    public function comments()
+    {
+        return $this->morphToMany('App\Comment', 'commentables');
+    }
 }

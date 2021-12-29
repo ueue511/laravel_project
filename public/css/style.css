@@ -1,10 +1,26 @@
 @charset "UTF-8";
 
 .alert-orignal {
-  position: absolute;
+  position: absolute !important;
   z-index: 999;
   text-align: center;
   width: 80%;
   left: calc((20%) / 2);
   opacity: 0.9;
+}
+
+.custom-file {
+  overflow: hidden;
+}
+.custom-file-label {
+  white-space: nowrap;
+}
+
+.title {
+  margin-left: 20px;
+  font-size: 18px;
+}
+
+.content {
+  background-color: #fffffb;
 }
