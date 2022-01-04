@@ -25,7 +25,7 @@
     RewriteRule ^ index.php [L]
 
     # index.php非表示
-    RewriteCond %{THE_REQUEST} ^.*/index.(html|htm|php)
+    RewriteCond %{REQUEST_URI} ^.*/index.(html|htm|php)
     RewriteRule ^(.*)index.(html|htm|php)$ https://%{HTTP_HOST}/$1 
     [R=301,L]
 
