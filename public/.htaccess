@@ -26,8 +26,9 @@
     # RewriteRule ^ index.php [L]
 
     # index.php非表示
-    RewriteCond %{REQUEST_FILENAME}\.php -f
-    RewriteRule ^(.*)$ $1.php
+    RewriteCond %{THE_REQUEST} ^.*/index.(html|htm|php)
+    RewriteRule ^(.*)index.(html|htm|php)$ https://%{HTTP_HOST}/$1 
+    [R=301,L]
 
     # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
