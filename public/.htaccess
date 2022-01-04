@@ -22,12 +22,15 @@
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # RewriteRule ^ index.php [L]
+
+    # index 非表示
+    RewriteRule ^(.*)$ /index.php?/$1 [L]
 
     # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
     RewriteCond %{HTTP:X-Forwarded-Proto} =""
     RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://%{HTTP_HOST} [L,R=301]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
 </IfModule>
