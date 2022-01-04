@@ -20,13 +20,13 @@
     RewriteRule ^ %1/ [L,R=301]
 
     # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteRule ^ index.php [L]
 
     # index.php非表示
     RewriteCond %{THE_REQUEST} ^.*/index.php
-    RewriteRule ^(.*)index.php https://%{HTTP_HOST}/$1 [L,R=301]
+    RewriteRule ^(.*)index.php$ https://%{HTTP_HOST}/$1 [L,R=301]
 
     # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
