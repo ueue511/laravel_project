@@ -21,11 +21,13 @@
 
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
+
+    # RewriteCond %{REQUEST_FILENAME} !-f
     # RewriteRule ^ index.php [L]
 
-    # index 非表示
-    RewriteRule ^(.*)$ /index.php?/$1 [L]
+    # index.php非表示
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php
 
     # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
