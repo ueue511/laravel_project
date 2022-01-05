@@ -20,9 +20,10 @@
     RewriteRule ^ %1/ [L,R=301]
 
     # Handle Front Controller...
-    # RewriteCond %{REQUEST_FILENAME} !-d
-    # RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
     # RewriteRule ^ index.php [L]
+    RewriteRule (.*)index.php/$1
 
     # index.php非表示
     # RewriteCond %{THE_REQUEST} ^.*/index.php
