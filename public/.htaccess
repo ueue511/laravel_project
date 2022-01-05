@@ -24,8 +24,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
 
     # index.php非表示
-    RewriteCond %{THE_REQUEST} ^.*/index.php
-    RewriteRule ^(.*)index.php/$ https://%{HTTP_HOST}/$1/ [L,R=301]
+    # RewriteCond %{THE_REQUEST} ^.*/index.php
+    # RewriteRule ^(.*)index.php/$ https://%{HTTP_HOST}/$1/ [L,R=301]
     RewriteRule ^ index.php [L]
 
     # https
