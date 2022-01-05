@@ -27,8 +27,8 @@
     # RewriteRule (.*)$ index.php?pathinfo=$1&%{QUERY_STRING}
 
     # index.php非表示
-    # RewriteCond %{THE_REQUEST} ^.*/index.php
-    # RewriteRule ^(.*)index.php/$ https://%{HTTP_HOST}/$1/ [L,R=301]
+    RewriteCond %{THE_REQUEST} ^.*/index.php
+    RewriteRule ^(.*)index.php/?(.*)$ https://%{HTTP_HOST}/$1$2 [L,R=301]
 
     # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
