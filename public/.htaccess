@@ -31,12 +31,9 @@
     RewriteRule ^(.*)index.php/?(.*)$ https://%{HTTP_HOST}/$1/$2 [L,R=301]
 
     # https
-    # RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
-    # RewriteCond %{HTTP:X-Forwarded-Proto} =""
-    # RewriteCond %{HTTPS} !=on
-    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-    RewriteCond %{HTTPS} off
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=300,L] 
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =""
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
 </IfModule>
