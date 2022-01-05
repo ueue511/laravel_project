@@ -30,7 +30,7 @@
     RewriteCond %{THE_REQUEST} ^.*/index.php
     RewriteRule ^(.*)index.php/?(.*)$ https://%{HTTP_HOST}/$1/$2 [L,R=301]
 
-    https
+    # https
     RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
     RewriteCond %{HTTP:X-Forwarded-Proto} =""
     RewriteCond %{HTTPS} !=on
