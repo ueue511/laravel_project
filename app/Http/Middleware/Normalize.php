@@ -57,10 +57,11 @@ class Normalize
         $basename = $matches[2] ?? '';
 
         // パス末尾に / を追加
-        if ($basename !== '' && mb_strpos($basename, '.') === false) {
-            $dirname .= $basename . '/';
-            $basename = '';
-        }
+        // if ($basename !== '' && mb_strpos($basename, '.') === false) {
+        //     $dirname .= $basename . '/';
+        //     $basename = '';
+        // }
+        
         // index.* を削除
         $basename = preg_replace('/^index\.(.*)/', '', $basename);
         // パスの // -> / 置き換え
