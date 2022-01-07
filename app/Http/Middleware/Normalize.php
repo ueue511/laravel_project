@@ -17,6 +17,7 @@ class Normalize
     {
         $url = $_SERVER['REQUEST_URI']; // PHP 標準のリクエストを使用
         $normalized = $this->normalize($url);
+        ddd('normalized:' . $normalized, 'url:' . $url);
         if ($url != $normalized) {
             header('Location: ' . $normalized, true, 301); // PHP 標準のリダイレクトを使用
             exit();
