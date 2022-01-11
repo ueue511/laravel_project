@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * 本の一覧表示（books.blade.php） 
  */
-Route::get( '/', 'BookController@BookShow' )->name( 'top.contact' );
+Route::get( '/admin', 'BookController@BookShow' )->name( 'top.contact' );
 
 /**
  * 本の新規追加
@@ -26,19 +26,16 @@ Route::post( '/books', 'BookController@BookCreate' )->name( 'new_contact' );
 /**
  * 本の詳細を取得する
  */
-
-Route::get( '/book/{book}', 'BookController@BookMake')->name('add_contact');
+Route::get( '/admin/book/{book}', 'BookController@BookMake' )->name('add_contact');
 
 /**
  * 本の詳細の変更を保存
  */
-
-Route::put( '/book/{book}', 'BookController@BookAdd');
+Route::put( '/admin/book/{book}', 'BookController@BookAdd' );
 
 /**
  * 本を削除する
  */
-
 Route::delete( '/book/{book}/delete', 'BookController@BookDelete' );
 
 /**
@@ -54,13 +51,13 @@ Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
  * vueでのページ表示
  */
 // ログインのtopページ
-Route::get( '/stackerwith/', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
+Route::get( '/book', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
 
 // 詳細ページを表示
-Route::get('/stackerwith/detail/{book_id}', 'StackedWiteBooks@BookDetail')->name('stacked.detail');
+Route::get('/detail/{book_id}', 'StackedWiteBooks@BookDetail')->name('stacked.detail');
 
 // ログイン前のtopページ
-Route::get('/stackerwith/home', 'StackedWithBooksBefore@BookShowBefore')->name('stacked.before.home');
+Route::get('/', 'StackedWithBooksBefore@BookShowBefore')->name('stacked.before.home');
 
 
 // おすすめの本を表示
@@ -85,5 +82,3 @@ Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
 
 // コメントを保存
 Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
-
-// Route::get( '/stackerwith/{any}', 'BookController@BookShowTest' )->where('any', '.*');
