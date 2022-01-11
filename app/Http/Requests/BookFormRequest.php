@@ -36,15 +36,15 @@ class BookFormRequest extends FormRequest
     }
     
     // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　
-    public function withValidator(Validator $validator)
+    public function withValidator( Validator $validator )
     {
-        $validator->sometimes('item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function($input){
-            return is_string($input->item_img) === false;
+        $validator->sometimes( 'item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function( $input ){
+            return is_string( $input->item_img ) === false;
         });
         
         $validator->sometimes('item_img', 'bail|required',
-        function($input){
-            return is_string($input->item_img) === true;
+        function( $input ){
+            return is_string( $input->item_img ) === true;
         });
     }
     
@@ -81,28 +81,31 @@ class BookFormRequest extends FormRequest
      * 勝手にリダイレクトさせない
      * @param  \Illuminate\Contracts\Validation\Validator  $validator
      */
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation( Validator $validator )
     {
-        $this->merge(['validated' => 'true']);
+        $this->merge( ['validated' => 'true'] );
 
-        !is_string($this->item_img)? $file = $this->item_img: $file='';  //imgファイルがある場合、file取得
+        !is_string( $this->item_img )? $file = $this->item_img: $file='';  //imgファイルがある場合、file取得
         
-        if (!empty($file)) {               //fileが空かチェック
+        if ( !empty($file) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
             $target_path = public_path( 'temporary/' );
-            !file_exists($target_path . $filename)?$file->move($target_path, $filename): '';  //一時フォルダーにファイルを移動
+            !file_exists( $target_path . $filename )?$file->move( $target_path, $filename ): '';  //一時フォルダーにファイルを移動
         } else {
             $filename = $this->item_img;
         }
         
+        $this->_method === 'post' ? $redirectUrl = '/admin': $redirectUrl =
+        $_SERVER['REQUEST_URI'];
+
         // リダイレクト先
         throw new HttpResponseException (
-            redirect('/')
+            redirect( $redirectUrl )
             ->withInput( $this->input ) 
             ->withErrors( $validator )
             ->with([ 
                 'message_id' => 'danger', 
-                'filename' => $filename
+                'filename' => $filename,
             ])
         );
     }

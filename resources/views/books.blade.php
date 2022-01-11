@@ -8,32 +8,32 @@
     {{-- バリデーションエラーの表示に使用 --}}
 
     {{-- book_one(詳細内容)の有無により表示内容を変更 --}}
+    {{-- @php ddd(gettype($book_one)); @endphp --}}
       @php if ( isset ( $book_one ) ) {
         if ( gettype($book_one) === 'object') {
-          $url = ( 'book/'.$book_one->id );
+          $url = ( '/admin/book/'. $book_one->id );
         } elseif ( gettype($book_one) === 'array') {
-          $url = ( 'book/'.$book_one[0]->id );
+          $url = ( '/admin/book/'. $book_one[0]->id );
         }
         $date_button = 'add';
-        $method = 'PUT';
+        $method = 'put';
       } else {
         $url = 'books';
         $date_button = 'save';
-        $method = 'POST';
+        $method = 'post';
       };
       @endphp
 
     {{-- 本登録フォーム --}}
-    <form enctype="multipart/form-data" action="{{url($url)}}" method="POST" class="form-horizontal" >
+    <form enctype="multipart/form-data" action="{{ url($url) }}" method="POST" class="form-horizontal">
       @csrf
-      @method ( $method )
+      @method( $method )
       
       {{-- 本のinput --}}
       @include('layouts.inc.input')
 
       {{-- 本 登録ボタン --}}
       <div class="form-group">
-        {{-- <div class="col-sm-offset-3 col-sm-6 imgbutton"> --}}
         <div class="col-sm-offset-3 col-sm-6 ">
           <button type="submit" class="btn btn-primary">
             {{ $date_button }}
@@ -78,7 +78,7 @@
                 };
               @endphp
               <td>
-                <form action="{{url( 'book/'.$book->id )}}" method="GET">
+                <form action="{{url( 'admin/book/'.$book->id )}}" method="GET">
                   @csrf                {{-- CSRFからの保護 --}}
                   @method( 'GET' )  {{-- 擬似フォームメソッド --}}
                   <button type="submit" class="btn btn-danger alert-pop" {{ $click_off }}>

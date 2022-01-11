@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let $html = "";
   
   session_js['session'] !== '' ? item = JSON.parse(sessionStorage.getItem("set_img")) : sessionStorage.removeItem("set_img");
-  
+
   if (item) {
     $html = ['<div class="d-inline-block mr-1 mt-4 ml-3"><img class="img-thumbnail" src="', item.img, '" title="', item.name, '" style="height:100px;" /><div class="small text-muted text-center">', item['name'], '</div></div>'].join('');
 
@@ -35,12 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // }).fail(function (xhr, status, error) {
     //   crossOriginIsolated.log(status + ':' + error)
     // });
-    // console.log(...formdata.entries())
-
   } else {
     $html = '';
   }
-})
+});
 
 // inputに画像を入力したときの処理
 $('.custom-file-input').on('change', handleFileSelect);
@@ -96,7 +94,6 @@ $('#inputFile_add').on({
   },
   'mouseleave': function () {
     const file = $('#inputFile_add')[0].files[0];
-    console.log(file)
     if (file !== undefined) {
       ;
     } else {

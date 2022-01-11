@@ -116,7 +116,7 @@ class BookController extends Controller
         
         if( !empty( $file ) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
-            file_exists($target_path_temporary  . $filename) ? File::delet($target_path, $filename) : '';
+            file_exists($target_path_temporary . $filename) ? File::delete($target_path, $filename) : '';
             $file->move( $target_path, $filename );  //ファイルを移動
             
         } else {
@@ -146,15 +146,15 @@ class BookController extends Controller
 
         $request->session()->flash( 'message_id', 'create' );
         
-        return redirect( '/' )->withInput();
+        return redirect( '/admin' )->withInput();
     }
     //  
     /**
      * 本の詳細を表示
      */
     
-    public function BookMake( Request $request, Book $book ) {
-        
+    public function BookMake( Request $request, Book $book ) 
+    {
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
         $tags = Tag::all();
         
@@ -170,7 +170,6 @@ class BookController extends Controller
         $alert = 'alert-info';
         $request->session()->flash( 'message', '詳細を表示' );
 
-        // ddd('2' . $book_one[0]) //詳細ボタン;
         
         return view( 'books' )->with([ 
             'books' => $books,
@@ -243,8 +242,6 @@ class BookController extends Controller
         
         $alert = 'alert-warning';
         $request->session()->flash( 'message', '詳細を変更' );
-
-        // ddd('3' . $book_one); //詳細を変更
         
         return view( 'books' )->with ([
             'books' => $books,
@@ -266,7 +263,7 @@ class BookController extends Controller
         $book->Tags()->detach();
         $book->delete();
         $request->session()->flash( 'message_id', 'delete' );
-        return redirect('/');
+        return redirect('/admin');
     }
 
     /**

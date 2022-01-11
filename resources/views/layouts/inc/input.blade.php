@@ -33,7 +33,7 @@ $array = array (
     <div>
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red'; @endphp
-        @foreach ( $errors->$key->get() as $error ) 
+        @foreach ( $errors->get($key) as $error ) 
           <div style="color: red;">{{ $error }}</div>
         @endforeach
       @endif
@@ -48,7 +48,7 @@ $array = array (
 
       @if ( $key != 'item_img' and $key != 'book_tag')
         <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $value_one }}" style={{ $validate_line }}>
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $errors->get($key)? old($value_one) : $value_one }}" style={{ $validate_line }}>
         </div>
 
       @elseif( $key === 'book_tag')
@@ -63,16 +63,30 @@ $array = array (
         {{-- file追加 --}}
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ session('filename') ?? '' }}" data-session={{ session('filename') }}>
+            <input 
+              type="text" 
+              class="custom-file-input" 
+              id="inputFile_add" 
+              name='item_img'
+　　　　　　    value="{{ session('filename') ?? '' }}"
+              data-session={{ session('filename') }}
+            >
             <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
-        <span id='group-show'>
-          <div class="d-inline-block mr-1 mt-4 ml-3">
-            <img class="img-thumbnail" src="{{ asset ( 'update/'. $booklist['item_img'] ) }}" title={{ $booklist['item_img'] }} style="height:100px;" />
-            <div class="small text-muted text-center">{{ $booklist['item_img'] }}</div>
-          </div>
-        </span>
+        @if ( count($errors) === 0 )
+          <span id='group-show'>
+            <div class="d-inline-block mr-1 mt-4 ml-3">
+              <img 
+                class="img-thumbnail" 
+                src="{{ session('filename')? asset( 'update/'. session('filename') ): asset( 'update/'. $booklist['item_img'] ) }}" 
+                title={{ $booklist['item_img'] }} 
+                style="height:100px;" 
+              />
+              <div class="small text-muted text-center">{{ $booklist['item_img'] }}</div>
+            </div>
+          </span>
+        @endif
       @endif
     </div>
   @endforeach
@@ -117,8 +131,19 @@ $array = array (
 
         <div class="input-group col-sm-8">
           <div class="custom-file">
-            <input type="text" class="custom-file-input" id="inputFile_add" name='item_img' value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}">
-            <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>画像を選択してください</label>
+            <input 
+              type="text" 
+              class="custom-file-input" 
+              id="inputFile_add" 
+              name='item_img' 
+              value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}" 
+            >
+            <label 
+              class="custom-file-label" 
+              for="inputFile_add" 
+              data-browse="参照" 
+              style={{ $validate_line }}
+            >画像を選択してください</label>
           </div>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset" style={{ $validate_line }}>取消</button>

@@ -42,7 +42,7 @@
               >
                 {{ CommentSlice( commentlist.comment ) }}
               </p>
-              <a v-bind:href="'/stackerwith/detail/'+book.id" class="btn btn-primary text-btn result_botton">詳細</a>
+              <a v-bind:href="'/detail/'+book.id" class="btn btn-primary text-btn result_botton">詳細</a>
             </div>
           </div>
         </div>
