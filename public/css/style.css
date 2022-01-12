@@ -24,3 +24,13 @@
 .content {
   background-color: #fffffb;
 }
+
+@media screen and ( min-width: 1024px ){
+  .content {
+    width: 60%;
+    margin: 0 auto;
+    box-shadow: -10px 10px 25px rgba(250, 238, 209, 0.9),
+      10px -10px 25px rgba(196, 233, 250, 0.9);
+
+  }
+}
