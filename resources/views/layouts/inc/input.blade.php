@@ -20,6 +20,8 @@ $array = array (
   else {
     $booklist = $book_one[0];
   }
+  // 上書き保存のadd 画像inputタブの判別に使用
+  $input_type = 'add';
   @endphp
 
   {{-- formの繰り返し 上書き保存--}}
@@ -68,13 +70,14 @@ $array = array (
               class="custom-file-input" 
               id="inputFile_add" 
               name='item_img'
-　　　　　　    value="{{ session('filename') ?? '' }}"
+　　　　　　    value="{{ session('filename') ?? $booklist['item_img'] }}"
               data-session={{ session('filename') }}
+              input_type = {{ $input_type }}
             >
             <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
           </div>
         </div>
-        @if ( count($errors) === 0 )
+
           <span id='group-show'>
             <div class="d-inline-block mr-1 mt-4 ml-3">
               <img 
@@ -86,7 +89,7 @@ $array = array (
               <div class="small text-muted text-center">{{ $booklist['item_img'] }}</div>
             </div>
           </span>
-        @endif
+
       @endif
     </div>
   @endforeach
@@ -95,7 +98,7 @@ $array = array (
   {{-- 新規登録 --}}
 
 @else
-
+  @php $input_type = 'new'; @endphp
   {{-- formの繰り返し --}}
 
   @foreach ($array as $key => $value)
@@ -135,8 +138,9 @@ $array = array (
               type="text" 
               class="custom-file-input" 
               id="inputFile_add" 
-              name='item_img' 
-              value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}" 
+              name='item_img'
+              value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}"
+              input_type = {{ $input_type }}
             >
             <label 
               class="custom-file-label" 

@@ -116,7 +116,7 @@ class BookController extends Controller
         
         if( !empty( $file ) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
-            file_exists($target_path_temporary . $filename) ? File::delete($target_path, $filename) : '';
+            file_exists($target_path_temporary . $filename) ? \File::delete($target_path. $filename) : '';
             $file->move( $target_path, $filename );  //ファイルを移動
             
         } else {
@@ -194,7 +194,7 @@ class BookController extends Controller
             $filename = $file->getClientOriginalName();  //ファイル名を取得
             $target_path = public_path('update/');
             $target_path_temporary = public_path('temporary/');
-            file_exists($target_path_temporary  . $filename)? Storage::delet($target_path, $filename) : '';
+            file_exists($target_path_temporary  . $filename)? \File::delete($target_path_temporary. $filename) : '';
             $file->move($target_path, $filename);  //ファイルを移動
 
         } else {
