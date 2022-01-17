@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BookFormRequest;
-use Storage;
 
 use App\Book;
 use App\Tag;
 use Auth;
 use File;
+
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BookController extends Controller
 {
@@ -42,7 +43,6 @@ class BookController extends Controller
             $old_itemname = old('item_name');
             
             $request->session()->forget('_old_input');
-            // ddd($request->session()->all());
             $request->session()->flash('message', '新規登録');
             $request->session()->flash('old_itemname', $old_itemname);
 
@@ -112,21 +112,17 @@ class BookController extends Controller
         // 画像保存
         $file = $request->file( 'item_img' ); //file取得
         $target_path_temporary = public_path('temporary/');
-        $target_path = public_path('update/');
         
         if( !empty( $file ) ) {               //fileが空かチェック
+            $uploaded_img = Cloudinary::upload( $file->getRealPath() );
             $filename = $file->getClientOriginalName();  //ファイル名を取得
-            file_exists($target_path_temporary . $filename) ? \File::delete($target_path. $filename) : '';
-            $file->move( $target_path, $filename );  //ファイルを移動
-            
         } else {
             $filename = $request->item_img;
             $temporary_files = File::files($target_path_temporary);
             foreach($temporary_files as $file) {
-                $file->getfileName() === $filename? File::move( $target_path_temporary . $filename, $target_path . $filename):'';
-                File::delete( $target_path_temporary, $filename);
+                $file->getfileName() === $filename? $uploaded_img = Cloudinary::upload($file->getRealPath()): '';
+                \File::delete( $target_path_temporary. $filename);
             }
-            
         }
         
         // Eloquentモデル (登録処理)
@@ -134,8 +130,10 @@ class BookController extends Controller
         $books->user_id = Auth::user()->id;
         $books->item_name = $request->item_name;
         $books->item_amount = $request->item_amount;
-        $books->item_img = $filename;
+        $books->item_img = $uploaded_img->getSecurePath();
         $books->published = $request->published;
+        $books->public_id = $uploaded_img->getPublicId();
+        $books->img_name = $filename;
         $books->save();
 
         $tags = $request->book_tag;
@@ -167,9 +165,15 @@ class BookController extends Controller
         foreach($tag as $value){
             array_push($book_tag, $value['id']);
         }
-        $alert = 'alert-info';
-        $request->session()->flash( 'message', '詳細を表示' );
-
+        
+        // 詳細の変更でのvalidationにかかった場、このcontrollerを通りalert判定が必要なため
+        if (session('message') === 'validationError') {
+            $alert = 'alert-danger';
+            $request->session()->flash('message', '記述に誤りがあります');
+        } else {
+            $alert = 'alert-info';
+            $request->session()->flash( 'message', '詳細を表示' );
+        }
         
         return view( 'books' )->with([ 
             'books' => $books,
@@ -189,23 +193,38 @@ class BookController extends Controller
      public function BookAdd( BookFormRequest $request, Book $book ) 
      {
         // 画保保存
-        $file = $request->file('item_img'); //file取得
-        if (!empty($file)) {               //fileが空かチェック
+        $file = $request->file( 'item_img' ); //file取得
+        $target_path_temporary = public_path( 'temporary/' );
+        $public_id = $book->public_id;
+        if ( !empty( $file ) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
-            $target_path = public_path('update/');
-            $target_path_temporary = public_path('temporary/');
-            file_exists($target_path_temporary  . $filename)? \File::delete($target_path_temporary. $filename) : '';
-            $file->move($target_path, $filename);  //ファイルを移動
-
+            Cloudinary::destroy( $public_id ); //　cloudinaryの画像を削除
+            $upload_img = Cloudinary::upload( $file->getRealPath() );
+            file_exists( $target_path_temporary  . $filename )? \File::delete($target_path_temporary. $filename) : '';
+            $public_id = $upload_img->getPublicId(); // DBに入れる値
+            $item_img = $upload_img->getSecurePath();
+            $published = $request->published . " 00:00:00";
         } else {
             $filename = $request->item_img;
+            $item_img = $book->item_img;
+            $published = $request->published . " 00:00:00";
         }
+
+        // $book->item_name = $request->item_name;
+        // $book->item_amount = $request->item_amount;
+        // $book->img_name = $filename;
+        // $book->published = $published;
+        // $book->item_img = $item_img;
+        // $book->public_id = $public_id;
+        // $book->save();
         
         $book->update([
             'item_name' => $request->item_name,
             'item_amount' => $request->item_amount,
-            'item_img'  => $filename,
-            'published' => $request->published . " 00:00:00"
+            'img_name' => $filename,
+            'published' => $published,
+            'item_img'  => $item_img,
+            'public_id' => $public_id,
         ]);
 
         // $book_one_tags: 現在のbookのタグ一覧
@@ -260,26 +279,11 @@ class BookController extends Controller
     public function BookDelete( Request $request, Book $book ) 
     {
         $request->session()->flash( 'back_name', $book->item_name );
+        $public_id = $book->public_id;
         $book->Tags()->detach();
+        Cloudinary::destroy($public_id);
         $book->delete();
         $request->session()->flash( 'message_id', 'delete' );
         return redirect('/admin');
     }
-
-    /**
-     * 本の画像処理
-     */
-   public function BookImgMake( $file, $request, $add )
-    {
-        if (!empty($file)) {               //fileが空かチェック
-            $filename = $file->getClientOriginalName();  //ファイル名を取得
-            $target_path = public_path('update/');
-            $target_path_temporary = public_path('temporary/');
-            file_exists($target_path_temporary  . $filename) ? Storage::delet($target_path, $filename) : '';
-            $file->move($target_path, $filename);  //ファイルを移動
-
-        } else {
-            $add ? $filename = $request->item_img: $filename = '';
-        }
-   }
 }

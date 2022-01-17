@@ -70,11 +70,11 @@ $array = array (
               class="custom-file-input" 
               id="inputFile_add" 
               name='item_img'
-　　　　　　    value="{{ session('filename') ?? $booklist['item_img'] }}"
+　　　　　　    value="{{ session('filename') ?? $booklist['img_name'] }}"
               data-session={{ session('filename') }}
               input_type = {{ $input_type }}
             >
-            <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ $booklist['item_img'] }}</label>
+            <label class="custom-file-label" for="inputFile_add" data-browse="参照" style={{ $validate_line }}>{{ session( 'filename' ) ?? $booklist['img_name'] }}</label>
           </div>
         </div>
 
@@ -82,11 +82,11 @@ $array = array (
             <div class="d-inline-block mr-1 mt-4 ml-3">
               <img 
                 class="img-thumbnail" 
-                src="{{ session('filename')? asset( 'update/'. session('filename') ): asset( 'update/'. $booklist['item_img'] ) }}" 
-                title={{ $booklist['item_img'] }} 
+                src="{{ session( 'filename' )? asset( 'temporary/'. session('filename') ) : $booklist['item_img'] }}" 
+                title={{ $booklist['public_id'] }} 
                 style="height:100px;" 
               />
-              <div class="small text-muted text-center">{{ $booklist['item_img'] }}</div>
+              <div class="small text-muted text-center">{{ $booklist['img_name'] }}</div>
             </div>
           </span>
 

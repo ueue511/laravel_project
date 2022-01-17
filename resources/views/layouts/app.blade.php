@@ -27,6 +27,7 @@
 </head>
 <body>
     {{-- アラート表示 --}}
+    {{-- @php ddd(session('message')); @endphp --}}
     @if(session( 'message' ) && isset ( $book_name ) )
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
     

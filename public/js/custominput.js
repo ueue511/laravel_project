@@ -25,6 +25,7 @@ function handleFileSelect(evt) {
   $('span#group-show').hide(); //ファイルを変更したら消す
   $('#preview').remove();// 繰り返し実行時の処理
   $(this).parents('.input-group').after('<div id="preview"></div>');
+  sessionStorage.removeItem("set_img"); //session内容を消去
   
   var files = evt.target.files;
 
