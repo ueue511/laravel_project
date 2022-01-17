@@ -13,7 +13,7 @@
           <div class="card h-100" heigth="500">
             <img 
               class="card-img-top" 
-              :src="'/update/' + book.item_img" 
+              :src="book.item_img" 
               alt="Card image cap"
             />
               <div class="card-img-overlay">

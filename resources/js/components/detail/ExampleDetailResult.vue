@@ -4,7 +4,7 @@
       <div class="card-header bookcardtitle">{{ bookone.item_name }}</div>
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img class="card-img-top" :src="'/update/' + bookone.item_img" alt="Card image cap">
+            <img class="card-img-top" :src="bookone.item_img" alt="Card image cap">
           </div>
           <div class="col-md-7">
             <perfect-scrollbar>

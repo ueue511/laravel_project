@@ -64,7 +64,7 @@
               {{-- 本タイトル --}}
               <td class="table-text">
                 <div>{{ $book->item_name }}</div>
-                <div> <img src="{{ asset ( 'update/'. $book->item_img) }}" width="100" alt="no_img"></div>
+                <div> <img src="{{ $book['item_img']  }}" width="100" alt="no_img"></div>
               </td>
 
               {{-- 本：詳細ボタン --}}

@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use Illuminate\Http\Request;
+
 class BookFormRequest extends FormRequest
 { 
     /**
@@ -98,13 +100,14 @@ class BookFormRequest extends FormRequest
         $this->_method === 'post' ? $redirectUrl = '/admin': $redirectUrl =
         $_SERVER['REQUEST_URI'];
 
+        session()->flash( 'message', 'validationError' );
+
         // リダイレクト先
         throw new HttpResponseException (
             redirect( $redirectUrl )
             ->withInput( $this->input ) 
             ->withErrors( $validator )
             ->with([ 
-                'message_id' => 'danger', 
                 'filename' => $filename,
             ])
         );
