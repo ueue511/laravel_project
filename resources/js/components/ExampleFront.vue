@@ -44,7 +44,7 @@ import axios from "axios";
 
 <style scoped>
 .showbook_img_boby {
-  width: 400px;
+  width: 200px;
   height: 150px;
   object-fit: contain;
 }
