@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use BookDevelopSeeder;
+use TagTableSeeder;
 
-class SeederDeveloop extends Command
+class SeederDevelop extends Command
 {
     /**
      * The name and signature of the console command.
@@ -40,10 +40,9 @@ class SeederDeveloop extends Command
     {
         $this->info( 'seedrt-develop start' );
         
-        $this->call([
-            TagTableSeeder::class,
-            // BookDevelopSeeder::class
-        ]);
+        $this->call(
+            TagTableSeeder::class
+        );
 
         $this->info('seedrt-develop end');
     }
