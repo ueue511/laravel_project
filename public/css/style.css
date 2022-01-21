@@ -25,6 +25,10 @@
   background-color: #fffffb;
 }
 
+.reset_button {
+  margin-left: 4em;
+}
+
 @media screen and ( min-width: 1024px ){
   .content {
     width: 60%;
