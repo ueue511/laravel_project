@@ -6,9 +6,9 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <a href="http://(個別のコメント)">
+      <a :href="'/detail/'+list.id">
         <img 
-          :src="'/update/' + list.item_img"
+          :src="list.item_img"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
