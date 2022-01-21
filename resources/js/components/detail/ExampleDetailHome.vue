@@ -7,7 +7,7 @@
         </p>
       </div>
     </div>
-      <img class="home-img" :src="'/images/stacker_with_books_detail.png'" alt="home">
+      <img class="home-img" :src="'/images/stacker_with_books_detail.jpg'" alt="home">
   </div>
 </template>
 

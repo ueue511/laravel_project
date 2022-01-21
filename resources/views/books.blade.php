@@ -17,6 +17,7 @@
         }
         $date_button = 'add';
         $method = 'put';
+        $reset_button = 'reset';
       } else {
         $url = 'books';
         $date_button = 'save';
@@ -38,6 +39,11 @@
           <button type="submit" class="btn btn-primary">
             {{ $date_button }}
           </button>
+          @if( isset($reset_button) )
+            <a href={{ url($url) }} class="btn  btn-warning reset_button" role="button">
+              reset
+            </a>
+          @endif
         </div>
       </div>
     </form>
@@ -81,7 +87,7 @@
                 <form action="{{url( 'admin/book/'.$book->id )}}" method="GET">
                   @csrf                {{-- CSRFからの保護 --}}
                   @method( 'GET' )  {{-- 擬似フォームメソッド --}}
-                  <button type="submit" class="btn btn-danger alert-pop" {{ $click_off }}>
+                  <button type="submit" class="btn btn-info alert-pop" {{ $click_off }}>
                     {{ $button_name }}
                   </button>
                 </form>

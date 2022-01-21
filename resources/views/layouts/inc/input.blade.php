@@ -36,7 +36,7 @@ $array = array (
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red'; @endphp
         @foreach ( $errors->get($key) as $error ) 
-          <div style="color: red;">{{ $error }}</div>
+          <div id="error_{{ $key }}" style="color: red;">{{ $error }}</div>
         @endforeach
       @endif
     </div>
@@ -50,7 +50,7 @@ $array = array (
 
       @if ( $key != 'item_img' and $key != 'book_tag')
         <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $errors->get($key)? old($value_one) : $value_one }}" style={{ $validate_line }}>
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ $errors->get($key)? old($value_one) : $value_one }}" style="{{ $validate_line }}">
         </div>
 
       @elseif( $key === 'book_tag')
@@ -70,7 +70,7 @@ $array = array (
               class="custom-file-input" 
               id="inputFile_add" 
               name='item_img'
-　　　　　　    value="{{ session('filename') ?? $booklist['img_name'] }}"
+              value="{{ session('filename') ?? $booklist['img_name'] }}"
               data-session={{ session('filename') }}
               input_type = {{ $input_type }}
             >
@@ -82,7 +82,7 @@ $array = array (
             <div class="d-inline-block mr-1 mt-4 ml-3">
               <img 
                 class="img-thumbnail" 
-                src="{{ session( 'filename' )? asset( 'temporary/'. session('filename') ) : $booklist['item_img'] }}" 
+                src="{{ session( 'filename' ) && session( 'filename' ) !== $booklist['img_name'] ? asset( 'temporary/'. session('filename') ) : $booklist['item_img'] }}" 
                 title={{ $booklist['public_id'] }} 
                 style="height:100px;" 
               />
@@ -111,7 +111,7 @@ $array = array (
       @if ( $errors->first( $key ) )
         @php $validate_line = 'border-color:red' @endphp
         @foreach($errors->get( $key ) as $error)
-          <div style="color: red;">{{ $error }}</div>
+          <div id="error_{{ $key }}" style="color: red;">{{ $error }}</div>
         @endforeach
       @endif
     </div>
@@ -120,7 +120,7 @@ $array = array (
       {{-- form本体 画面移管後も入力した内容は保持 --}}
       @if ( $key != 'item_img' and $key != 'book_tag')
         <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }} >
         </div>
         
       @elseif( $key === 'book_tag')

@@ -40,7 +40,7 @@ class BookFormRequest extends FormRequest
     // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　
     public function withValidator( Validator $validator )
     {
-        $validator->sometimes( 'item_img', 'bail|required|image|mimes:jpeg,png,jpg,gif', function( $input ){
+        $validator->sometimes( 'item_img', 'bail|required|max:1024|mimes:jpeg,png,jpg,gif|image', function( $input ){
             return is_string( $input->item_img ) === false;
         });
         
@@ -64,7 +64,8 @@ class BookFormRequest extends FormRequest
             'published.before' => '本日から以前の年月日を指定してください',
             'item_img.required' => '画像ファイルを選択してください',
             'item_img.image' => '画像ファイルを選択してください',
-            'item_img.mimes' => 'ファイル形式「jpeg,png,jpg,gif」から選択してください'
+            'item_img.mimes' => 'ファイル形式「jpeg,png,jpg,gif」から選択してください',
+            'item_img.max' => '画像容量が１Mを超えています'
             
         ];
     }
@@ -86,7 +87,6 @@ class BookFormRequest extends FormRequest
     protected function failedValidation( Validator $validator )
     {
         $this->merge( ['validated' => 'true'] );
-
         !is_string( $this->item_img )? $file = $this->item_img: $file='';  //imgファイルがある場合、file取得
         
         if ( !empty($file) ) {               //fileが空かチェック

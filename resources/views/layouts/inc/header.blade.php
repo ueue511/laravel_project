@@ -1,17 +1,3 @@
-    {{-- アラート表示 --}}
-    @if(session( 'message' ) && isset ( $book_name ) )
-      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}の{{ session( 'message') }}</div>
-    
-    @elseif( session( 'message' ) === '新規登録' )
-      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ session( 'old_itemname' ) }}の{{ session( 'message') }}</div>
-    
-    @elseif( session( 'message' ) === '記述に誤りがあります' )
-      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ session( 'message' ) }}</div>
-
-    @elseif( session( 'message' ) === '削除しました' )
-      <div class="{{ $alert }} alert-orignal " role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
-    @endif
-    {{--end アラート表示 --}}
     <div class="content">
     <header class="header">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -48,6 +34,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if ( Auth::user()->role === "admin" )
+                                    <a class="dropdown-item" href="{{ route('top.contact') }}">
+                                        管理画面
+                                    </a>
+                                @endif
                                     <a class="dropdown-item" href="{{ route('stacked.home') }}">
                                         詳細
                                     </a>

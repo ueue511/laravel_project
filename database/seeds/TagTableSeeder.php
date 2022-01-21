@@ -12,16 +12,16 @@ class TagTableSeeder extends Seeder
     public function run()
     {
         $bookstab = [
-            '総気',
-            '哲学',
-            '歴史',
-            '社会科学',
-            '自然科学',
-            '技術',
-            '産業',
-            '芸術',
-            '言語',
-            '文学'
+            '単行本',
+            '文庫',
+            '新書',
+            '全集・双書',
+            'ムック・その他',
+            '事・辞典',
+            '図鑑',
+            '絵本',
+            '磁性媒体など',
+            'コミック'
         ];
 
         $faker = Faker\Factory::create('ja_JP');

@@ -37,7 +37,7 @@ class BookController extends Controller
         $message_id = session( 'message_id' );
         $tags = Tag::all();
         
-        if( $message_id === 'create') {
+        if( $message_id === 'create' ) {
             $alert_type = 'alert-success';
             $book_one = Null;
             $old_itemname = old('item_name');
@@ -114,7 +114,15 @@ class BookController extends Controller
         $target_path_temporary = public_path('temporary/');
         
         if( !empty( $file ) ) {               //fileが空かチェック
-            $uploaded_img = Cloudinary::upload( $file->getRealPath() );
+
+            $uploaded_img = Cloudinary::upload( $file->getRealPath(), [
+                "height" => 800, 
+                "width" => 560,
+                "crop" => "lpad",
+                "border" => "20px_solid_rgb:ffffff",
+                "quality" => "auto",
+                ' fetch_format ' => "auto",
+            ] );
             $filename = $file->getClientOriginalName();  //ファイル名を取得
         } else {
             $filename = $request->item_img;
@@ -125,6 +133,9 @@ class BookController extends Controller
             }
         }
         
+        $public_id =$uploaded_img->getPublicId();
+        
+        
         // Eloquentモデル (登録処理)
         $books = new Book;
         $books->user_id = Auth::user()->id;
@@ -132,7 +143,7 @@ class BookController extends Controller
         $books->item_amount = $request->item_amount;
         $books->item_img = $uploaded_img->getSecurePath();
         $books->published = $request->published;
-        $books->public_id = $uploaded_img->getPublicId();
+        $books->public_id = $public_id;
         $books->img_name = $filename;
         $books->save();
 
@@ -209,14 +220,6 @@ class BookController extends Controller
             $item_img = $book->item_img;
             $published = $request->published . " 00:00:00";
         }
-
-        // $book->item_name = $request->item_name;
-        // $book->item_amount = $request->item_amount;
-        // $book->img_name = $filename;
-        // $book->published = $published;
-        // $book->item_img = $item_img;
-        // $book->public_id = $public_id;
-        // $book->save();
         
         $book->update([
             'item_name' => $request->item_name,
@@ -245,8 +248,8 @@ class BookController extends Controller
         // toggleでのonoff
         $book->Tags()->toggle($book_tag_array);
         
-        $request->session()->forget('back_id');
-        $books = Book::where('user_id', Auth::user()->id)->orderBy('created_at', 'asc')->paginate(3);
+        $request->session()->forget( 'back_id' );
+        $books = Book::where( 'user_id', Auth::user()->id)->orderBy( 'created_at', 'asc' )->paginate(3);
         $tags = Tag::all();
         $book_one = Book::find( $book->id );
         $book_id = $book->id;
