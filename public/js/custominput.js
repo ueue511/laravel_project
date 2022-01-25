@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // inputに画像を入力したときの処理
-$('.custom-file-input').on('change', handleFileSelect);
+$('.custom-file-input').on('change', HandleFileSelect);
 
 
-function handleFileSelect(evt) {
+function HandleFileSelect(evt) {
   $('span#group-show').hide(); //ファイルを変更したら消す
   $('#preview').remove();// 繰り返し実行時の処理
   $(this).parents('.input-group').after('<div id="preview"></div>');

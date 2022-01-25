@@ -13,8 +13,10 @@ import store from '../store/index';
 import Vue from 'vue';
 // import VueRouter from 'vue-router';
 
-
 require('./bootstrap');
+
+//jQyer-ajax用
+require('./')
 
 window.Vue = require('vue');
 // Vue.use(VueRouter)

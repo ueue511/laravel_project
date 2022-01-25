@@ -41,6 +41,7 @@ class BookFormRequest extends FormRequest
     public function withValidator( Validator $validator )
     {
         $validator->sometimes( 'item_img', 'bail|required|max:1024|mimes:jpeg,png,jpg,gif|image', function( $input ){
+
             return is_string( $input->item_img ) === false;
         });
         
