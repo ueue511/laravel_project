@@ -10,14 +10,13 @@ function SearchApi(search_text) {
     data: {
       'item_name': search_text
     },
-    dataType: 'json',
     timespan: 1000,
   }) // modal1(検索結果)の表示
     .done(function (data) {
       const html_all = []
 
       array_book = JSON.parse(data);
-      book_data = data;
+      book_data = array_book;
  
       for (let i = 0; i < array_book .length; i++) {
         $html_one = [
