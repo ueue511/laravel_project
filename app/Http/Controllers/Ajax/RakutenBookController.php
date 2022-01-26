@@ -38,7 +38,7 @@ class RakutenBookController extends Controller
                 }
             }
             $items_json = json_encode($items);
-            return response()->json($items_json);
+            return $items_json;
         } else {
             return 'Error:'.$response->getMessage();
         }
