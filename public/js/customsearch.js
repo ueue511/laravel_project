@@ -15,6 +15,7 @@ function SearchApi(search_text) {
   }) // modal1(検索結果)の表示
     .then(function (data) {
       const html_all = []
+      console.log(data);
       book_data = data;
  
       for (let i = 0; i < data.length; i++) {
