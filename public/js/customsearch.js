@@ -13,24 +13,25 @@ function SearchApi(search_text) {
     dataType: 'json',
     timespan: 1000,
   }) // modal1(検索結果)の表示
-    .then(function (data) {
+    .done(function (data) {
       const html_all = []
+
+      array_book = JSON.parse(data);
       book_data = data;
  
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < array_book .length; i++) {
         $html_one = [
-          '<div ><p book_no = ' + i + ' class="modal_result">・' + data[i].item_name + '</p></div>'
+          '<div ><p book_no = ' + i + ' class="modal_result">・' + array_book[i].item_name + '</p></div>'
         ];
         html_all.push($html_one);
       }
       $('#search_modal').append('<div class="modal_title_list">' + html_all.join('') + '</div>');
       $('#modal_titel_list').modal();
     })
-    .fail(function (jpXHR, xhr, err, errorThrown) {
+    .fail(function (jpXHR, xhr, err) {
       console.log('エラー');
       console.log(err);
       console.log(xhr);
-      console.log(errorThrown.message);
       console.log(jpXHR.status);
     });
   return false;
