@@ -10,9 +10,9 @@
     <title>Stacked-with-Books</title>
 
     <!-- Scripts -->
+    {{-- <script src="{{ asset('js/custominput.js') }}" defer></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/alert.js') }}" defer></script>
-    <script src="{{ asset('js/custominput.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/alert.js') }}" defer></script> --}}
     
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
     <!-- editorjs関連 -->
@@ -26,9 +26,6 @@
     <!-- scrollbar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue2-perfect-scrollbar@1.4.0/dist/vue2-perfect-scrollbar.css">
     <script src="https://cdn.jsdelivr.net/npm/vue2-perfect-scrollbar@1.4.0/dist/vue2-perfect-scrollbar.umd.min.js"></script>
-
-    <!-- lodash -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/throttle.js"></script> --}}
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

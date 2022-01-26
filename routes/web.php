@@ -82,3 +82,9 @@ Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
 
 // コメントを保存
 Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
+
+// 楽天API
+Route::post( 'ajax/rakutenbook', 'Ajax\RakutenBookController@RakutenBookSearch' )->name( 'rakuten.book.search' );
+
+// 楽天APIの詳細を入力
+Route::post( 'rakutenbook/admin', 'ModalBookController@Show' )->name( 'rakuten.book.show' );

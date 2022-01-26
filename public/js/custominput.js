@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // inputに画像を入力したときの処理
-$('.custom-file-input').on('change', handleFileSelect);
+$('.custom-file-input').on('change', HandleFileSelect);
 
 
-function handleFileSelect(evt) {
+function HandleFileSelect(evt) {
   $('span#group-show').hide(); //ファイルを変更したら消す
   $('#preview').remove();// 繰り返し実行時の処理
   $(this).parents('.input-group').after('<div id="preview"></div>');
@@ -48,7 +48,7 @@ function handleFileSelect(evt) {
       '<div style="color: red;" id="img_validation">画像容量が1Mを超えています</div>'
     ];
       return $('.custom-file-input').val(''),
-             $('.input-group').before($html),
+             $('.img-input').before($html),
              $('#inputFile_add').attr("value", ''),
              $('.custom-file-label').text('画像を選択してください');
 
@@ -121,4 +121,26 @@ $('.control-label').on('change', function () {
   $('#' + error_id).remove();
 })
 
+// APIの画像をlocalstarageに保存
+// $(function ModalImg() {
+//     let url = $('.img_modal').attr('src')
+//     let name = $('.img_title').val()
+//     let xhr = new XMLHttpRequest();
+//     xhr.open('GET', url, true);
+//     xhr.responseType = 'arraybuffer';
+//     xhr.onload = function (e) {
+//       // ArrayBufferで返ってくる
+//       console.log(this.response);
+//       const set_img = {
+//         name: name,
+//         type: 'jpg',
+//         img: this.response
+//       }
+    
+//       sessionStorage.setItem('set_img', JSON.stringify(set_img)); //セッションストレージに保存
+//     };
 
+//     xhr.send();
+// })
+
+// $('.modal_img').on('click', ModalImg())

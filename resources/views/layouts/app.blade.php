@@ -13,6 +13,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/alert.js') }}" defer></script>
     <script src="{{ asset('js/custominput.js') }}" defer></script>
+    <script src="{{ asset('js/customsearch.js') }}" defer></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 

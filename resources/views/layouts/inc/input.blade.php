@@ -63,7 +63,7 @@ $array = array (
         @endforeach
       @else
         {{-- file追加 --}}
-        <div class="input-group col-sm-8">
+        <div class="input-group col-sm-8 img-input">
           <div class="custom-file">
             <input 
               type="text" 
@@ -118,12 +118,21 @@ $array = array (
     <div class="form-group">
 
       {{-- form本体 画面移管後も入力した内容は保持 --}}
-      @if ( $key != 'item_img' and $key != 'book_tag')
+      @if ( $key != 'item_img' and $key != 'book_tag' and $key != 'item_name')
         <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }} >
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
         </div>
-        
-      @elseif( $key === 'book_tag')
+
+      @elseif ( $key === 'item_name' )
+        <div class="col-sm-7 input-group ">
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
+          <div class="text-right">
+            <label class="search-label" style="margin: 15px;">
+              <input type="checkbox" id="search_checkbox" style={{ $validate_line }}> Api検索
+            </label>
+          </div>
+        </div>
+      @elseif ( $key === 'book_tag')
         @foreach ( $tags as $key => $value )
           <label class="control-label" style="margin-left: 15px;">
             <input type="checkbox" name="book_tag[]" value="{{ $value['id'] }}" {{ in_array($value['id'], (array)old('book_tag') )? 'checked' : ''}}> {{ $value['tab'] }}
@@ -132,7 +141,7 @@ $array = array (
       @else
       {{-- file追加 --}}
 
-        <div class="input-group col-sm-8">
+        <div class="input-group col-sm-8 img-input">
           <div class="custom-file">
             <input 
               type="text" 
