@@ -15,7 +15,6 @@ function SearchApi(search_text) {
   }) // modal1(検索結果)の表示
     .then(function (data) {
       const html_all = []
-      console.log(data);
       book_data = data;
  
       for (let i = 0; i < data.length; i++) {
@@ -27,10 +26,12 @@ function SearchApi(search_text) {
       $('#search_modal').append('<div class="modal_title_list">' + html_all.join('') + '</div>');
       $('#modal_titel_list').modal();
     })
-    .fail(function (data, xhr, err) {
+    .fail(function (jpXHR, xhr, err, errorThrown) {
       console.log('エラー');
       console.log(err);
-      console.log(xhr)
+      console.log(xhr);
+      console.log(errorThrown.message);
+      console.log(jpXHR.status);
     });
   return false;
 }
