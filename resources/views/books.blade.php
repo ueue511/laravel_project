@@ -8,7 +8,6 @@
     {{-- バリデーションエラーの表示に使用 --}}
 
     {{-- book_one(詳細内容)の有無により表示内容を変更 --}}
-    {{-- @php ddd(gettype($book_one)); @endphp --}}
       @php if ( isset ( $book_one ) ) {
         if ( gettype($book_one) === 'object') {
           $url = ( '/admin/book/'. $book_one->id );
@@ -115,4 +114,7 @@
       </div>
     </div>
   @endif
+{{-- modal --}}
+@include('layouts.inc.modal')
+{{-- modal --}}
 @endsection

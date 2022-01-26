@@ -63,7 +63,7 @@ $array = array (
         @endforeach
       @else
         {{-- file追加 --}}
-        <div class="input-group col-sm-8">
+        <div class="input-group col-sm-8 img-input">
           <div class="custom-file">
             <input 
               type="text" 
@@ -132,13 +132,6 @@ $array = array (
             </label>
           </div>
         </div>
-        
-      {{-- modal --}}
-
-      @include('layouts.inc.modal')
-
-      {{-- modal --}}
-
       @elseif ( $key === 'book_tag')
         @foreach ( $tags as $key => $value )
           <label class="control-label" style="margin-left: 15px;">
@@ -148,7 +141,7 @@ $array = array (
       @else
       {{-- file追加 --}}
 
-        <div class="input-group col-sm-8">
+        <div class="input-group col-sm-8 img-input">
           <div class="custom-file">
             <input 
               type="text" 

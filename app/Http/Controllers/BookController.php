@@ -27,12 +27,12 @@ class BookController extends Controller
      * 
      */
 
-     
     /**
      * 本の一覧表示（books.blade.php） 
      */
 
-     public function BookShow( Request $request ) {
+     public function BookShow( Request $request )
+     {
         $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
         $message_id = session( 'message_id' );
         $tags = Tag::all();
