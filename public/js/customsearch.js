@@ -10,15 +10,16 @@ function SearchApi(search_text) {
     data: {
       'item_name': search_text
     },
+    dataType: 'json',
+    timespan: 1000,
   }) // modal1(検索結果)の表示
     .then(function (data) {
       const html_all = []
-      const array_data = JSON.parse(data);
-      book_data = array_data;
+      book_data = data;
  
-      for (let i = 0; i < array_data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         $html_one = [
-          '<div ><p book_no = ' + i + ' class="modal_result">・' + array_data[i].item_name + '</p></div>'
+          '<div ><p book_no = ' + i + ' class="modal_result">・' + data[i].item_name + '</p></div>'
         ];
         html_all.push($html_one);
       }
