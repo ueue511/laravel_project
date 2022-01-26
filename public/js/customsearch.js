@@ -28,8 +28,9 @@ function SearchApi(search_text) {
       $('#search_modal').append('<div class="modal_title_list">' + html_all.join('') + '</div>');
       $('#modal_titel_list').modal();
     })
-    .fail(function (jpXHR, xhr, err) {
+    .fail(function (data, jpXHR, xhr, err) {
       console.log('エラー');
+      console.log(data);
       console.log(err);
       console.log(xhr);
       console.log(jpXHR.status);
