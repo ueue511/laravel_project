@@ -4,9 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import BootstrapVue from "bootstrap-vue";　// ★追加
-import 'bootstrap/dist/css/bootstrap.css';　// ★追加
-import 'bootstrap-vue/dist/bootstrap-vue.css';　// ★追加
+import BootstrapVue from "bootstrap-vue"; // ★追加
+import 'bootstrap/dist/css/bootstrap.css'; // ★追加
+import 'bootstrap-vue/dist/bootstrap-vue.css'; // ★追加
 import store from '../store/index';
 // import router from '../router.js'
 
@@ -15,8 +15,6 @@ import Vue from 'vue';
 
 require('./bootstrap');
 
-//jQyer-ajax用
-require('./')
 
 window.Vue = require('vue');
 // Vue.use(VueRouter)
