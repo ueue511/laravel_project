@@ -60,6 +60,12 @@
   aspect-ratio: 16 / 6;
 }
 
+@media screen and ( min-width: 1200px ){
+  .home-title {
+    font-size: 2.5em;
+  }
+}
+
 @media screen and ( max-width: 959px ) {
   .home-title {
     top: 30%;

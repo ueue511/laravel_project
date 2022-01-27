@@ -29,7 +29,7 @@
   margin-left: 4em;
 }
 
-@media screen and ( min-width: 1024px ){
+@media screen and ( min-width: 1200px ){
   .content {
     width: 60%;
     margin: 0 auto;
