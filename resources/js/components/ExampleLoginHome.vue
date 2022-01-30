@@ -34,6 +34,8 @@
   height: auto;
 }
 
+
+
 .home-title {
   width: 50%;
   top: 40%;
@@ -55,6 +57,12 @@
 .home-img {
   width: 100%;
   height: 50%;
+}
+
+@media screen and ( min-width: 1200px ){
+  .home-title {
+    font-size: 2.5em;
+  }
 }
 
 @media screen and ( max-width: 959px ) {

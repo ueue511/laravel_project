@@ -10,13 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
   
   session_js['session'] !== '' ? item = JSON.parse(sessionStorage.getItem("set_img")) : sessionStorage.removeItem("set_img");
 
+  // ApiのImg関数
+  ApiImg()
+
   // 新規で画像を挿入し何かしらリダレクトし、localsessionに画像dataがある場合、表示する
   if (item && input_type === 'new') {
     $html = ['<div class="d-inline-block mr-1 mt-4 ml-3"><img class="img-thumbnail" src="', item.img, '" title="', item.name, '" style="height:100px;" /><div class="small text-muted text-center">', item['name'], '</div></div>'].join('');
 
-    $('.custom-file-input').next('.custom-file-label').html('1個のファイルを選択しました').parents('.input-group').after('<div id="preview"></div>');
+    $('.custom-file-input').next('.custom-file-label').html('1個のファイルを選択しました').parents('.input-group').after('<div class="preview"></div>');
 
-    $('#preview').append($html);
+    $('.preview').append($html);
   } else {
     $html = '';
   }
@@ -28,8 +31,8 @@ $('.custom-file-input').on('change', HandleFileSelect);
 
 function HandleFileSelect(evt) {
   $('span#group-show').hide(); //ファイルを変更したら消す
-  $('#preview').remove();// 繰り返し実行時の処理
-  $(this).parents('.input-group').after('<div id="preview"></div>');
+  $('.preview').remove();// 繰り返し実行時の処理
+  $(this).parents('.input-group').after('<div class="preview"></div>');
   sessionStorage.removeItem("set_img"); //session内容を消去
 
   // エラー文が表示時、非表示にする
@@ -72,7 +75,7 @@ function HandleFileSelect(evt) {
             $html = ['<div class="d-inline-block mr-1"><span class="small">', theFile.name, '</span></div>'].join('');//画像以外はファイル名のみの表示
           }
 
-          $('#preview').append($html);
+          $('.preview').append($html);
         };
       })(f);
 
@@ -86,9 +89,24 @@ function HandleFileSelect(evt) {
 // ファイルの取消
 $('#inputFileReset').on('click', function(){
   $(this).parent().prev().children('.custom-file-label').html('画像を選択してください');
-  $('#preview').remove();
+  $('.preview').remove();
   $('.custom-file-input').val('');
 })
+
+// APIで画像が表示
+function ApiImg() {
+  if ($('#preview_id').length) {
+    const name = $('.img-thumbnail').attr('title');
+    const img = $('.img-thumbnail').attr('src');
+
+    const set_img = {
+      name: name,
+      img: img
+    };
+    sessionStorage.setItem('set_img', JSON.stringify(set_img));
+  }
+};
+
 
 // Since the detail screen is displayed as img and the new one as data, the 'input' type is replaced.
 $('#inputFile_add').on({

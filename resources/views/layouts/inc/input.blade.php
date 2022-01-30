@@ -115,17 +115,17 @@ $array = array (
         @endforeach
       @endif
     </div>
-    <div class="form-group">
 
+    <div class="form-group">
       {{-- form本体 画面移管後も入力した内容は保持 --}}
       @if ( $key != 'item_img' and $key != 'book_tag' and $key != 'item_name')
         <div class="col-sm-6">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key )? old( $key ): "" }}" style={{ $validate_line }}>
         </div>
 
       @elseif ( $key === 'item_name' )
         <div class="col-sm-7 input-group ">
-          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key ) }}" style={{ $validate_line }}>
+          <input type={{ $value[1] }} name={{ $key }} class="form-control" value="{{ old( $key )? old( $key ): ""  }}" style={{ $validate_line }}>
           <div class="text-right">
             <label class="search-label" style="margin: 15px;">
               <input type="checkbox" id="search_checkbox" style={{ $validate_line }}> Api検索
@@ -148,7 +148,7 @@ $array = array (
               class="custom-file-input" 
               id="inputFile_add" 
               name='item_img'
-              value="{{ session('filename') ?? '' }}" data-session="{{ session('filename') }}"
+              value="{{ session('filename') ?? old( 'item_img' ) }}" data-session="{{ session('filename') }}"
               input_type = {{ $input_type }}
             >
             <label 
@@ -156,12 +156,15 @@ $array = array (
               for="inputFile_add" 
               data-browse="参照" 
               style={{ $validate_line }}
-            >画像を選択してください</label>
+            >{{ old( 'item_img' )? '1個のファイルを選択しました': '画像を選択してください'}}</label>
           </div>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary input-group-text" id="inputFileReset" style={{ $validate_line }}>取消</button>
           </div>
         </div>
+        @if ( $html ) 
+          {!! $html !!}
+        @endif
       @endif
     </div>
   @endforeach

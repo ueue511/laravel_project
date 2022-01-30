@@ -40,6 +40,9 @@
 
     @elseif( session( 'message' ) === '削除しました' )
       <div class="alert {{ $alert }} alert-orignal" role= "alert" >{{ $book_name }}を{{ session( 'message') }}</div>
+
+    @elseif( session( 'message' ) === 'tagを選択してください' )
+      <div class="alert {{ $alert }} alert-orignal" role= "alert" >入力完了！！{{ session( 'message') }}</div>
     
     @endif
     {{--end アラート表示 --}}

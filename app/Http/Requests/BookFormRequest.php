@@ -37,12 +37,17 @@ class BookFormRequest extends FormRequest
         ];
     }
     
-    // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　
+    // 画像ファイルのバリデーション判定　新規:画像ファイル　追加:画像path　API:画像url
     public function withValidator( Validator $validator )
     {
-        $validator->sometimes( 'item_img', 'bail|required|max:1024|mimes:jpeg,png,jpg,gif|image', function( $input ){
-
+        $validator->sometimes( 'item_img', 'bail|required|max:1024|mimes:jpeg,png,jpg,gif|image', 
+        function( $input ){
             return is_string( $input->item_img ) === false;
+        });
+        
+        $validator->sometimes( 'item_img', 'bail|required|url', 
+        function( $input ){
+            return $input->item_img  === "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet";
         });
         
         $validator->sometimes('item_img', 'bail|required',

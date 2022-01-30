@@ -11,6 +11,7 @@ use Auth;
 use File;
 
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Library\CloudinaryUpload;
 
 class BookController extends Controller
 {
@@ -23,6 +24,7 @@ class BookController extends Controller
     /**変数指定
      * book_one: 詳細表示の有無
      * messege_id: どのメッセージか判定
+     * html API使用時の画像表示
      * [create: 新規登録, danger: 登録ミス, detail: 詳細, delete: 削除]
      * 
      */
@@ -51,6 +53,7 @@ class BookController extends Controller
                 'book_one' => $book_one,
                 'alert' => $alert_type,
                 'tags' => $tags,
+                'html' => ''
             ]);
             
         } elseif ( $message_id === 'danger' ) {
@@ -60,8 +63,6 @@ class BookController extends Controller
             if ( session( 'back_id' ) ) {
                 $book_one = [ Book::find( session( 'back_id' ) ) ];
                 $book_id = session( 'back_id' );
-
-                // ddd('1'. $book_one);
                 
                 return view('books')->with([
                     'books' => $books,
@@ -69,6 +70,7 @@ class BookController extends Controller
                     'alert' => $alert_type,
                     'book_id' => $book_id,
                     'tags' => $tags,
+                    'html' => ''
                 ]);
                 
             } else {
@@ -88,18 +90,44 @@ class BookController extends Controller
                 'alert' => $alert_type,
                 'book_name' => $book_name,
                 'tags' => $tags,
+                'html' => ''
         ]);
+        
+        } elseif ( $message_id === 'rakuten' ) {
+            $request->session()->flash('message', 'tagを選択してください');
+            $alert_type = 'alert-success';
+            $book_one = null;
+
+            $item_img = $request->session()->get('_old_input')['item_img'];
+            $item_name = $request->session()->get('_old_input')['item_name'];
+            $preview_id = 'preview_id';
+            $html = view('img_preview', 
+                    compact( 
+                        'item_img', 
+                        'item_name', 
+                        'preview_id'
+                    ))->render();
+            
+            return view( 'books' )->with([
+                'books' => $books,
+                'book_one' => $book_one,
+                'alert' => $alert_type,
+                'tags' => $tags,
+                'html' => $html,
+            ]);
             
         } else {
-            session()->forget( 'message', 'message_id', 'back_id', 'filename'); //sessionリセット
+            session()->forget( 'message', 'message_id', 'back_id', 'filename', '_old_input'); //sessionリセット
             $alert_type = Null;
             $book_one = Null;
         }
+        
         return view( 'books' )->with ([
             'books' => $books, 
             'book_one' => $book_one,
             'alert' => $alert_type,
             'tags' => $tags,
+            'html' => ''
         ]);
      }
 
@@ -112,23 +140,37 @@ class BookController extends Controller
         // 画像保存
         $file = $request->file( 'item_img' ); //file取得
         $target_path_temporary = public_path('temporary/');
+
+        // Api時, url判定時使用
+
+        $pattern = "/https?:\/{2}[\w\/:%#\$&\?\(\)~\.=\+\-]+/";
+        $img_url = $request->item_img;
         
         if( !empty( $file ) ) {               //fileが空かチェック
-
-            $uploaded_img = Cloudinary::upload( $file->getRealPath(), [
-                "height" => 800, 
-                "width" => 560,
-                "crop" => "lpad",
-                "border" => "20px_solid_rgb:ffffff",
-                "quality" => "auto",
-                ' fetch_format ' => "auto",
-            ] );
+            $uploaded_img = CloudinaryUpload::upload( $file );
+            
             $filename = $file->getClientOriginalName();  //ファイル名を取得
+        
+        } elseif( preg_match($pattern, $img_url) ) {
+            $temp_name = $request->item_name;
+            $tempImage = tempnam($target_path_temporary, $temp_name);
+            copy($img_url, $tempImage);
+
+            $tempImage_name = basename($tempImage);
+            
+            $temporary_files = File::files($target_path_temporary);
+            foreach ($temporary_files as $file) {
+                $file->getfileName() === $tempImage_name ? $uploaded_img = CloudinaryUpload::upload( $file ): '';
+                
+                $filename = $tempImage_name.'.jpg';  //ファイル名を取得
+                \File::delete( $tempImage );
+            };
+            
         } else {
             $filename = $request->item_img;
             $temporary_files = File::files($target_path_temporary);
-            foreach($temporary_files as $file) {
-                $file->getfileName() === $filename? $uploaded_img = Cloudinary::upload($file->getRealPath()): '';
+            foreach( $temporary_files as $file) {
+                $file->getfileName() === $filename ? $uploaded_img = CloudinaryUpload::upload( $file ): '';
                 \File::delete( $target_path_temporary. $filename);
             }
         }
@@ -194,6 +236,7 @@ class BookController extends Controller
             'alert' => $alert,
             'book_tag' => $book_tag,
             'tags' => $tags,
+            'html' => ''
         ]);
     }
 
@@ -210,7 +253,9 @@ class BookController extends Controller
         if ( !empty( $file ) ) {               //fileが空かチェック
             $filename = $file->getClientOriginalName();  //ファイル名を取得
             Cloudinary::destroy( $public_id ); //　cloudinaryの画像を削除
-            $upload_img = Cloudinary::upload( $file->getRealPath() );
+            
+            $upload_img = CloudinaryUpload::upload($file);
+
             file_exists( $target_path_temporary  . $filename )? \File::delete($target_path_temporary. $filename) : '';
             $public_id = $upload_img->getPublicId(); // DBに入れる値
             $item_img = $upload_img->getSecurePath();
@@ -273,6 +318,7 @@ class BookController extends Controller
             'alert' => $alert,
             'book_tag' => $book_tag,
             'tags' => $tags,
+            'html' =>''
         ]);
      }
 
