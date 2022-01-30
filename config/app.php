@@ -239,6 +239,7 @@ return [
 
         // 追加
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
+        'CloudinaryUpload' => app\Library\CloudinaryUpload::class,
 
     ],
 

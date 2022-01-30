@@ -2,48 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Book;
-use App\Tag;
-use Auth;
+use App\Http\Requests\RakutenApiFormRequest;
 
 class ModalBookController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('admin');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
 
     
-    public function Show(Request $request) 
+    public function Show( RakutenApiFormRequest $request ) 
     {
-        $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
-        $tags = Tag::all();
-        
-        $published = ( $request->published );
-        $target = array('年', '月', '日頃');
-        $published_replace = str_replace($target, '-', $published);
-        $published_end = rtrim($published_replace, '-');
+        $request->session()->flash('message_id', 'rakuten');
 
-        $request->session()->flash( 'message', '入力しました。tagを選択してください' );
+        $published = $request->published;
+        $target = array('年', '月', '日', '頃');
+        $published_replace = str_replace($target, '-', $published);
+        
+        $published_end = strlen($published_replace) === 8? $published_replace. '01':trim($published_replace, '-');
+
         $request->session()->flash(
             '_old_input', [
+                '_token' => $request->_token,
+                '_method' => $request->_method,
                 'item_name' => $request->item_name,
                 'item_amount' => $request->item_amount,
                 'item_img' => $request->item_img,
                 'published' => $published_end,
             ]
         );
-        $alert_type = 'alert-success';
-        $book_one = null;
-
-        return view( 'books' )->with([
-            'books' => $books,
-            'book_one' => $book_one,
-            'alert' => $alert_type,
-            'tags' => $tags,
-        ]);
+        
+        return redirect( '/admin' )->with([]);
     }
 }

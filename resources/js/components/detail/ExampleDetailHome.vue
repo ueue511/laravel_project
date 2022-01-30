@@ -57,6 +57,13 @@
   height: 50%;
 }
 
+@media screen and ( min-width: 1200px ){
+  .home-title {
+    font-size: 2.5em;
+    top: 30%
+  }
+}
+
 @media screen and ( max-width: 959px ) {
   .home-title {
     width: 100%;
