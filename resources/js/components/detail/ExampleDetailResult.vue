@@ -5,8 +5,13 @@
         <div class="row no-gutters">
           <div class="col-md-5">
             <img class="card-img-top" :src="bookone.item_img" alt="Card image cap">
+            <div class="card-img-overlay qr-img">
+            <vue-qrcode v-if="bookone.url" :value="bookone.url" :options="option" tag="img"></vue-qrcode>
+            </div>
           </div>
-          <div class="col-md-7">
+
+          <div class="col-md-7 ">
+            <div class="comment-title">感想一覧</div>
             <perfect-scrollbar>
               <div class="card-body">
                 <div 
@@ -44,6 +49,8 @@
 <script>
 
 import EditorJS from '@editorjs/editorjs';
+import VueQrcode from "@chenfengyuan/vue-qrcode";
+
 export default {
   name:"ExampleDetailResult",
   props: {
@@ -53,11 +60,25 @@ export default {
       default: 0
     }
   },
+  components: {
+    VueQrcode
+  },
   
   data() {
     return {
       text: null,
-    }
+      option: {
+        errorCorrectionLevel: "M",
+        maskPattern: 0,
+        margin: 3,
+        scale: 2,
+        width: 60,
+        color: {
+          dark: "#000000FF",
+          light: "#FFFFFFFF"
+        }
+      }
+    };
   },
   beforeUpdate() {
 
@@ -162,6 +183,16 @@ export default {
 .ps {
   height: 450px;
   /* border: 2px solid rgb(102, 102, 102); */
+}
+
+.qr-img {
+  margin-top: 100%;
+  margin-left: 65%;
+}
+
+.comment-title {
+   border-bottom: 2px solid rgb(150, 150, 150);
+
 }
 
 </style>

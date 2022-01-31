@@ -31,6 +31,7 @@ class ModalBookController extends Controller
                 'item_amount' => $request->item_amount,
                 'item_img' => $request->item_img,
                 'published' => $published_end,
+                'item_url' => $request->item_url,
             ]
         );
         

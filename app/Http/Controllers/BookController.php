@@ -100,12 +100,16 @@ class BookController extends Controller
 
             $item_img = $request->session()->get('_old_input')['item_img'];
             $item_name = $request->session()->get('_old_input')['item_name'];
+            $item_url = $request->session()->get('_old_input')['item_url'];
+
+            
             $preview_id = 'preview_id';
             $html = view('img_preview', 
                     compact( 
                         'item_img', 
                         'item_name', 
-                        'preview_id'
+                        'preview_id',
+                        'item_url',
                     ))->render();
             
             return view( 'books' )->with([
@@ -151,7 +155,7 @@ class BookController extends Controller
             
             $filename = $file->getClientOriginalName();  //ファイル名を取得
         
-        } elseif( preg_match($pattern, $img_url) ) {
+        } elseif( preg_match($pattern, $img_url) ) {          //API判定
             $temp_name = $request->item_name;
             $tempImage = tempnam($target_path_temporary, $temp_name);
             copy($img_url, $tempImage);
@@ -177,7 +181,6 @@ class BookController extends Controller
         
         $public_id =$uploaded_img->getPublicId();
         
-        
         // Eloquentモデル (登録処理)
         $books = new Book;
         $books->user_id = Auth::user()->id;
@@ -187,6 +190,7 @@ class BookController extends Controller
         $books->published = $request->published;
         $books->public_id = $public_id;
         $books->img_name = $filename;
+        $request->item_url ? $books->url = $request->item_url: $books->url = 'https://';
         $books->save();
 
         $tags = $request->book_tag;

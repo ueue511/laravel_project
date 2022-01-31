@@ -25,7 +25,6 @@ class Normalize
         $response = $next($request);
         $content = $response->getContent();
 
-        // ddd($url);
 
         // 参考: http://piyopiyocs.blog115.fc2.com/blog-entry-636.html
         $regex = '(' . preg_quote(config('app.url'), "/") . '[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]*)';

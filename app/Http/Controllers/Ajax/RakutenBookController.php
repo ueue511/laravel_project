@@ -29,7 +29,7 @@ class RakutenBookController extends Controller
                 $items[$key]['item_name'] = $item['title'];
                 $items[$key]['item_amount'] = $item['itemPrice'];
                 $items[$key]['published'] = $item['salesDate'];
-                $items[$key]['book_url'] = $item['itemUrl'];
+                $items[$key]['item_url'] = $item['itemUrl'];
                 $items[$key]['caption'] = $item['itemCaption'];
 
                 if ($item['largeImageUrl']) {
