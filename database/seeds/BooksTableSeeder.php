@@ -15,7 +15,7 @@ class BooksTableSeeder extends Seeder
         $tags = Tag::all();
 
         // factoryを利用
-        factory(App\Book::class, 100)
+        factory(App\Book::class, 50)
         ->create()
         ->each(function ( App\Book $book ) use ( $tags ){
                 // 1〜9までの数値をランダムで取得

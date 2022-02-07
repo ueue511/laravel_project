@@ -4,3 +4,4 @@
     <div class="small text-muted text-center">{{ $item_name }}</div>
   </div>
 </div>
+<input type="hidden" type="text" name="item_url" value="{{ $item_url }}">

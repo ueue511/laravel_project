@@ -28,6 +28,7 @@ class RakutenApiFormRequest extends FormRequest
             'item_name' => 'bail|required|between:3, 255',
             'item_amount' => 'bail|required|integer|digits_between:1,6',
             'published' => 'bail|required|before:today',
+            'item_url'=>'bail|required|url'
         ];
     }
 
@@ -42,6 +43,7 @@ class RakutenApiFormRequest extends FormRequest
             'item_amount.digits_between' => '￥999999以内で入力してください',
             'published.required' => '本公開日を指定してください',
             'published.before' => '本日から以前の年月日を指定してください',
+            'item_url.url' => '楽天の商品URL入力して下さい',
         ];
     }
 }

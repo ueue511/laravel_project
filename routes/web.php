@@ -43,8 +43,18 @@ Route::delete( '/book/{book}/delete', 'BookController@BookDelete' );
  */
 Auth::routes();
 
-Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
+/**
+ * mail認証
+ */
+Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('register.pre_check');
+// Route::get('register/verify/{token}', 'Auth\RegisterController@showForm')->name('register.showform');
+Route::get('register/verify', 'Auth\RegisterController@showForm')->name('register.showform');
+Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
+Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
+Route::get('register/again/{user_id}', 'Auth\RegisterController@RegisterAgain')->name('register.again');
 
+
+Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
 
 
 /**

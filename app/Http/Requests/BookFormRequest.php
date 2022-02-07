@@ -34,6 +34,7 @@ class BookFormRequest extends FormRequest
             'book_tag.*' => 'bail|required|integer',
             'item_amount' => 'bail|required|integer|digits_between:1,6',
             'published' => 'bail|required|date|before:today',
+            'item_url' => 'bail|url'
         ];
     }
     
