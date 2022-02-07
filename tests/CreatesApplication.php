@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\Artisan;
 
 trait CreatesApplication
 {
@@ -18,5 +19,18 @@ trait CreatesApplication
         $app->make(Kernel::class)->bootstrap();
 
         return $app;
+    }
+    /**
+     * Run migration once
+     */
+    protected function setUpDatabase(): void
+    {
+        if ($this->isSetUpDatabase) {
+            return;
+        }
+
+        Artisan::call('migrate:fresh');
+
+        $this->isSetUpDatabase = true;
     }
 }

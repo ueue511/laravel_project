@@ -49,11 +49,11 @@ class BookController extends Controller
             $request->session()->flash('old_itemname', $old_itemname);
 
             return view( 'books' )->with([
-                'books' => $books,
+                'books'    => $books,
                 'book_one' => $book_one,
-                'alert' => $alert_type,
-                'tags' => $tags,
-                'html' => ''
+                'alert'    => $alert_type,
+                'tags'     => $tags,
+                'html'     => ''
             ]);
             
         } elseif ( $message_id === 'danger' ) {
@@ -65,12 +65,12 @@ class BookController extends Controller
                 $book_id = session( 'back_id' );
                 
                 return view('books')->with([
-                    'books' => $books,
+                    'books'    => $books,
                     'book_one' => $book_one,
-                    'alert' => $alert_type,
-                    'book_id' => $book_id,
-                    'tags' => $tags,
-                    'html' => ''
+                    'alert'    => $alert_type,
+                    'book_id'  => $book_id,
+                    'tags'     => $tags,
+                    'html'     => ''
                 ]);
                 
             } else {
@@ -85,12 +85,12 @@ class BookController extends Controller
             $book_one = Null;
 
             return view( 'books' )->with ([
-                'books' => $books, 
-                'book_one' => $book_one,
-                'alert' => $alert_type,
+                'books'     => $books, 
+                'book_one'  => $book_one,
+                'alert'     => $alert_type,
                 'book_name' => $book_name,
-                'tags' => $tags,
-                'html' => ''
+                'tags'      => $tags,
+                'html'      => ''
         ]);
         
         } elseif ( $message_id === 'rakuten' ) {
@@ -98,9 +98,9 @@ class BookController extends Controller
             $alert_type = 'alert-success';
             $book_one = null;
 
-            $item_img = $request->session()->get('_old_input')['item_img'];
+            $item_img  = $request->session()->get('_old_input')['item_img'];
             $item_name = $request->session()->get('_old_input')['item_name'];
-            $item_url = $request->session()->get('_old_input')['item_url'];
+            $item_url  = $request->session()->get('_old_input')['item_url'];
 
             
             $preview_id = 'preview_id';
@@ -113,25 +113,32 @@ class BookController extends Controller
                     ))->render();
             
             return view( 'books' )->with([
-                'books' => $books,
+                'books'    => $books,
                 'book_one' => $book_one,
-                'alert' => $alert_type,
-                'tags' => $tags,
-                'html' => $html,
+                'alert'    => $alert_type,
+                'tags'     => $tags,
+                'html'     => $html,
             ]);
             
         } else {
-            session()->forget( 'message', 'message_id', 'back_id', 'filename', '_old_input'); //sessionリセット
+            //sessionリセット
+            session()->forget ( 
+                            'message', 
+                            'message_id', 
+                            'back_id', 
+                            'filename', 
+                            '_old_input'
+                        ); 
             $alert_type = Null;
             $book_one = Null;
         }
         
         return view( 'books' )->with ([
-            'books' => $books, 
+            'books'    => $books, 
             'book_one' => $book_one,
-            'alert' => $alert_type,
-            'tags' => $tags,
-            'html' => ''
+            'alert'    => $alert_type,
+            'tags'     => $tags,
+            'html'     => ''
         ]);
      }
 
@@ -155,15 +162,15 @@ class BookController extends Controller
             
             $filename = $file->getClientOriginalName();  //ファイル名を取得
         
-        } elseif( preg_match($pattern, $img_url) ) {          //API判定
+        } elseif( preg_match( $pattern, $img_url ) ) {          //API判定
             $temp_name = $request->item_name;
-            $tempImage = tempnam($target_path_temporary, $temp_name);
-            copy($img_url, $tempImage);
+            $tempImage = tempnam( $target_path_temporary, $temp_name );
+            copy( $img_url, $tempImage );
 
-            $tempImage_name = basename($tempImage);
+            $tempImage_name = basename( $tempImage );
             
-            $temporary_files = File::files($target_path_temporary);
-            foreach ($temporary_files as $file) {
+            $temporary_files = File::files( $target_path_temporary );
+            foreach ( $temporary_files as $file ) {
                 $file->getfileName() === $tempImage_name ? $uploaded_img = CloudinaryUpload::upload( $file ): '';
                 
                 $filename = $tempImage_name.'.jpg';  //ファイル名を取得
@@ -172,10 +179,10 @@ class BookController extends Controller
             
         } else {
             $filename = $request->item_img;
-            $temporary_files = File::files($target_path_temporary);
+            $temporary_files = File::files( $target_path_temporary );
             foreach( $temporary_files as $file) {
                 $file->getfileName() === $filename ? $uploaded_img = CloudinaryUpload::upload( $file ): '';
-                \File::delete( $target_path_temporary. $filename);
+                \File::delete( $target_path_temporary. $filename );
             }
         }
         
@@ -183,13 +190,13 @@ class BookController extends Controller
         
         // Eloquentモデル (登録処理)
         $books = new Book;
-        $books->user_id = Auth::user()->id;
-        $books->item_name = $request->item_name;
+        $books->user_id     = Auth::user()->id;
+        $books->item_name   = $request->item_name;
         $books->item_amount = $request->item_amount;
-        $books->item_img = $uploaded_img->getSecurePath();
-        $books->published = $request->published;
-        $books->public_id = $public_id;
-        $books->img_name = $filename;
+        $books->item_img    = $uploaded_img->getSecurePath();
+        $books->published   = $request->published;
+        $books->public_id   = $public_id;
+        $books->img_name    = $filename;
         $request->item_url ? $books->url = $request->item_url: $books->url = 'https://';
         $books->save();
 
@@ -210,10 +217,16 @@ class BookController extends Controller
     
     public function BookMake( Request $request, Book $book ) 
     {
-        $books = Book::where( 'user_id', Auth::user()->id )->orderBy( 'created_at', 'asc' )->paginate(3);
+        $books = Book::where( 'user_id', Auth::user()->id )
+            ->orderBy( 'created_at', 'asc' )
+            ->paginate(3);
+                    
         $tags = Tag::all();
         
-        $book_one = Book::with('tags')->where( 'id', $book->id )->get();
+        $book_one = Book::with('tags')
+            ->where( 'id', $book->id )
+            ->get();
+                        
         $book_id = $book->id;
         $book_name = $book->item_name;
         $tag = $book_one[0]->tags->toArray();
@@ -233,14 +246,14 @@ class BookController extends Controller
         }
         
         return view( 'books' )->with([ 
-            'books' => $books,
-            'book_one' => $book_one[0],
-            'book_id' => $book_id,
+            'books'     => $books,
+            'book_one'  => $book_one[0],
+            'book_id'   => $book_id,
             'book_name' => $book_name,
-            'alert' => $alert,
-            'book_tag' => $book_tag,
-            'tags' => $tags,
-            'html' => ''
+            'alert'     => $alert,
+            'book_tag'  => $book_tag,
+            'tags'      => $tags,
+            'html'      => ''
         ]);
     }
 
@@ -271,19 +284,22 @@ class BookController extends Controller
         }
         
         $book->update([
-            'item_name' => $request->item_name,
+            'item_name'   => $request->item_name,
             'item_amount' => $request->item_amount,
-            'img_name' => $filename,
-            'published' => $published,
-            'item_img'  => $item_img,
-            'public_id' => $public_id,
+            'img_name'    => $filename,
+            'published'   => $published,
+            'item_img'    => $item_img,
+            'public_id'   => $public_id,
         ]);
 
         // $book_one_tags: 現在のbookのタグ一覧
         // tags: requestで受け取った選択されたtag一覧
         // tag_array: tagsをarrayに変換
         
-        $book_one_tags = Book::with('tags')->where('id', $book->id)->get();
+        $book_one_tags = Book::with('tags')
+            ->where('id', $book->id)
+            ->get();
+            
         $tag_array = [];
         $tags = $request->book_tag;
         
@@ -298,7 +314,10 @@ class BookController extends Controller
         $book->Tags()->toggle($book_tag_array);
         
         $request->session()->forget( 'back_id' );
-        $books = Book::where( 'user_id', Auth::user()->id)->orderBy( 'created_at', 'asc' )->paginate(3);
+        $books = Book::where( 'user_id', Auth::user()->id )
+            ->orderBy( 'created_at', 'asc' )
+            ->paginate(3);
+        
         $tags = Tag::all();
         $book_one = Book::find( $book->id );
         $book_id = $book->id;
@@ -315,14 +334,14 @@ class BookController extends Controller
         $request->session()->flash( 'message', '詳細を変更' );
         
         return view( 'books' )->with ([
-            'books' => $books,
-            'book_one' => $book_one,
-            'book_id' => $book_id,
+            'books'     => $books,
+            'book_one'  => $book_one,
+            'book_id'   => $book_id,
             'book_name' => $book_name,
-            'alert' => $alert,
-            'book_tag' => $book_tag,
-            'tags' => $tags,
-            'html' =>''
+            'alert'     => $alert,
+            'book_tag'  => $book_tag,
+            'tags'      => $tags,
+            'html'      =>''
         ]);
      }
 
