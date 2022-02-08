@@ -61039,6 +61039,8 @@ var actions = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 // 検索結果を保持
 var state = {
   search_book_date: '',
@@ -61057,7 +61059,7 @@ var mutations = {
     state.search_book_date = payload[0];
     state.search_count = payload[0].length;
     state.search_totalpage = Math.ceil(payload[0].length / 12);
-    state.search_tag = payload[2] ? payload[2] : '';
+    state.search_tag = _typeof(payload[2]) ? payload[2] : '';
     state.search_title = payload[1].titlebook ? payload[1].titlebook : '';
     state.search_title_show = "true";
   },

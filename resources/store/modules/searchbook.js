@@ -20,7 +20,7 @@ const mutations = {
     state.search_count = payload[0].length
     state.search_totalpage = Math.ceil(payload[0].length / 12);
     
-    state.search_tag = payload[2] ? payload[2]:'';
+    state.search_tag = typeof payload[2] ? payload[2]:'';
     state.search_title = payload[1].titlebook? payload[1].titlebook:'';
     state.search_title_show = "true"
   },
