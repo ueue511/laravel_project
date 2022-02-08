@@ -20,7 +20,7 @@ class SearchController extends Controller
         if( $tagbook && $titlebook ) {
             $book_search = Book::with([ 'comments', 'tags', 'petsusers' ])->whereHas('tags', function($query) use ($tagbook) {
                 return $query->where( 'tags.id', $tagbook );
-            })->where( 'item_name', $titlebook )->get();
+            })->where( 'item_name', 'like', '%'.$titlebook.'%' )->get();
             return $book_search;
             
         } elseif( $tagbook ) {
@@ -28,8 +28,8 @@ class SearchController extends Controller
             $book = $book_search[ 0 ][ 'books' ];
             return $book;
             
-        }  elseif( $titlebook) {
-            $book_search = Book::with([ 'comments','tags', 'petsusers' ])->where( 'item_name', $titlebook )->get();
+        }  elseif( $titlebook ) {
+            $book_search = Book::with([ 'comments','tags', 'petsusers' ])->where( 'item_name', 'like', '%'.$titlebook.'%' )->get();
 
             return $book_search;
         }
