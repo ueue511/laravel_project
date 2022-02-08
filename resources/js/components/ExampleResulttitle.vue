@@ -35,7 +35,7 @@ export default {
     ResultTag() {
       const tabnum = this.$store.state.searchbook.search_tag
       const tablist = this.$store.getters[ 'booktags/GetTag' ];
-      const tab = typeof tabnum ? tablist[ tabnum ].tab : null;
+      const tab = typeof tabnum? tablist[tabnum].tab : null;
       return tab;
     },
 
