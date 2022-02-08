@@ -6,7 +6,7 @@ const state = {
 const getters = {
   GetTag( state ) {
     return state.book_tag;
-  }
+  },
 };
 
 const mutations = {

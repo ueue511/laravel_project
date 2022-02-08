@@ -7833,6 +7833,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -7869,7 +7871,7 @@ __webpack_require__.r(__webpack_exports__);
     ResultTag: function ResultTag() {
       var tabnum = this.$store.state.searchbook.search_tag;
       var tablist = this.$store.getters['booktags/GetTag'];
-      var tab = tabnum ? tablist[tabnum - 1].tab : null;
+      var tab = _typeof(tabnum) ? tablist[tabnum].tab : null;
       return tab;
     },
     ResultTitle: function ResultTitle() {
@@ -7877,6 +7879,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     ShowTitle: function ShowTitle() {
       return this.$store.state.searchbook.search_title_show;
+    },
+    SerachGetTag: function SerachGetTag(list, tabid) {
+      var makelist = {};
+      list.forEach(function element() {
+        makelist[element.id] = element.tab;
+      });
+      return makelist[tabid].tab;
     }
   },
   mounted: function mounted() {//
@@ -7956,13 +7965,22 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {},
   methods: {
     SeachBook: function SeachBook() {
-      var tagbook = this.tag_book;
-      if (tagbook === 'ジャンルを選択して下さい') tagbook = null;
+      var tagkey = this.tag_book;
+      var tablist = this.$store.getters['booktags/GetTag'];
+      var tagbook = '';
+
+      if (tagkey === 'ジャンルを選択して下さい' || tagkey === '') {
+        tagbook = '';
+      } else {
+        tagbook = tablist[this.tag_book].id;
+      }
+
+      ;
       var data = {
         tagbook: tagbook,
         titlebook: this.title_book
       };
-      this.$store.dispatch('searchbook/VuexAction_SearchBook', data);
+      this.$store.dispatch('searchbook/VuexAction_SearchBook', [data, tagkey]);
     }
   }
 });
@@ -45754,10 +45772,10 @@ var render = function () {
                 _vm._v("ジャンルを選択して下さい"),
               ]),
               _vm._v(" "),
-              _vm._l(_vm.Gettag, function (tag) {
+              _vm._l(_vm.Gettag, function (tag, index) {
                 return _c(
                   "option",
-                  { key: tag.id, domProps: { value: tag.id } },
+                  { key: tag.id, domProps: { value: index } },
                   [
                     _vm._v(
                       "\n            " + _vm._s(tag.tab) + "\n            "
@@ -61039,7 +61057,7 @@ var mutations = {
     state.search_book_date = payload[0];
     state.search_count = payload[0].length;
     state.search_totalpage = Math.ceil(payload[0].length / 12);
-    state.search_tag = payload[1].tagbook ? payload[1].tagbook : '';
+    state.search_tag = payload[2] ? payload[2] : '';
     state.search_title = payload[1].titlebook ? payload[1].titlebook : '';
     state.search_title_show = "true";
   },
@@ -61050,8 +61068,8 @@ var mutations = {
 var actions = {
   VuexAction_SearchBook: function VuexAction_SearchBook(context, data) {
     var url = '/ajax/search';
-    axios.post(url, data).then(function (response) {
-      var search_book = [response.data, data];
+    axios.post(url, data[0]).then(function (response) {
+      var search_book = [response.data, data[0], data[1]];
       context.commit('VuexMutations_SearchBook', search_book);
     })["catch"](function (err) {
       context.commit('VuexMutations_SearchErr', err);

@@ -8,9 +8,9 @@
             <select v-model="tag_book" class="custom-select form_margin">
               <option selected>ジャンルを選択して下さい</option>
               <option 
-                v-for=" tag in Gettag " 
+                v-for="(tag, index) in Gettag" 
                 v-bind:key="tag.id" 
-                v-bind:value="tag.id"
+                v-bind:value="index"
               >
               {{ tag.tab }}
               </option>
@@ -67,13 +67,22 @@ export default {
 
   methods: {
     SeachBook() {
-      var tagbook = this.tag_book
-      if(tagbook === 'ジャンルを選択して下さい') tagbook = null;
+
+      const tagkey = this.tag_book 
+      const tablist = this.$store.getters[ 'booktags/GetTag' ]
+      let tagbook = ''
+
+     if (tagkey === 'ジャンルを選択して下さい' || tagkey === '') {
+          tagbook = ''
+        } else {
+          tagbook = tablist[ this.tag_book ].id
+        };
+      
       const data = {
         tagbook: tagbook,
         titlebook: this.title_book,
       }
-      this.$store.dispatch( 'searchbook/VuexAction_SearchBook', data );
+      this.$store.dispatch( 'searchbook/VuexAction_SearchBook', [ data, tagkey ]);
     }
   }
 }

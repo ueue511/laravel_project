@@ -90,6 +90,7 @@ function HandleFileSelect(evt) {
 $('#inputFileReset').on('click', function(){
   $(this).parent().prev().children('.custom-file-label').html('画像を選択してください');
   $('.preview').remove();
+  sessionStorage.removeItem("set_img"); //session内容を消去
   $('.custom-file-input').val('');
 })
 
