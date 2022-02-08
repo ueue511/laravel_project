@@ -34,8 +34,8 @@ export default {
 
     ResultTag() {
       const tabnum = this.$store.state.searchbook.search_tag
-      const tablist = this.$store.getters[ 'booktags/GetTag' ]
-      const tab = tabnum? tablist[ tabnum - 1 ].tab : null;
+      const tablist = this.$store.getters[ 'booktags/GetTag' ];
+      const tab = typeof tabnum ? tablist[ tabnum ].tab : null;
       return tab;
     },
 
@@ -45,7 +45,15 @@ export default {
 
     ShowTitle() {
       return this.$store.state.searchbook.search_title_show;
-    }
+    },
+    
+    SerachGetTag( list, tabid ) {
+      const makelist = {}
+      list.forEach( function element() {
+        makelist[ element.id ] = element.tab
+      })
+    return makelist[ tabid ].tab
+  }
   },
   mounted() {
     //

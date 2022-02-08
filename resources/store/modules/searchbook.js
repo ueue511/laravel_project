@@ -15,12 +15,12 @@ const getters = {
 };
 
 const mutations = {
-  VuexMutations_SearchBook( state, payload ) {
+  VuexMutations_SearchBook(state, payload) {
     state.search_book_date = payload[0]
     state.search_count = payload[0].length
-    state.search_totalpage = Math.ceil(payload[0].length / 12)
+    state.search_totalpage = Math.ceil(payload[0].length / 12);
     
-    state.search_tag = payload[1].tagbook? payload[1].tagbook:'';
+    state.search_tag = payload[2] ? payload[2]:'';
     state.search_title = payload[1].titlebook? payload[1].titlebook:'';
     state.search_title_show = "true"
   },
@@ -33,8 +33,8 @@ const mutations = {
 const actions = {
   VuexAction_SearchBook( context, data ) {
     var url = '/ajax/search';
-    axios.post(url, data).then(function ( response ) {
-      const search_book = [response.data, data];
+    axios.post(url, data[0]).then(function ( response ) {
+      const search_book = [ response.data, data[0], data[1] ];
       context.commit( 'VuexMutations_SearchBook', search_book )
     })
       .catch(function ( err ) {
