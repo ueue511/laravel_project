@@ -21,6 +21,28 @@
           <input type="text" class="form-control form_margin_rigth" id="formsearch" v-model="title_book">
         </div>
       </div>
+      <div class="text-center check-box">
+        <div class="form-check form-check-inline">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            id="SwitchCheckLike" 
+            v-model="checkedlike" 
+            @change="ChangeLike"
+          >
+          <label class="form-check-label" for="SwitchCheckLike">お気に入りに絞って検索</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            id="SwitchCheckGood" 
+            v-model="checkedgood" 
+            @change="ChangeGood"
+          >
+          <label class="form-check-label" for="SwitchCheckGood">いいねに絞って検索</label>
+        </div>
+      </div>
       <div class="section1 text-center">
       <!-- <router-link to='/result'> -->
       <button 
@@ -47,7 +69,9 @@ export default {
       tags: [],
       tag_book: '',
       title_book: '',
-      serach_book: []
+      serach_book: [],
+      checkedlike: true,
+      checkedgood: true
     }
   },
 
@@ -62,18 +86,18 @@ export default {
   },
 
   mounted() {
-
   },
 
   methods: {
     SeachBook() {
 
-      const tagkey = this.tag_book 
+      let tagkey = this.tag_book 
       const tablist = this.$store.getters[ 'booktags/GetTag' ]
       let tagbook = ''
 
      if (tagkey === 'ジャンルを選択して下さい' || tagkey === '') {
           tagbook = ''
+          tagkey = ''
         } else {
           tagbook = tablist[ this.tag_book ].id
         };
@@ -81,9 +105,18 @@ export default {
       const data = {
         tagbook: tagbook,
         titlebook: this.title_book,
+        lake: this.checkedlike,
+        good: this.checkedgood
       }
       this.$store.dispatch( 'searchbook/VuexAction_SearchBook', [ data, tagkey ]);
-    }
+    },
+
+    ChangeLike() {
+      console.log('テスト1:' + this.checkedlike)
+    },
+    ChangeGood() {
+      console.log('テスト2:' + this.checkedgood)
+    },
   }
 }
 </script>
@@ -117,6 +150,10 @@ export default {
 
 .row_search {
   justify-content: space-around
+}
+
+.check-box {
+  margin-bottom: 20px;
 }
 
 .button_margin {

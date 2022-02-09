@@ -7833,8 +7833,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 //
 //
 //
@@ -7871,7 +7869,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ResultTag: function ResultTag() {
       var tabnum = this.$store.state.searchbook.search_tag;
       var tablist = this.$store.getters['booktags/GetTag'];
-      var tab = _typeof(tabnum) ? tablist[tabnum].tab : null;
+      var tab = tabnum !== '' ? tablist[tabnum].tab : '';
       return tab;
     },
     ResultTitle: function ResultTitle() {
@@ -7943,6 +7941,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mane: "ExampleSearch",
@@ -7951,7 +7971,9 @@ __webpack_require__.r(__webpack_exports__);
       tags: [],
       tag_book: '',
       title_book: '',
-      serach_book: []
+      serach_book: [],
+      checkedlike: true,
+      checkedgood: true
     };
   },
   created: function created() {
@@ -7971,6 +7993,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (tagkey === 'ジャンルを選択して下さい' || tagkey === '') {
         tagbook = '';
+        tagkey = '';
       } else {
         tagbook = tablist[this.tag_book].id;
       }
@@ -7978,9 +8001,17 @@ __webpack_require__.r(__webpack_exports__);
       ;
       var data = {
         tagbook: tagbook,
-        titlebook: this.title_book
+        titlebook: this.title_book,
+        lake: this.checkedlike,
+        good: this.checkedgood
       };
       this.$store.dispatch('searchbook/VuexAction_SearchBook', [data, tagkey]);
+    },
+    ChangeLike: function ChangeLike() {
+      console.log('テスト1:' + this.checkedlike);
+    },
+    ChangeGood: function ChangeGood() {
+      console.log('テスト2:' + this.checkedgood);
     }
   }
 });
@@ -13060,7 +13091,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#showbook_search[data-v-5a991e57] {\n  margin: 0 10px 0px 10px;\n}\n.searchbook_title[data-v-5a991e57] {\n  text-align: center;\n  font-size: 24px;\n  color: rgb(78, 78, 78);\n  background: linear-gradient(70deg, #fedab3 0%, #fedab3 8.5%, #fff7e4 8.5%, #fff7e4 25.1%,  #fedab3 25.1%, #fedab3 74.9%, #b0e1fa 74.9%, #b0e1fa 91.5%, #fedab3 91.5%, #fedab3 100%);\n}\n.showbook_form[data-v-5a991e57] {\n  margin-top: 10px;\n}\n.showbook_select[data-v-5a991e57] {\n  margin-bottom: 0.5em;\n  font-size: 18px;\n  margin-left: 20px;\n}\n.seachbook_content[data-v-5a991e57] {\n  border: rgb(192, 192, 192) 1px solid;\n}\n.row_search[data-v-5a991e57] {\n  justify-content: space-around\n}\n.button_margin[data-v-5a991e57] {\n  margin-bottom: 20px;\n}\n.seachbook_content[data-v-5a991e57] {\n  margin-bottom: 50px;\n  background-color: #ffffff;\n}\n\n", ""]);
+exports.push([module.i, "\n#showbook_search[data-v-5a991e57] {\n  margin: 0 10px 0px 10px;\n}\n.searchbook_title[data-v-5a991e57] {\n  text-align: center;\n  font-size: 24px;\n  color: rgb(78, 78, 78);\n  background: linear-gradient(70deg, #fedab3 0%, #fedab3 8.5%, #fff7e4 8.5%, #fff7e4 25.1%,  #fedab3 25.1%, #fedab3 74.9%, #b0e1fa 74.9%, #b0e1fa 91.5%, #fedab3 91.5%, #fedab3 100%);\n}\n.showbook_form[data-v-5a991e57] {\n  margin-top: 10px;\n}\n.showbook_select[data-v-5a991e57] {\n  margin-bottom: 0.5em;\n  font-size: 18px;\n  margin-left: 20px;\n}\n.seachbook_content[data-v-5a991e57] {\n  border: rgb(192, 192, 192) 1px solid;\n}\n.row_search[data-v-5a991e57] {\n  justify-content: space-around\n}\n.check-box[data-v-5a991e57] {\n  margin-bottom: 20px;\n}\n.button_margin[data-v-5a991e57] {\n  margin-bottom: 20px;\n}\n.seachbook_content[data-v-5a991e57] {\n  margin-bottom: 50px;\n  background-color: #ffffff;\n}\n\n", ""]);
 
 // exports
 
@@ -45816,6 +45847,114 @@ var render = function () {
               },
             },
           }),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center check-box" }, [
+        _c("div", { staticClass: "form-check form-check-inline" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.checkedlike,
+                expression: "checkedlike",
+              },
+            ],
+            staticClass: "form-check-input",
+            attrs: { type: "checkbox", id: "SwitchCheckLike" },
+            domProps: {
+              checked: Array.isArray(_vm.checkedlike)
+                ? _vm._i(_vm.checkedlike, null) > -1
+                : _vm.checkedlike,
+            },
+            on: {
+              change: [
+                function ($event) {
+                  var $$a = _vm.checkedlike,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.checkedlike = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.checkedlike = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.checkedlike = $$c
+                  }
+                },
+                _vm.ChangeLike,
+              ],
+            },
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "form-check-label",
+              attrs: { for: "SwitchCheckLike" },
+            },
+            [_vm._v("お気に入りも含め検索")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-check form-check-inline" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.checkedgood,
+                expression: "checkedgood",
+              },
+            ],
+            staticClass: "form-check-input",
+            attrs: { type: "checkbox", id: "SwitchCheckGood" },
+            domProps: {
+              checked: Array.isArray(_vm.checkedgood)
+                ? _vm._i(_vm.checkedgood, null) > -1
+                : _vm.checkedgood,
+            },
+            on: {
+              change: [
+                function ($event) {
+                  var $$a = _vm.checkedgood,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.checkedgood = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.checkedgood = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.checkedgood = $$c
+                  }
+                },
+                _vm.ChangeGood,
+              ],
+            },
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "form-check-label",
+              attrs: { for: "SwitchCheckGood" },
+            },
+            [_vm._v("いいねも含め検索")]
+          ),
         ]),
       ]),
       _vm._v(" "),
