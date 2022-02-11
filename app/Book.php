@@ -39,18 +39,58 @@ class Book extends Model
     }
 
     /**
-     * book_user_comment使用
-     */
-    // public function CommentsUsers()
-    // {
-    //     return $this->belongsToMany( 'App\User', 'book_user_comment')->withTimestamps();
-    // }
-
-    /**
      * comment使用
      */
     public function Comments()
     {
         return $this->morphToMany( 'App\Comment', 'commentables' );
+    }
+
+    /**
+     * scope
+     */
+
+    // Book読み込み
+    public function scopeReadDB( $query ) 
+    {
+        return $query->with(['comments', 'tags', 'petsusers', 'goodsusers']);
+    }
+    
+    // tag 
+    public function scopeWhereHasTag( $query, $tagbook ) 
+    {
+        return $query->whereHas( 'tags',
+            function ( $query ) use ( $tagbook ) 
+            {
+                return $query->where('tags.id', $tagbook);
+            }
+        );
+    }
+    
+    // お気に入り
+    public function scopeWhereHasLike( $query, $user ) 
+    {
+        return $query->whereHas( 'goodsusers',
+            function ( $query ) use ( $user ) 
+            {
+                return $query->where('user_id', $user);
+            }
+        );
+    }
+
+    // いいねボタン
+    public function scopeWhereHasGood( $query, $user )
+    {
+        return $query->whereHas( 'petsusers',
+            function ( $query ) use ( $user ) {
+                return $query->where( 'user_id', $user );
+            }
+        );
+    }
+    
+    // タイトル
+    public function scopeWhereTitle( $query, $titlebook )
+    {
+        return $query->where( 'item_name', 'like', '%'.$titlebook.'%' );
     }
 }
