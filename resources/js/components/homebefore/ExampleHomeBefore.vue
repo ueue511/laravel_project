@@ -6,13 +6,13 @@
       <p class="text-center home-before-group">数万種類の中から出会った一冊の本で、感じたことを「自分の言葉」で綴るサイトです</p>
       <div class="card-deck center home_box">
         <div class="card col-sm-4 card_video">
-          <video class="homebefore_video" src="/images/stackedwithbooks.mp4" ref="scrollTarget" muted　></video>
+          <video class="homebefore_video" src="/images/stackedwithbooks.mp4" ref="scrollTarget" muted ></video>
           <div class="card-body text-center">
             自分の好きな本を検索
           </div>
         </div>
         <div class="card col-sm-4 card_video">
-          <video class="homebefore_video" src="/images/stackedwithbooks_2.mp4" ref="scrollTarget2" muted　></video>
+          <video class="homebefore_video" src="/images/stackedwithbooks_2.mp4" ref="scrollTarget2" muted ></video>
           <div class="card-body text-center">
             感じたことを「自分の言葉」で綴る
           </div>

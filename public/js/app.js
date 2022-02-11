@@ -7877,13 +7877,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     ShowTitle: function ShowTitle() {
       return this.$store.state.searchbook.search_title_show;
-    },
-    SerachGetTag: function SerachGetTag(list, tabid) {
-      var makelist = {};
-      list.forEach(function element() {
-        makelist[element.id] = element.tab;
-      });
-      return makelist[tabid].tab;
     }
   },
   mounted: function mounted() {//
@@ -7903,8 +7896,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
 //
 //
 //
@@ -8002,16 +7993,10 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         tagbook: tagbook,
         titlebook: this.title_book,
-        lake: this.checkedlike,
+        like: this.checkedlike,
         good: this.checkedgood
       };
       this.$store.dispatch('searchbook/VuexAction_SearchBook', [data, tagkey]);
-    },
-    ChangeLike: function ChangeLike() {
-      console.log('テスト1:' + this.checkedlike);
-    },
-    ChangeGood: function ChangeGood() {
-      console.log('テスト2:' + this.checkedgood);
     }
   }
 });
@@ -45869,28 +45854,25 @@ var render = function () {
                 : _vm.checkedlike,
             },
             on: {
-              change: [
-                function ($event) {
-                  var $$a = _vm.checkedlike,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.checkedlike = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.checkedlike = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
+              change: function ($event) {
+                var $$a = _vm.checkedlike,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.checkedlike = $$a.concat([$$v]))
                   } else {
-                    _vm.checkedlike = $$c
+                    $$i > -1 &&
+                      (_vm.checkedlike = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
                   }
-                },
-                _vm.ChangeLike,
-              ],
+                } else {
+                  _vm.checkedlike = $$c
+                }
+              },
             },
           }),
           _vm._v(" "),
@@ -45900,7 +45882,7 @@ var render = function () {
               staticClass: "form-check-label",
               attrs: { for: "SwitchCheckLike" },
             },
-            [_vm._v("お気に入りも含め検索")]
+            [_vm._v("お気に入りに絞って検索")]
           ),
         ]),
         _vm._v(" "),
@@ -45922,28 +45904,25 @@ var render = function () {
                 : _vm.checkedgood,
             },
             on: {
-              change: [
-                function ($event) {
-                  var $$a = _vm.checkedgood,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 && (_vm.checkedgood = $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        (_vm.checkedgood = $$a
-                          .slice(0, $$i)
-                          .concat($$a.slice($$i + 1)))
-                    }
+              change: function ($event) {
+                var $$a = _vm.checkedgood,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = null,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && (_vm.checkedgood = $$a.concat([$$v]))
                   } else {
-                    _vm.checkedgood = $$c
+                    $$i > -1 &&
+                      (_vm.checkedgood = $$a
+                        .slice(0, $$i)
+                        .concat($$a.slice($$i + 1)))
                   }
-                },
-                _vm.ChangeGood,
-              ],
+                } else {
+                  _vm.checkedgood = $$c
+                }
+              },
             },
           }),
           _vm._v(" "),
@@ -45953,7 +45932,7 @@ var render = function () {
               staticClass: "form-check-label",
               attrs: { for: "SwitchCheckGood" },
             },
-            [_vm._v("いいねも含め検索")]
+            [_vm._v("いいねに絞って検索")]
           ),
         ]),
       ]),

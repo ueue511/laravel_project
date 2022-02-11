@@ -28,7 +28,6 @@
             type="checkbox" 
             id="SwitchCheckLike" 
             v-model="checkedlike" 
-            @change="ChangeLike"
           >
           <label class="form-check-label" for="SwitchCheckLike">お気に入りに絞って検索</label>
         </div>
@@ -38,7 +37,6 @@
             type="checkbox" 
             id="SwitchCheckGood" 
             v-model="checkedgood" 
-            @change="ChangeGood"
           >
           <label class="form-check-label" for="SwitchCheckGood">いいねに絞って検索</label>
         </div>
@@ -105,17 +103,10 @@ export default {
       const data = {
         tagbook: tagbook,
         titlebook: this.title_book,
-        lake: this.checkedlike,
+        like: this.checkedlike,
         good: this.checkedgood
       }
       this.$store.dispatch( 'searchbook/VuexAction_SearchBook', [ data, tagkey ]);
-    },
-
-    ChangeLike() {
-      console.log('テスト1:' + this.checkedlike)
-    },
-    ChangeGood() {
-      console.log('テスト2:' + this.checkedgood)
     },
   }
 }
