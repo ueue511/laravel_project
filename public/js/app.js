@@ -8258,13 +8258,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ExampleFront',
   data: function data() {
     return {
-      booklist: []
+      booklist: ''
     };
   },
   created: function created() {
@@ -8285,8 +8284,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 url = '/ajax/newcomment';
                 _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-                  commentlist = response.data;
-                  return commentlist;
+                  return response.data;
                 });
 
               case 4:
@@ -46961,14 +46959,14 @@ var render = function () {
       _c(
         "div",
         { staticClass: "list-inline flex-nowrap img_scroll" },
-        _vm._l(_vm.booklist, function (list) {
+        _vm._l(this.booklist, function (list) {
           return _c("div", { key: list.id, staticClass: "showbook_img" }, [
-            _c("div", [_vm._v(_vm._s(list))]),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "showbook_img_boby img-thumbnail",
-              attrs: { src: list.books[0].item_img, alt: "home" },
-            }),
+            _c("a", { attrs: { href: "/detail/" + list.books[0].id } }, [
+              _c("img", {
+                staticClass: "showbook_img_boby img-thumbnail",
+                attrs: { src: list.books[0].item_img, alt: "home" },
+              }),
+            ]),
           ])
         }),
         0
