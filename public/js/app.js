@@ -8253,9 +8253,10 @@ __webpack_require__.r(__webpack_exports__);
       self.booklist = response.data;
     });
   },
-  computed: {// Count() {
-    //   return this.booklist.slice(0, 5)
-    // }
+  computed: {
+    Count: function Count() {
+      return this.booklist.slice(0, 5);
+    }
   }
 });
 
