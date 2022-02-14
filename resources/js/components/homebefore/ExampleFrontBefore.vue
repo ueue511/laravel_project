@@ -3,10 +3,9 @@
   <div class="container_line">
     <p class="fronttitle">最近、言葉が綴られた本</p>
     <div class="list-inline flex-nowrap img_scroll">
-      <div v-for="list of booklist" 
+      <div v-for="list of this.booklist" 
       :key="list.id" class="showbook_img"
       >
-      <div>{{list}}</div
       <a :href="'/detail/'+list.books[0].id">
         <img 
           :src="list.books[0].item_img"
@@ -25,7 +24,7 @@ import axios from "axios";
       name: 'ExampleFront',
       data() {
         return {
-          booklist: [],
+          booklist: '',
         };
       },
       created() {
@@ -35,8 +34,7 @@ import axios from "axios";
           var url = '/ajax/newcomment';
           self.booklist = await axios.get( url )
           .then( function( response ) {
-            commentlist = response.data;
-            return commentlist;
+            return response.data;
           })
         }
         comment()
