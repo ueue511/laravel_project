@@ -35,7 +35,9 @@ import axios from "axios";
         });
       },
       computed: {
-
+        Count() {
+          return this.booklist.slice(0, 5)
+        }
       }
     }
 </script>
