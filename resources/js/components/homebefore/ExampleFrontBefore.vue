@@ -8,7 +8,7 @@
       >
       <a :href="'/detail/'+list.books[0]">
         <img 
-          :src="list.books[0].item_img"
+          :src="list.books[0]"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
