@@ -30,7 +30,7 @@ import axios from "axios";
       created() {
         var self = this;
         async function comment() {
-          var commentlist = []
+          var commentlist = ''
           var url = '/ajax/newcomment';
           self.booklist = await axios.get( url )
           .then( function( response ) {
