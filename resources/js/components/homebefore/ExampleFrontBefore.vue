@@ -6,9 +6,9 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <a :href="'/detail/'+list.books[0]">
+      <a :href="'/detail/'+list.books[0].id">
         <img 
-          :src="list.books[0]"
+          :src="list.books[0].item_img"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
@@ -27,7 +27,7 @@ import axios from "axios";
           booklist: [],
         };
       },
-      mounted() {
+      created() {
         var self = this;
         async function comment() {
           var commentlist = []
