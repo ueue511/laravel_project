@@ -24,7 +24,7 @@ class Comment extends Model
      */
     public function Books()
     {
-        return $this->morphedByMany('App\book', 'commentables');
+        return $this->morphedByMany('App\Book', 'commentables');
     }
 
     /**
@@ -32,6 +32,6 @@ class Comment extends Model
      */
     public function Users()
     {
-        return $this->morphedByMany('App\user', 'commentables');
+        return $this->morphedByMany('App\User', 'commentables');
     }
 }
