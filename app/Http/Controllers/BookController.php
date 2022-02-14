@@ -263,6 +263,7 @@ class BookController extends Controller
 
      public function BookAdd( BookFormRequest $request, Book $book ) 
      {
+        ddd($request);
         // 画保保存
         $file = $request->file( 'item_img' ); //file取得
         $target_path_temporary = public_path( 'temporary/' );

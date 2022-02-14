@@ -38,6 +38,12 @@ Route::put( '/admin/book/{book}', 'BookController@BookAdd' );
  */
 Route::delete( '/book/{book}/delete', 'BookController@BookDelete' );
 
+// 楽天API
+Route::post( 'ajax/rakutenbook', 'Ajax\RakutenBookController@RakutenBookSearch' )->name( 'rakuten.book.search' );
+
+// 楽天APIの詳細を入力
+Route::post( 'rakutenbook/admin', 'ModalBookController@Show' )->name( 'rakuten.book.show' );
+
 /**
  * Auth
  */
@@ -46,29 +52,24 @@ Auth::routes();
 /**
  * mail認証
  */
-Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('register.pre_check');
-// Route::get('register/verify/{token}', 'Auth\RegisterController@showForm')->name('register.showform');
-Route::get('register/verify', 'Auth\RegisterController@showForm')->name('register.showform');
-Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
-Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
-Route::get('register/again/{user_id}', 'Auth\RegisterController@RegisterAgain')->name('register.again');
-
-
-Route::get( '/home', 'BookController@BookShow' )->name( 'home' );
-
+Route::post( 'register/pre_check', 'Auth\RegisterController@pre_check' )->name( 'register.pre_check' );
+Route::get( 'register/verify', 'Auth\RegisterController@showForm' )->name( 'register.showform' );
+Route::post( 'register/main_check', 'Auth\RegisterController@mainCheck' )->name( 'register.main.check' );
+Route::post( 'register/main_register', 'Auth\RegisterController@mainRegister' )->name( 'register.main.registered' );
+Route::get( 'register/again/{user_id}', 'Auth\RegisterController@RegisterAgain' )->name( 'register.again' );
 
 /**
  * vueでのページ表示
  */
-// ログインのtopページ
-Route::get( '/book', 'StackedWiteBooks@BookShowTest')->name( 'stacked.home' );
-
-// 詳細ページを表示
-Route::get('/detail/{book_id}', 'StackedWiteBooks@BookDetail')->name('stacked.detail');
 
 // ログイン前のtopページ
 Route::get('/', 'StackedWithBooksBefore@BookShowBefore')->name('stacked.before.home');
 
+// ログイン後のtopページ
+Route::get( '/book', 'StackedWiteBooks@BookShowHome')->name( 'stacked.home' );
+
+// 詳細ページを表示
+Route::get('/detail/{book_id}', 'StackedWiteBooks@BookDetail' )->name( 'stacked.detail' );
 
 // おすすめの本を表示
 Route::get( 'ajax/booklist', 'Ajax\BooklistController@index' );
@@ -92,9 +93,3 @@ Route::post( 'ajax/petdown', 'Ajax\PetController@PetDown' );
 
 // コメントを保存
 Route::post( '/detail/{book_id}/ajax/comment', 'Ajax\CommentController@app' );
-
-// 楽天API
-Route::post( 'ajax/rakutenbook', 'Ajax\RakutenBookController@RakutenBookSearch' )->name( 'rakuten.book.search' );
-
-// 楽天APIの詳細を入力
-Route::post( 'rakutenbook/admin', 'ModalBookController@Show' )->name( 'rakuten.book.show' );

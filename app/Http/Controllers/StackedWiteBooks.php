@@ -16,7 +16,7 @@ class StackedWiteBooks extends Controller
     }
 
     // home周辺のコントロール
-    public function BookShowTest()
+    public function BookShowHome()
     {
         $goodid_arr = [];
         $bookmarkid_arr = [];
