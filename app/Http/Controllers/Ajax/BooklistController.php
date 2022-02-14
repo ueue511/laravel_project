@@ -12,7 +12,7 @@ class BooklistController extends Controller
 {
     public function index() 
     {
-        return \App\Book::limit(5)->get();
+        return Book::limit(5)->get();
     }
 
     public function NewComments() 
