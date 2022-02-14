@@ -29,11 +29,18 @@ import axios from "axios";
       },
       mounted() {
         var self = this;
-        var url = '/ajax/newcomment';
-        axios.get( url ).then( function( response ) {
-          self.booklist = response.data;
-        });
+        async function comment() {
+          var commentlist = []
+          var url = '/ajax/newcomment';
+          self.booklist = await axios.get( url )
+          .then( function( response ) {
+            commentlist = response.data;
+            return commentlist;
+          })
+        }
+        comment()
       },
+
       computed: {
         Count() {
           return this.booklist.slice(0, 5)
