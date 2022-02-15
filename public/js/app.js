@@ -46966,7 +46966,7 @@ var render = function () {
           return _c("div", { key: index, staticClass: "showbook_img" }, [
             _c("div", [_vm._v(_vm._s(list))]),
             _vm._v(" "),
-            _c("a", { attrs: { href: "/detail/" + list } }, [
+            _c("a", { attrs: { href: "/detail/" + list.id } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
                 attrs: { src: list, alt: "home" },
