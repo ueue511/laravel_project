@@ -7,9 +7,9 @@
       :key="index" class="showbook_img"
       >
       <div>{{list}}</div>
-      <a :href="'/detail/'+list">
+      <a :href="'/detail/'+list[0]">
         <img 
-          :src="list.item"
+          :src="list[0]"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
