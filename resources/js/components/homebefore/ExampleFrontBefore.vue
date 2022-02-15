@@ -6,10 +6,10 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <div>{{list['books']}}</div>
-      <a :href="'/detail/'+list['books'][0] ">
+      <div>{{list['books'][0]}}</div>
+      <a :href="'/detail/'+list['books'][0].id ">
         <img 
-          :src="list.books[0]"
+          :src="list['books'][0].item_img"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
@@ -31,11 +31,16 @@ import axios from "axios";
       beforeCreate() {
         var self = this;
         async function comment() {
+          var list = []
           var url = '/ajax/newcomment';
-          self.booklist = await axios.get( url )
+          await axios.get( url )
           .then( function( response ) {
-            console.log(typeof(response.data), response.data);
-            return response.data;
+            response.data.forEach(element => {
+              console.log(element)
+              list.push(element);
+            });
+            console.log(list);
+            self.booklist = list;
           })
         }
         comment()
