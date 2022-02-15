@@ -46962,8 +46962,8 @@ var render = function () {
       _c(
         "div",
         { staticClass: "list-inline flex-nowrap img_scroll" },
-        _vm._l(_vm.booklist, function (list) {
-          return _c("div", { key: list.id, staticClass: "showbook_img" }, [
+        _vm._l(_vm.booklist, function (list, index) {
+          return _c("div", { key: index, staticClass: "showbook_img" }, [
             _c("div", [_vm._v(_vm._s(list))]),
             _vm._v(" "),
             _c("a", { attrs: { href: "/detail/" + list } }, [
