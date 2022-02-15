@@ -6,8 +6,8 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <div>{{list}}</div>
-      <a :href="'/detail/'+list.books ">
+      <div>{{list['books']}}</div>
+      <a :href="'/detail/'+list['books'][0] ">
         <img 
           :src="list.books[0]"
           alt="home" class="showbook_img_boby img-thumbnail"
