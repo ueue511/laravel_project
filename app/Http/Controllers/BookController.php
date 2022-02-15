@@ -7,7 +7,6 @@ use App\Http\Requests\BookFormRequest;
 
 use App\Book;
 use App\Tag;
-use App\Comment;
 use Auth;
 use File;
 
