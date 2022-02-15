@@ -8266,6 +8266,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       booklist: ''
     };
   },
+  // 受け取ったdataを加工してます
   beforeCreate: function beforeCreate() {
     var self = this;
 
