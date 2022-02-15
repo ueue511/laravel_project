@@ -46969,7 +46969,7 @@ var render = function () {
             _c("a", { attrs: { href: "/detail/" + list["books"]["0"] } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
-                attrs: { src: list["books"]["0"].item_img, alt: "home" },
+                attrs: { src: list["books"], alt: "home" },
               }),
             ]),
           ])
