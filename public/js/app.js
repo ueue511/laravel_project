@@ -8258,6 +8258,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ExampleFront',
@@ -46960,10 +46961,12 @@ var render = function () {
         { staticClass: "list-inline flex-nowrap img_scroll" },
         _vm._l(_vm.booklist, function (list) {
           return _c("div", { key: list.id, staticClass: "showbook_img" }, [
-            _c("a", { attrs: { href: "/detail/" + list.books[0].id } }, [
+            _c("div", [_vm._v(_vm._s(list))]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "/detail/" + list.books } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
-                attrs: { src: list.books[0].item_img, alt: "home" },
+                attrs: { src: list.books[0], alt: "home" },
               }),
             ]),
           ])

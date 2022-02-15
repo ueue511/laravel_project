@@ -6,9 +6,10 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <a :href="'/detail/'+list.books[0].id ">
+      <div>{{list}}</div>
+      <a :href="'/detail/'+list.books ">
         <img 
-          :src="list.books[0].item_img"
+          :src="list.books[0]"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
