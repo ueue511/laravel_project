@@ -6,7 +6,7 @@
       <div v-for="list of this.booklist" 
       :key="list.id" class="showbook_img"
       >
-      <a :href="'/detail/'+list.books[0].id">
+      <a :href="'/detail/'+list.books[0]['id']">
         <img 
           :src="list.books[0].item_img"
           alt="home" class="showbook_img_boby img-thumbnail"
@@ -24,13 +24,12 @@ import axios from "axios";
       name: 'ExampleFront',
       data() {
         return {
-          booklist: '',
+          booklist: [],
         };
       },
-      created() {
+      beforeCreate() {
         var self = this;
         async function comment() {
-          var commentlist = ''
           var url = '/ajax/newcomment';
           self.booklist = await axios.get( url )
           .then( function( response ) {

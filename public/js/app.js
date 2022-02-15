@@ -8263,10 +8263,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   name: 'ExampleFront',
   data: function data() {
     return {
-      booklist: ''
+      booklist: []
     };
   },
-  created: function created() {
+  beforeCreate: function beforeCreate() {
     var self = this;
 
     function comment() {
@@ -8275,22 +8275,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     function _comment() {
       _comment = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var commentlist, url;
+        var url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commentlist = '';
                 url = '/ajax/newcomment';
-                _context.next = 4;
+                _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
                   return response.data;
                 });
 
-              case 4:
+              case 3:
                 self.booklist = _context.sent;
 
-              case 5:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -46961,7 +46960,7 @@ var render = function () {
         { staticClass: "list-inline flex-nowrap img_scroll" },
         _vm._l(this.booklist, function (list) {
           return _c("div", { key: list.id, staticClass: "showbook_img" }, [
-            _c("a", { attrs: { href: "/detail/" + list.books[0].id } }, [
+            _c("a", { attrs: { href: "/detail/" + list.books[0]["id"] } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
                 attrs: { src: list.books[0].item_img, alt: "home" },
