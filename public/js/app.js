@@ -8286,8 +8286,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
                   response.data.forEach(function (element) {
-                    console.log(element);
-                    list.push(element);
+                    console.log(element.books[0]);
+                    list.push(element.books[0]);
                   });
                   console.log(list);
                   self.booklist = list;
@@ -46964,12 +46964,12 @@ var render = function () {
         { staticClass: "list-inline flex-nowrap img_scroll" },
         _vm._l(_vm.booklist, function (list) {
           return _c("div", { key: list.id, staticClass: "showbook_img" }, [
-            _c("div", [_vm._v(_vm._s(list["books"]))]),
+            _c("div", [_vm._v(_vm._s(list))]),
             _vm._v(" "),
-            _c("a", { attrs: { href: "/detail/" + list["books"]["0"] } }, [
+            _c("a", { attrs: { href: "/detail/" + list } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
-                attrs: { src: list["books"], alt: "home" },
+                attrs: { src: list.item, alt: "home" },
               }),
             ]),
           ])

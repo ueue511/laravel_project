@@ -6,10 +6,10 @@
       <div v-for="list of booklist" 
       :key="list.id" class="showbook_img"
       >
-      <div>{{list['books']}}</div>
-      <a :href="'/detail/'+list['books']['0'] ">
+      <div>{{list}}</div>
+      <a :href="'/detail/'+list">
         <img 
-          :src="list['books']"
+          :src="list.item"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
@@ -36,8 +36,8 @@ import axios from "axios";
           await axios.get( url )
           .then( function( response ) {
             response.data.forEach(element => {
-              console.log(element)
-              list.push(element);
+              console.log(element.books[0])
+              list.push(element.books[0]);
             });
             console.log(list);
             self.booklist = list;
