@@ -27,6 +27,7 @@ import axios from "axios";
           booklist: '',
         };
       },
+      // 受け取ったdataを加工してます
       beforeCreate() {
         var self = this;
         async function comment() {

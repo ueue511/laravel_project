@@ -7,6 +7,7 @@ use App\Http\Requests\BookFormRequest;
 
 use App\Book;
 use App\Tag;
+use App\Comment;
 use Auth;
 use File;
 
@@ -352,8 +353,31 @@ class BookController extends Controller
     public function BookDelete( Request $request, Book $book ) 
     {
         $request->session()->flash( 'back_name', $book->item_name );
+        $book_id = $book->id;
         $public_id = $book->public_id;
+        
+        $book_comment = Book::with( 'comments' )
+        ->whereHas( 'Comments',
+            function ( $query ) use ( $book_id )
+            {
+                return $query->where( 'commentables_id', $book_id );
+            }
+        )
+        ->get();
+        
+        foreach( $book_comment as $lists )
+        {
+            foreach( $lists->comments as $list ) {
+                $list->Books()->detach();
+                $list->Users()->detach();
+                $list->delete();
+            };
+        };
+
         $book->Tags()->detach();
+        
+        $book->GoodsUsers()->detach();
+        $book->PetsUsers()->detach();
         Cloudinary::destroy($public_id);
         $book->delete();
         $request->session()->flash( 'message_id', 'delete' );
