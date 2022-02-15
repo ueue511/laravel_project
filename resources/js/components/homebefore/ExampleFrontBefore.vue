@@ -25,7 +25,7 @@ import axios from "axios";
       name: 'ExampleFront',
       data() {
         return {
-          booklist: [],
+          booklist: '',
         };
       },
       beforeCreate() {
@@ -34,6 +34,7 @@ import axios from "axios";
           var url = '/ajax/newcomment';
           self.booklist = await axios.get( url )
           .then( function( response ) {
+            console.log(typeof(response.data), response.data);
             return response.data;
           })
         }
