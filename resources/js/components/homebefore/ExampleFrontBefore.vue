@@ -3,8 +3,8 @@
   <div class="container_line">
     <p class="fronttitle">最近、言葉が綴られた本</p>
     <div class="list-inline flex-nowrap img_scroll">
-      <div v-for="list of booklist" 
-      :key="list.id" class="showbook_img"
+      <div v-for="(list, index) of booklist" 
+      :key="index" class="showbook_img"
       >
       <div>{{list}}</div>
       <a :href="'/detail/'+list">
