@@ -8234,8 +8234,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -8278,20 +8276,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     function _comment() {
       _comment = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var url;
+        var list, url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                list = [];
                 url = '/ajax/newcomment';
-                _context.next = 3;
+                _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
-                  console.log(_typeof(response.data), response.data);
-                  return response.data;
+                  response.data.forEach(function (element) {
+                    console.log(element);
+                    list.push(element);
+                  });
+                  console.log(list);
+                  self.booklist = list;
                 });
-
-              case 3:
-                self.booklist = _context.sent;
 
               case 4:
               case "end":
@@ -46964,12 +46964,12 @@ var render = function () {
         { staticClass: "list-inline flex-nowrap img_scroll" },
         _vm._l(_vm.booklist, function (list) {
           return _c("div", { key: list.id, staticClass: "showbook_img" }, [
-            _c("div", [_vm._v(_vm._s(list["books"]))]),
+            _c("div", [_vm._v(_vm._s(list["books"][0]))]),
             _vm._v(" "),
-            _c("a", { attrs: { href: "/detail/" + list["books"][0] } }, [
+            _c("a", { attrs: { href: "/detail/" + list["books"][0].id } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
-                attrs: { src: list.books[0], alt: "home" },
+                attrs: { src: list["books"][0].item_img, alt: "home" },
               }),
             ]),
           ])
