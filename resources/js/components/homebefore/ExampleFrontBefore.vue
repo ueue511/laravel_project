@@ -3,13 +3,12 @@
   <div class="container_line">
     <p class="fronttitle">最近、言葉が綴られた本</p>
     <div class="list-inline flex-nowrap img_scroll">
-      <div v-for="(list, index) of booklist" 
-      :key="index" class="showbook_img"
+      <div v-for="list of booklist" 
+      :key="list.id" class="showbook_img"
       >
-      <div>{{list}}</div>
       <a :href="'/detail/'+list.id">
         <img 
-          :src="list"
+          :src="list.item_img"
           alt="home" class="showbook_img_boby img-thumbnail"
         >
       </a>
@@ -36,10 +35,8 @@ import axios from "axios";
           await axios.get( url )
           .then( function( response ) {
             response.data.forEach(element => {
-              console.log(element.books[0])
               list.push(element.books[0]);
             });
-            console.log(list);
             self.booklist = list;
           })
         }

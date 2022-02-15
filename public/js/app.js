@@ -8258,7 +8258,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ExampleFront',
@@ -8286,10 +8285,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (response) {
                   response.data.forEach(function (element) {
-                    console.log(element.books[0]);
                     list.push(element.books[0]);
                   });
-                  console.log(list);
                   self.booklist = list;
                 });
 
@@ -46962,14 +46959,12 @@ var render = function () {
       _c(
         "div",
         { staticClass: "list-inline flex-nowrap img_scroll" },
-        _vm._l(_vm.booklist, function (list, index) {
-          return _c("div", { key: index, staticClass: "showbook_img" }, [
-            _c("div", [_vm._v(_vm._s(list))]),
-            _vm._v(" "),
+        _vm._l(_vm.booklist, function (list) {
+          return _c("div", { key: list.id, staticClass: "showbook_img" }, [
             _c("a", { attrs: { href: "/detail/" + list.id } }, [
               _c("img", {
                 staticClass: "showbook_img_boby img-thumbnail",
-                attrs: { src: list, alt: "home" },
+                attrs: { src: list.item_img, alt: "home" },
               }),
             ]),
           ])
