@@ -5,7 +5,7 @@ function SearchApi(search_text) {
     headers: {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
-    url: '/ajax/rakutenbook/',
+    url: '/ajax/rakutenbook',
     type: 'POST',
     data: {
       'item_name': search_text
@@ -18,7 +18,7 @@ function SearchApi(search_text) {
       array_book = JSON.parse(data);
 
       book_data = array_book;
- 
+
       for (let i = 0; i < array_book .length; i++) {
         $html_one = [
           '<div ><p book_no = ' + i + ' class="modal_result">・' + array_book[i].item_name + '</p></div>'
@@ -50,7 +50,7 @@ function SearchResult() {
 function StartSeachApi() {
   let searchOk = $( this ).prop( 'checked' )
   if (searchOk === true) {
-    
+
     const search_text = $('input[name = "item_name"]').val();
     SearchApi(search_text);
   } else {
