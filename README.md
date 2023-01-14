@@ -18,7 +18,7 @@ SAPで作成（こちらはフロントにVue.js使用）
 ![](https://storage.googleapis.com/zenn-user-upload/2ea39d8a2aa4-20220214.png)
 
 [ URL ]
-- https://stackedwithbooks.com/
+- https://https://stackedwithbooks.sakura.ne.jp/
 
 [ 開発手法 ]
 - Javascript 
@@ -35,9 +35,8 @@ SAPで作成（こちらはフロントにVue.js使用）
 - Docker  https://github.com/ueue511/laravel_docker.git
 
 [ 本番環境 ]
-- Heroku
+- さくらサーバー
 
 [ サービス ]
 - Uptime Robot( Herokuアイドリング ) 
 - Cloudinary ( 画像管理)
-- CloudFlare( SSL化 )
