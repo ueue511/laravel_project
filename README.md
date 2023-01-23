@@ -19,9 +19,6 @@ SAPで作成（こちらはフロントにVue.js使用）
 
 [ URL ]
 - https://stackedwithbooks.sakura.ne.jp/
-ログイン
-mail: test@mail.co.jp
-password: password
 
 [ 開発手法 ]
 - Javascript 
