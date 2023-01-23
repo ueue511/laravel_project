@@ -18,7 +18,7 @@ SAPで作成（こちらはフロントにVue.js使用）
 ![](https://storage.googleapis.com/zenn-user-upload/2ea39d8a2aa4-20220214.png)
 
 [ URL ]
-- https://https://stackedwithbooks.sakura.ne.jp/
+- https://stackedwithbooks.sakura.ne.jp/
 
 [ 開発手法 ]
 - Javascript 
@@ -37,6 +37,5 @@ SAPで作成（こちらはフロントにVue.js使用）
 [ 本番環境 ]
 - さくらサーバー
 
-[ サービス ]
-- Uptime Robot( Herokuアイドリング ) 
+[ サービス ] 
 - Cloudinary ( 画像管理)
